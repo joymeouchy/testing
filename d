@@ -1,0 +1,13 @@
+a
+b
+bonjour
+c
+d
+hello
+hi
+includes
+libft
+Makefile
+minishell
+src
+word
