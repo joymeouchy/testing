@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:16:36 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/05/28 16:57:36 by root             ###   ########.fr       */
+/*   Updated: 2025/05/30 19:27:48 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <fcntl.h>
 #include <limits.h>
 #include <signal.h>
+#include <sys/wait.h>  
 
 typedef enum e_tokens
 {

@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 21:04:58 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/05/29 10:16:17 by root             ###   ########.fr       */
+/*   Updated: 2025/05/30 19:46:14 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ char **fill_arguments(t_tree_node *node)
     return(args);
 }
 
-#include <sys/wait.h>  
 void    exec_cmd(t_tree_node *node)
 {
     char        **args;

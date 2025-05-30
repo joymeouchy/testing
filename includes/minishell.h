@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/05/28 17:25:15 by root             ###   ########.fr       */
+/*   Updated: 2025/05/30 20:07:32 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ void execution(t_tree_node *node);
 void exec_commands(t_tree_node *node);
 void add_arg_to_redir(t_list *list);
 void swap_red(t_tree_node *node1, t_tree_node *node2);
-void pipe_exec(t_tree_node *node);
+// void pipe_exec(t_tree_node *node);
+void pipe_exec(t_tree_node *node, int pipe_count);
 // static char *get_env_value(const char *key, t_envp *env);
-
+void pipe_exec_for_multiple(t_tree_node *node);
+void pipe_exec_for_single(t_tree_node *node);
+int count_pipes(t_tree_node *node);
 #endif
