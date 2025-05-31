@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:06:11 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/05/29 10:19:43 by root             ###   ########.fr       */
+/*   Updated: 2025/05/31 12:21:43 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int	is_valid_var_name(const char *name)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	if (!name || (!ft_isalpha(name[0]) && name[0] != '_'))
 		return (0);
 	while (name[i])
@@ -29,8 +30,9 @@ int	is_valid_var_name(const char *name)
 
 int	match_key(const char *env_entry, const char *key)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	while (env_entry[i] && key[i] && env_entry[i] == key[i])
 		i++;
 	return (key[i] == '\0' && env_entry[i] == '=');
@@ -48,17 +50,17 @@ void	remove_env_entry(char **env, int index)
 
 void	remove_var_from_env(const char *var_name, t_envp *env)
 {
-	int	j = 0;
+	int	j;
 
+	j = 0;
 	if (!env || !env->environment)
-		return;
-
+		return ;
 	while (env->environment[j])
 	{
 		if (match_key(env->environment[j], var_name))
 		{
 			remove_env_entry(env->environment, j);
-			break;
+			break ;
 		}
 		j++;
 	}
@@ -76,7 +78,8 @@ int	unset(t_tree_node *root, t_envp *env)
 		if (is_valid_key(arg->data))
 			remove_var_from_env(arg->data, env);
 		else
-			printf("minishell: unset: `%s': not a valid identifier\n", arg->data);
+			printf("minishell: unset: `%s': not a valid identifier\n",
+				arg->data);
 		arg = arg->right;
 	}
 	return (0);

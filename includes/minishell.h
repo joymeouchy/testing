@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/05/30 20:07:32 by root             ###   ########.fr       */
+/*   Updated: 2025/05/31 13:17:20 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,6 @@ void pipe_exec(t_tree_node *node, int pipe_count);
 void pipe_exec_for_multiple(t_tree_node *node);
 void pipe_exec_for_single(t_tree_node *node);
 int count_pipes(t_tree_node *node);
+void handle_recirections(t_tree_node *node);
+
 #endif

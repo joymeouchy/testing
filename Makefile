@@ -25,7 +25,7 @@ SRC =   src/parser/parser.c \
         src/structures/linked_list_utils2.c\
 		src/parser/shunting_yard.c\
         src/structures/tree_utils.c\
-		src/structures/redirections.c\
+		src/execution/redirections.c\
 		src/execution/signals.c\
 		src/execution/exec_commands.c\
 		src/execution/execution.c\

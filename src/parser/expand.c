@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 19:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/05/26 11:40:33 by root             ###   ########.fr       */
+/*   Updated: 2025/05/31 12:13:03 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *ft_getenv(char **envp, const char *var_name)
+char	*ft_getenv(char **envp, const char *var_name)
 {
 	int		len;
 	char	*equal_sign;
@@ -71,7 +71,9 @@ bool	check_if_dollar_to_print(char *str)
 		i++;
 	}
 	i += 1;
-	if (str[i] == '\0' || ((ft_isalnum(str[i]) == 0 || str[i] == '0' || str[i] == '$') && in_double_quote == 0))
+	if (str[i] == '\0'
+		|| ((ft_isalnum(str[i]) == 0 || str[i] == '0' || str[i] == '$')
+			&& in_double_quote == 0))
 		return (true);
 	return (false);
 }
@@ -111,7 +113,7 @@ char	*replace_variable(char *str, char *var_name,
 	return (result);
 }
 
-char *expand(char *str, char **envp)
+char	*expand(char *str, char **envp)
 {
 	int		dollar_pos;
 	char	*var_name;
@@ -125,7 +127,7 @@ char *expand(char *str, char **envp)
 	{
 		var_name = extract_variable_name(&str[dollar_pos]);
 		if (!var_name)
-			return (free(str),NULL);
+			return (free(str), NULL);
 		replacement = ft_getenv(envp, var_name);
 		if (!replacement)
 			replacement = "";
@@ -138,7 +140,7 @@ char *expand(char *str, char **envp)
 	return (str);
 }
 
-void expand_list(t_list *list, char **envp)
+void	expand_list(t_list *list, char **envp)
 {
 	t_list_node	*current;
 

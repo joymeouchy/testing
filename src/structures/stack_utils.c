@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 06:42:48 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/05/28 14:36:55 by root             ###   ########.fr       */
+/*   Updated: 2025/05/31 11:48:49 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	push(char *data, e_tokens token, char *redir_args, t_stack *stack)
 	stack->stack[stack->top].data = data;
 	stack->stack[stack->top].token = token;
 	stack->stack[stack->top].redir_arg = redir_args;
-
 }
 
 void	pop(t_stack *stack)
@@ -47,7 +46,9 @@ void	print_stack(t_stack *stack)
 	printf("\nstack:\n");
 	while (i <= stack->top)
 	{
-		printf("stack element is:%s, token is: %d redirection: %s\n", stack->stack[i].data, stack->stack[i].token, stack->stack[i].redir_arg);
+		printf("stack element is:%s, token is: %d redirection: %s\n",
+			stack->stack[i].data, stack->stack[i].token,
+			stack->stack[i].redir_arg);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 12:39:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/05/22 09:15:29 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/05/31 12:07:20 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,19 @@ void	push_stack_to_other(t_stack *src, t_stack *dst)
 {
 	while (src->top > -1)
 	{
-		push(src->stack[src->top].data, src->stack[src->top].token, src->stack[src->top].redir_arg, dst);
+		push(src->stack[src->top].data,
+			src->stack[src->top].token,
+			src->stack[src->top].redir_arg, dst);
 		pop(src);
 	}
+}
+
+t_stack	*malloc_and_init_stack(t_list *list)
+{
+	t_stack	*stack;
+	stack = malloc(sizeof(t_stack));
+	init_stack(list, stack);
+	return (stack);
 }
 
 t_stack	*shunting_yard(t_list *list)
@@ -29,12 +39,9 @@ t_stack	*shunting_yard(t_list *list)
 	t_list_node	*temp;
 
 	temp = list->head;
-	stack = malloc(sizeof(t_stack));
-	cmd_stack = malloc(sizeof(t_stack));
-	word_stack = malloc(sizeof(t_stack));
-	init_stack(list, stack);
-	init_stack(list, cmd_stack);
-	init_stack(list, word_stack);
+	stack = malloc_and_init_stack(list);
+	cmd_stack = malloc_and_init_stack(list);
+	word_stack = malloc_and_init_stack(list);
 	while (temp)
 	{
 		if (temp->token > 0)

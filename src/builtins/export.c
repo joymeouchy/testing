@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:50:44 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/05/29 10:19:06 by root             ###   ########.fr       */
+/*   Updated: 2025/05/31 12:34:30 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 static void	free_env(char **env)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	if (!env)
-		return;
+		return ;
 	while (env[i])
 	{
 		free(env[i]);
@@ -27,8 +29,9 @@ static void	free_env(char **env)
 
 int	is_valid_key(const char *str)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
 		return (0);
 	while (str[i] && str[i] != '=')
@@ -42,8 +45,9 @@ int	is_valid_key(const char *str)
 
 static int	count_env_vars(char **env)
 {
-	int	count = 0;
+	int	count;
 
+	count = 0;
 	while (env && env[count])
 		count++;
 	return (count);
@@ -51,12 +55,15 @@ static int	count_env_vars(char **env)
 
 static void	duplicate_environment(t_envp *env)
 {
-	int		size = count_env_vars(env->environment);
-	int		i = 0;
-	char	**copy = malloc(sizeof(char *) * (size + 1));
+	int		size;
+	int		i;
+	char	**copy;
 
+	size = count_env_vars(env->environment);
+	i = 0;
+	copy = malloc(sizeof(char *) * (size + 1));
 	if (!copy)
-		return;
+		return ;
 	while (i < size)
 	{
 		copy[i] = ft_strdup(env->environment[i]);
@@ -65,20 +72,21 @@ static void	duplicate_environment(t_envp *env)
 	copy[i] = NULL;
 	if (env->is_malloced)
 		free_env(env->environment);
-
 	env->environment = copy;
 	env->is_malloced = 1;
 }
 
 static int	var_exists(char *arg, char **env)
 {
-	int		i = 0;
-	size_t	arg_len = ft_strlen(arg);
+	int		i;
+	size_t	arg_len;
 
+	i = 0;
+	arg_len = ft_strlen(arg);
 	while (env && env[i])
 	{
-		if ((ft_strncmp(env[i], arg, arg_len) == 0) &&
-			(env[i][arg_len] == '\0' || env[i][arg_len] == '='))
+		if ((ft_strncmp(env[i], arg, arg_len) == 0)
+			&& (env[i][arg_len] == '\0' || env[i][arg_len] == '='))
 			return (1);
 		i++;
 	}
@@ -87,10 +95,13 @@ static int	var_exists(char *arg, char **env)
 
 static int	update_existing_var(char *arg, char **env)
 {
-	char	*equal = ft_strchr(arg, '=');
+	char	*equal;
 	char	*key;
-	int		key_len, i = 0;
+	int		key_len;
+	int		i;
 
+	equal = ft_strchr(arg, '=');
+	i = 0;
 	if (!equal)
 		return (0);
 	key_len = equal - arg;
@@ -113,14 +124,17 @@ static int	update_existing_var(char *arg, char **env)
 	return (0);
 }
 
-static void add_new_var(char *arg, t_envp *env)
+static void	add_new_var(char *arg, t_envp *env)
 {
-	int		size = count_env_vars(env->environment);
-	int		i = 0;
-	char	**new_env = malloc(sizeof(char *) * (size + 2));
+	int		size;
+	int		i;
+	char	**new_env;
 
+	size = count_env_vars(env->environment);
+	i = 0;
+	new_env = malloc(sizeof(char *) * (size + 2));
 	if (!new_env)
-		return;
+		return ;
 	while (env->environment && env->environment[i])
 	{
 		new_env[i] = ft_strdup(env->environment[i]);
@@ -140,31 +154,22 @@ void	update_env(char *arg, t_envp *env)
 		duplicate_environment(env);
 	if (!ft_strchr(arg, '='))
 	{
-		// printf("im checking if theres =\n");
-    	if (!var_exists(arg, env->environment))
-		{
-			// printf("not same value\n");
-        	add_new_var(arg, env);
-		}
+		if (!var_exists(arg, env->environment))
+			add_new_var(arg, env);
 	}
 	else
-	{
-		// printf("theres no =\n");
-    	if (!update_existing_var(arg, env->environment))
-		{
-			// printf("not existed before \n");
+		if (!update_existing_var(arg, env->environment))
 			add_new_var(arg, env);
-		}
-	}
 }
 
 static void	print_key_value(char *env_var)
 {
-	char	*equal = ft_strchr(env_var, '=');
+	char	*equal;
 	char	*key;
 	char	*value;
 	int		key_len;
 
+	equal = ft_strchr(env_var, '=');
 	if (equal)
 	{
 		key_len = equal - env_var;
@@ -181,11 +186,13 @@ static void	print_key_value(char *env_var)
 
 static void	sort_env(char **env)
 {
-	int		i = 0;
+	int		i;
 	int		j;
-	int		swapped = 1;
+	int		swapped;
 	char	*tmp;
 
+	i = 0;
+	swapped = 1;
 	while (env[i])
 		i++;
 	while (swapped)
@@ -209,8 +216,9 @@ static void	sort_env(char **env)
 int	export(t_tree_node *root, t_envp *env)
 {
 	t_tree_node	*arg;
-	int			i = 0;
+	int			i;
 
+	i = 0;
 	if (!root || !env || !env->environment)
 		return (1);
 	arg = root->right;
@@ -229,9 +237,9 @@ int	export(t_tree_node *root, t_envp *env)
 		if (is_valid_key(arg->data))
 			update_env(arg->data, env);
 		else
-			printf("minishell: export: `%s': not a valid identifier\n", arg->data);
+			printf("minishell: export: `%s': not a valid identifier\n",
+				arg->data);
 		arg = arg->right;
 	}
 	return (0);
 }
-
