@@ -32,6 +32,7 @@ SRC =   src/parser/parser.c \
 		src/main.c\
 		src/execution/pipe.c\
 		src/parser/add_redir_argument.c\
+		src/execution/heredoc.c\
 
 OBJ = $(SRC:.c=.o)
 

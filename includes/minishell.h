@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/05/31 13:17:20 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/01 12:21:28 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int     check_and_remove_quotes(t_list *list);
 
 ///expand.c///
 void expand_list(t_list *list, char **envp);
+char	*expand(char *str, char **envp);
+
 ///utils.c///
 char	*append_char_to_string(char *src, char c);
 
@@ -78,16 +80,18 @@ void signals();
 void	parsing_main(t_envp *env);
 
 //exec
-void execution(t_tree_node *node);
+void execution(t_tree_node *node, t_envp *env);
 void exec_commands(t_tree_node *node);
 void add_arg_to_redir(t_list *list);
 void swap_red(t_tree_node *node1, t_tree_node *node2);
 // void pipe_exec(t_tree_node *node);
-void pipe_exec(t_tree_node *node, int pipe_count);
+void pipe_exec(t_tree_node *node, int pipe_count, t_envp *env);
 // static char *get_env_value(const char *key, t_envp *env);
 void pipe_exec_for_multiple(t_tree_node *node);
 void pipe_exec_for_single(t_tree_node *node);
 int count_pipes(t_tree_node *node);
-void handle_recirections(t_tree_node *node);
+void handle_recirections(t_tree_node *node, t_envp *env);
+void	heredoc(t_tree_node *node, t_envp *env);
+void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env);
 
 #endif

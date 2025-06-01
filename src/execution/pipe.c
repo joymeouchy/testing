@@ -6,13 +6,13 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:51:42 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/05/31 11:30:12 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/01 11:44:59 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	read_from_pipe(t_tree_node *node, pid_t *read_pid, int pipefd[2])
+void	read_from_pipe(t_tree_node *node, pid_t *read_pid, int pipefd[2], t_envp *env)
 {
 	*read_pid = fork();
 	if (*read_pid == -1)
@@ -22,12 +22,12 @@ void	read_from_pipe(t_tree_node *node, pid_t *read_pid, int pipefd[2])
 		dup2(pipefd[0], 0);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		execution(node);
+		execution(node, env);
 		exit(0);
 	}
 }
 
-void	write_to_pipe(t_tree_node *node, pid_t *write_pid, int pipefd[2])
+void	write_to_pipe(t_tree_node *node, pid_t *write_pid, int pipefd[2],t_envp *env)
 {
 	*write_pid = fork();
 	if (*write_pid == -1)
@@ -37,7 +37,7 @@ void	write_to_pipe(t_tree_node *node, pid_t *write_pid, int pipefd[2])
 		dup2(pipefd[1], 1);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		execution(node);
+		execution(node, env);
 		exit(0);
 	}
 }
@@ -60,7 +60,7 @@ int	count_pipes(t_tree_node *node)
 	return (total);
 }
 
-void	pipe_exec(t_tree_node *node, int pipe_count)
+void	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env)
 {
 	int		pipefd[2];
 	pid_t	read_pid;
@@ -70,13 +70,13 @@ void	pipe_exec(t_tree_node *node, int pipe_count)
 		return ;
 	if (pipe_count == 1)
 	{
-		write_to_pipe(node->right, &write_pid, pipefd);
-		read_from_pipe(node->left, &read_pid, pipefd);
+		write_to_pipe(node->right, &write_pid, pipefd, env);
+		read_from_pipe(node->left, &read_pid, pipefd, env);
 	}
 	else
 	{
-		write_to_pipe(node->left, &write_pid, pipefd);
-		read_from_pipe(node->right, &read_pid, pipefd);
+		write_to_pipe(node->left, &write_pid, pipefd, env);
+		read_from_pipe(node->right, &read_pid, pipefd, env);
 	}
 	close(pipefd[0]);
 	close(pipefd[1]);
