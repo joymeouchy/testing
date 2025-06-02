@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/01 11:43:05 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:24:26 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	parsing_main(t_envp *env)
 	}
 	if (!list->head)
 		return ;
-	expand_list(list, env->environment);
+	expand_list(list, env);
 	tokenize(list, env); //reorganized this section needs retesting
 	add_arg_to_redir(list);
 	check_and_remove_quotes(list);

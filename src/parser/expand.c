@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 19:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/06/01 11:56:47 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:26:43 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,16 +140,18 @@ char	*expand(char *str, char **envp)
 	return (str);
 }
 
-void	expand_list(t_list *list, char **envp)
+void	expand_list(t_list *list, t_envp *env)
 {
 	t_list_node	*current;
 
 	current = list->head;
 	while (current)
 	{
+		if (ft_strcmp(current->data, "$?") == 0)
+			current->data = ft_itoa(env->exit_code);
 		if (current->data && ft_strchr(current->data, '$'))
 		{
-			current->data = expand(current->data, envp);
+			current->data = expand(current->data, env->environment);
 			if (!current->data)
 				return ;
 		}

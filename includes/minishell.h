@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/02 10:16:10 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:27:23 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	remove_quotes_from_string(char *string);
 int     check_and_remove_quotes(t_list *list);
 
 ///expand.c///
-void expand_list(t_list *list, char **envp);
+void	expand_list(t_list *list, t_envp *env);
 char	*expand(char *str, char **envp);
 
 ///utils.c///
@@ -72,7 +72,7 @@ char	*command_line_input(void);
 t_tree	*stack_to_tree(t_stack *stack, t_envp *environment);
 void	print_inorder(t_tree_node *node);
 // void	echo(t_tree_node *echo_node);
-void echo(t_tree_node *echo_node, t_envp *env);
+void echo(t_tree_node *echo_node);
 void myhandler(int sigtype);
 int export(t_tree_node *root, t_envp *env);
 int	unset(t_tree_node *root, t_envp *env);
