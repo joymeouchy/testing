@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/01 12:21:28 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:16:10 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	tokenize(t_list *list, t_envp *envp);
 int ft_strcmp(const char *s1, const char *s2);
 //get_env.c
 char **get_split_path(char **envp);
-void  env_getter(char **env_p);
+void  env_getter(t_envp *env);
 
 ///main.c///
 char	*command_line_input(void);
@@ -81,7 +81,7 @@ void	parsing_main(t_envp *env);
 
 //exec
 void execution(t_tree_node *node, t_envp *env);
-void exec_commands(t_tree_node *node);
+void exec_commands(t_tree_node *node, t_envp *env);
 void add_arg_to_redir(t_list *list);
 void swap_red(t_tree_node *node1, t_tree_node *node2);
 // void pipe_exec(t_tree_node *node);

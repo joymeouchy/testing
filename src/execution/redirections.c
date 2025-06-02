@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/01 22:27:34 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:12:32 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env)
 		exit(1);
 	}
 	close(fd);
-	if (unlink("heredoc_temp.txt") == 0)
-		printf("deleted\n");
-		else
-			printf("not deleted\n");
+	unlink("heredoc_temp.txt");
 	execution(node->right, env);
 	exit(1);
 }

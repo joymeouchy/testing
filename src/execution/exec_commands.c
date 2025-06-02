@@ -6,13 +6,13 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 21:04:58 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/01 11:45:24 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:15:47 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	exec_builtin(t_tree_node *node)
+void	exec_builtin(t_tree_node *node, t_envp *env)
 {
 	if (ft_strcmp(node->data, "echo") == 0)
 		echo(node, node->path);
@@ -26,8 +26,8 @@ void	exec_builtin(t_tree_node *node)
 		unset(node, node->path);
 	else if (ft_strcmp(node->data, "exit") == 0)
 		exit_builtin(node, node->path);
-    // else if (ft_strcmp(node->data, "env") == 0)
-        // TO-DO: implement env
+	else if (ft_strcmp(node->data, "env") == 0)
+		env_getter(env);
 }
 
 char	*get_path_with_command(t_tree_node *node)
@@ -101,10 +101,10 @@ void	exec_cmd(t_tree_node *node)
 	free(args);
 }
 
-void	exec_commands(t_tree_node *node)
+void	exec_commands(t_tree_node *node, t_envp *env)
 {
 	if (node->token == BUILT_IN)
-		exec_builtin(node);
+		exec_builtin(node, env);
 	if (node->token == COMMAND)
 		exec_cmd(node);
 }

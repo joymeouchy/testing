@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 20:41:59 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/01 11:44:15 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:16:02 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ void	execution(t_tree_node *node, t_envp *env)
 	if (!node)
 		return ;
 	pipe_count = count_pipes(node);
-	// printf("current node is: %s, redir arg:%s \n", node->data, node->redir_arg);
 	if (node->token == PIPE)
 		return (pipe_exec(node, pipe_count, env));
 	if (node->token == COMMAND || node->token == BUILT_IN)
-		return (exec_commands(node));
+		return (exec_commands(node, env));
 	if (node->token >= 3 && node->token <= 6)
 		return (handle_recirections(node, env));
 }
