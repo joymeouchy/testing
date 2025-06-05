@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/02 10:24:26 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/05 21:25:06 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	parsing_main(t_envp *env)
 	tree = stack_to_tree(stack, env);
 	// printf("tree:\n");
 	// print_inorder(tree->root);
+	if (tree->root->token >= WORD) //check when home
+		env->exit_code = print_message_and_exit(tree->root->data, ":command not found", 127);
 	execution(tree->root, env);
 	if (list)
 		free_list(list);

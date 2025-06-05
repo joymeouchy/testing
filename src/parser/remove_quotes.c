@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:16:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/05/31 12:13:36 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/04 09:09:29 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	check_and_remove_quotes(t_list *list)
 			flag_balanced_quotes = check_if_quotes_balanced(temp->data);
 		if (flag_balanced_quotes == 1)
 		{
-			printf("quotes unbalanced");
+			printf("syntax error: missing quote\n");
 			return (1); // TO-DO ADD ERROR MESSAGE AND STOP PROCESS
 		}
 		remove_quotes_from_string(temp->data);

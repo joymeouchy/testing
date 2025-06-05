@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:50:44 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/05/31 12:34:30 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:32:00 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,28 +53,28 @@ static int	count_env_vars(char **env)
 	return (count);
 }
 
-static void	duplicate_environment(t_envp *env)
-{
-	int		size;
-	int		i;
-	char	**copy;
+// static void	duplicate_environment(t_envp *env)
+// {
+// 	int		size;
+// 	int		i;
+// 	char	**copy;
 
-	size = count_env_vars(env->environment);
-	i = 0;
-	copy = malloc(sizeof(char *) * (size + 1));
-	if (!copy)
-		return ;
-	while (i < size)
-	{
-		copy[i] = ft_strdup(env->environment[i]);
-		i++;
-	}
-	copy[i] = NULL;
-	if (env->is_malloced)
-		free_env(env->environment);
-	env->environment = copy;
-	env->is_malloced = 1;
-}
+// 	size = count_env_vars(env->environment);
+// 	i = 0;
+// 	copy = malloc(sizeof(char *) * (size + 1));
+// 	if (!copy)
+// 		return ;
+// 	while (i < size)
+// 	{
+// 		copy[i] = ft_strdup(env->environment[i]);
+// 		i++;
+// 	}
+// 	copy[i] = NULL;
+// 	if (env->is_malloced)
+// 		free_env(env->environment);
+// 	env->environment = copy;
+// 	env->is_malloced = 1;
+// }
 
 static int	var_exists(char *arg, char **env)
 {
@@ -142,16 +142,16 @@ static void	add_new_var(char *arg, t_envp *env)
 	}
 	new_env[i++] = ft_strdup(arg);
 	new_env[i] = NULL;
-	if (env->is_malloced)
-		free_env(env->environment);
+	// if (env->is_malloced)
+	// 	free_env(env->environment);
 	env->environment = new_env;
-	env->is_malloced = 1;
+	// env->is_malloced = 1;
 }
 
 void	update_env(char *arg, t_envp *env)
 {
-	if (env->environment && !ft_strchr(env->environment[0], '='))
-		duplicate_environment(env);
+	// if (env->environment && !ft_strchr(env->environment[0], '='))
+	// 	duplicate_environment(env);
 	if (!ft_strchr(arg, '='))
 	{
 		if (!var_exists(arg, env->environment))
@@ -213,10 +213,34 @@ static void	sort_env(char **env)
 	}
 }
 
+static char **duplicate_environment(t_envp *env)
+{
+	int		size;
+	int		i;
+	char	**copy;
+
+	size = count_env_vars(env->environment);
+	i = 0;
+	copy = malloc(sizeof(char *) * (size + 1));
+	if (!copy)
+		return (NULL);
+	while (i < size)
+	{
+		copy[i] = ft_strdup(env->environment[i]);
+		i++;
+	}
+	copy[i] = NULL;
+	// if (env->is_malloced)
+	// 	free_env(env->environment);
+	// env->is_malloced = 1;
+	return (copy);
+}
+
 int	export(t_tree_node *root, t_envp *env)
 {
 	t_tree_node	*arg;
 	int			i;
+	char		**env_duplicate;
 
 	i = 0;
 	if (!root || !env || !env->environment)
@@ -224,12 +248,14 @@ int	export(t_tree_node *root, t_envp *env)
 	arg = root->right;
 	if (!arg)
 	{
-		sort_env(env->environment);
-		while (env->environment[i])
+		env_duplicate = duplicate_environment(env);
+		sort_env(env_duplicate);
+		while (env_duplicate[i])
 		{
-			print_key_value(env->environment[i]);
+			print_key_value(env_duplicate[i]);
 			i++;
 		}
+		free_env(env_duplicate);
 		return (0);
 	}
 	while (arg)

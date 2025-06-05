@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 21:04:58 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/02 10:15:47 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/04 09:51:06 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,20 @@
 void	exec_builtin(t_tree_node *node, t_envp *env)
 {
 	if (ft_strcmp(node->data, "echo") == 0)
-		echo(node, node->path);
+		echo(node);
 	else if (ft_strcmp(node->data, "cd") == 0)
-		cd(node, node->path);
+		cd(node, env);
 	else if (ft_strcmp(node->data, "export") == 0)
-		export(node, node->path);
+		export(node, env);
 	else if (ft_strcmp(node->data, "pwd") == 0)
 		pwd();
 	else if (ft_strcmp(node->data, "unset") == 0)
-		unset(node, node->path);
+		unset(node, env);
 	else if (ft_strcmp(node->data, "exit") == 0)
-		exit_builtin(node, node->path);
+		exit_builtin(node, env);
 	else if (ft_strcmp(node->data, "env") == 0)
 		env_getter(env);
+	env->exit_code = 0;
 }
 
 char	*get_path_with_command(t_tree_node *node)

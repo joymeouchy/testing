@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/02 10:27:23 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/04 09:36:19 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,7 @@ int count_pipes(t_tree_node *node);
 void handle_recirections(t_tree_node *node, t_envp *env);
 void	heredoc(t_tree_node *node, t_envp *env);
 void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env);
+
+int print_message_and_exit(char *message, char *word, int exit_code);
 
 #endif
