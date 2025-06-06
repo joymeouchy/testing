@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:42:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/05/16 09:42:59 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/06 16:16:31 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	double_quotes_to_node(char *input, t_list *list, int start, int *i)
 	(*i)++;
 	while (input[*i] != '"')
 		(*i)++;
-	(*i)++;
+	// (*i)++;
 	while (input[*i] != '|' && input[*i] != '<' && input[*i] != '>'
 			&& input[*i] != ' ' && input[*i] != '\0')
 		(*i)++;
@@ -76,7 +76,7 @@ int	single_quotes_to_node(char *input, t_list *list, int start, int *i)
 	(*i)++;
 	while (input[*i] != 39)
 		(*i)++;
-	(*i)++;
+	// (*i)++;
 	while (input[*i] != '|' && input[*i] != '<' && input[*i] != '>'
 			&& input[*i] != ' ' && input[*i] != '\0')
 		(*i)++;

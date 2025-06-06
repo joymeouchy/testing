@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/04 09:36:19 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/06 14:40:34 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void myhandler(int sigtype);
 int export(t_tree_node *root, t_envp *env);
 int	unset(t_tree_node *root, t_envp *env);
 void signals();
-void	parsing_main(t_envp *env);
+void	parsing_main(t_envp *env, char *input);
 
 //exec
 void execution(t_tree_node *node, t_envp *env);
@@ -95,5 +95,5 @@ void	heredoc(t_tree_node *node, t_envp *env);
 void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env);
 
 int print_message_and_exit(char *message, char *word, int exit_code);
-
+char	*command_line_input(void);
 #endif

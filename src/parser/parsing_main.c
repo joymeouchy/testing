@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/05 21:25:06 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/06 15:11:44 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,46 @@ char	*command_line_input(void)
 	return (input);
 }
 
-void	parsing_main(t_envp *env)
+#include <errno.h>
+
+int	check_file_executable(t_envp *env, char *file)
+{
+	char	*argv[] = { file, NULL };
+	pid_t	pid;
+	int		status;
+
+	if (ft_strncmp(file, "./", 2) != 0)
+		return (-1);
+	if (access(file, X_OK) == 0)
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			execve(file, argv, env->environment);
+			if (errno == ENOEXEC)
+			{
+				char *sh_argv[] = {"/bin/sh", file, NULL };
+				execve("/bin/sh", sh_argv, env->environment);
+			}
+			perror(file);
+			exit(126);
+		}
+		else if (pid > 0)
+			waitpid(pid, &status, 0);
+	}
+	else
+		return (-1);
+	return (0);
+}
+
+
+void	parsing_main(t_envp *env, char *input)
 {
 	t_list	*list;
 	t_stack	*stack;
 	t_tree	*tree;
 
-	list = input_to_list(command_line_input());
+	list = input_to_list(input);
 	if (!list)
 	{
 		write(1, "exit\n", 5);
@@ -47,8 +80,11 @@ void	parsing_main(t_envp *env)
 	tree = stack_to_tree(stack, env);
 	// printf("tree:\n");
 	// print_inorder(tree->root);
-	if (tree->root->token >= WORD) //check when home
-		env->exit_code = print_message_and_exit(tree->root->data, ":command not found", 127);
+	if (tree->root->token >= WORD)
+	{
+		if (check_file_executable(env, tree->root->data) == -1)
+			env->exit_code = print_message_and_exit(tree->root->data, ":command not found", 127);
+	}
 	execution(tree->root, env);
 	if (list)
 		free_list(list);

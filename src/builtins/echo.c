@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:58:23 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/04 09:41:35 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/06 14:22:34 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void echo(t_tree_node *echo_node)
 
 	arg = echo_node->right;
 	newline = 1;
-	if (arg && arg->data && ft_strcmp(arg->data, "-n") == 0)
+	while (arg && arg->data && ft_strcmp(arg->data, "-n") == 0)
 	{
 		newline = 0;
 		arg = arg->right;

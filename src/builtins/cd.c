@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:30:37 by root              #+#    #+#             */
-/*   Updated: 2025/05/27 15:23:47 by root             ###   ########.fr       */
+/*   Updated: 2025/06/06 14:40:03 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	cd(t_tree_node *root, t_envp *env)
 		return (free(oldpwd), 1);
 	if (!is_valid_directory(target) || chdir(target) != 0)
 	{
-		perror("minishell: cd");
+		env->exit_code = 1;
 		free(target);
 		free(oldpwd);
 		return (1);
