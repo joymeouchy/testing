@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:50:44 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/05 20:32:00 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/10 21:59:33 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,43 +124,90 @@ static int	update_existing_var(char *arg, char **env)
 	return (0);
 }
 
-static void	add_new_var(char *arg, t_envp *env)
+// static void	add_new_var(char *arg, t_envp *env)
+// {
+// 	int		size;
+// 	int		i;
+// 	char	**new_env;
+
+// 	size = count_env_vars(env->environment);
+// 	i = 0;
+// 	new_env = malloc(sizeof(char *) * (size + 2));
+// 	if (!new_env)
+// 		return ;
+// 	while (env->environment && env->environment[i])
+// 	{
+// 		new_env[i] = ft_strdup(env->environment[i]);
+// 		i++;
+// 	}
+// 	new_env[i++] = ft_strdup(arg);
+// 	new_env[i] = NULL;
+// 	// if (env->is_malloced)
+// 	// 	free_env(env->environment);
+// 	env->environment = new_env;
+// 	// env->is_malloced = 1;
+// }
+
+static void	add_new_var(char *arg, t_envp *env, int to_export_only)
 {
+	char	***target;
 	int		size;
 	int		i;
 	char	**new_env;
 
-	size = count_env_vars(env->environment);
+	target = to_export_only ? &env->export_only : &env->environment;
+	size = count_env_vars(*target);
 	i = 0;
 	new_env = malloc(sizeof(char *) * (size + 2));
 	if (!new_env)
 		return ;
-	while (env->environment && env->environment[i])
+	while (*target && (*target)[i])
 	{
-		new_env[i] = ft_strdup(env->environment[i]);
+		new_env[i] = ft_strdup((*target)[i]);
 		i++;
 	}
 	new_env[i++] = ft_strdup(arg);
 	new_env[i] = NULL;
-	// if (env->is_malloced)
-	// 	free_env(env->environment);
-	env->environment = new_env;
-	// env->is_malloced = 1;
+	free_env(*target);
+	*target = new_env;
 }
+
+// void	update_env(char *arg, t_envp *env)
+// {
+// 	// if (env->environment && !ft_strchr(env->environment[0], '='))
+// 	// 	duplicate_environment(env);
+// 	if (!ft_strchr(arg, '='))
+// 	{
+// 		if (!var_exists(arg, env->environment))
+// 			add_new_var(arg, env);
+// 	}
+// 	else
+// 		if (!update_existing_var(arg, env->environment))
+// 			add_new_var(arg, env);
+// }
 
 void	update_env(char *arg, t_envp *env)
 {
-	// if (env->environment && !ft_strchr(env->environment[0], '='))
-	// 	duplicate_environment(env);
 	if (!ft_strchr(arg, '='))
 	{
-		if (!var_exists(arg, env->environment))
-			add_new_var(arg, env);
+		// Only add to export_only if not already there
+		if (!var_exists(arg, env->export_only))
+			add_new_var(arg, env, 1); // 1 means export_only
 	}
 	else
+	{
+		// update/add to environment
 		if (!update_existing_var(arg, env->environment))
-			add_new_var(arg, env);
+			add_new_var(arg, env, 0); // 0 means environment
+
+		// also ensure it's in export_only
+		char *key = ft_substr(arg, 0, ft_strchr(arg, '=') - arg);
+		if (key && !var_exists(key, env->export_only))
+			add_new_var(key, env, 1);
+		free(key);
+	}
 }
+
 
 static void	print_key_value(char *env_var)
 {
@@ -213,58 +260,103 @@ static void	sort_env(char **env)
 	}
 }
 
-static char **duplicate_environment(t_envp *env)
-{
-	int		size;
-	int		i;
-	char	**copy;
+// static char **duplicate_environment(t_envp *env)
+// {
+// 	int		size;
+// 	int		i;
+// 	char	**copy;
 
-	size = count_env_vars(env->environment);
-	i = 0;
-	copy = malloc(sizeof(char *) * (size + 1));
-	if (!copy)
-		return (NULL);
-	while (i < size)
-	{
-		copy[i] = ft_strdup(env->environment[i]);
-		i++;
-	}
-	copy[i] = NULL;
-	// if (env->is_malloced)
-	// 	free_env(env->environment);
-	// env->is_malloced = 1;
-	return (copy);
-}
+// 	size = count_env_vars(env->environment);
+// 	i = 0;
+// 	copy = malloc(sizeof(char *) * (size + 1));
+// 	if (!copy)
+// 		return (NULL);
+// 	while (i < size)
+// 	{
+// 		copy[i] = ft_strdup(env->environment[i]);
+// 		i++;
+// 	}
+// 	copy[i] = NULL;
+// 	// if (env->is_malloced)
+// 	// 	free_env(env->environment);
+// 	// env->is_malloced = 1;
+// 	return (copy);
+// }
+
+// int	export(t_tree_node *root, t_envp *env)
+// {
+// 	t_tree_node	*arg;
+// 	int			i;
+// 	char		**env_duplicate;
+
+// 	i = 0;
+// 	if (!root || !env || !env->environment)
+// 		return (1);
+// 	arg = root->right;
+// 	if (!arg)
+// 	{
+// 		env_duplicate = duplicate_environment(env);
+// 		sort_env(env_duplicate);
+// 		while (env_duplicate[i])
+// 		{
+// 			print_key_value(env_duplicate[i]);
+// 			i++;
+// 		}
+// 		free_env(env_duplicate);
+// 		return (0);
+// 	}
+// 	while (arg)
+// 	{
+// 		if (is_valid_key(arg->data))
+// 			update_env(arg->data, env);
+// 		else
+// 			printf("minishell: export: `%s': not a valid identifier\n",
+// 				arg->data);
+// 		arg = arg->right;
+// 	}
+// 	return (0);
+// }
 
 int	export(t_tree_node *root, t_envp *env)
 {
 	t_tree_node	*arg;
-	int			i;
-	char		**env_duplicate;
+	int			i = 0;
+	char		**merged;
+	int			env_count = count_env_vars(env->environment);
+	int			exp_count = count_env_vars(env->export_only);
 
-	i = 0;
-	if (!root || !env || !env->environment)
+	if (!root || !env)
 		return (1);
+
 	arg = root->right;
 	if (!arg)
 	{
-		env_duplicate = duplicate_environment(env);
-		sort_env(env_duplicate);
-		while (env_duplicate[i])
-		{
-			print_key_value(env_duplicate[i]);
-			i++;
-		}
-		free_env(env_duplicate);
+		// Print mode
+		merged = malloc(sizeof(char *) * (env_count + exp_count + 1));
+		if (!merged)
+			return (1);
+
+		for (i = 0; i < env_count; i++)
+			merged[i] = ft_strdup(env->environment[i]);
+		for (int j = 0; j < exp_count; j++)
+			merged[i++] = ft_strdup(env->export_only[j]);
+		merged[i] = NULL;
+
+		sort_env(merged);
+		i = 0;
+		while (merged[i])
+			print_key_value(merged[i++]);
+		free_env(merged);
 		return (0);
 	}
+
+	// Export args
 	while (arg)
 	{
 		if (is_valid_key(arg->data))
 			update_env(arg->data, env);
 		else
-			printf("minishell: export: `%s': not a valid identifier\n",
-				arg->data);
+			printf("minishell: export: `%s': not a valid identifier\n", arg->data);
 		arg = arg->right;
 	}
 	return (0);
