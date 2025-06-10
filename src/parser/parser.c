@@ -6,7 +6,7 @@
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:42:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/06 16:16:31 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/08 17:13:32 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,11 @@ t_list	*input_to_list(char *input)
 		start = split_redirections(input, list, start, &i);
 		if (input[i] == '"')
 			start = double_quotes_to_node(input, list, start, &i);
-		if (input[i] == 39)
-			start = single_quotes_to_node(input, list, start, &i);
+		// printf("start is: %c\n", input[i]);
 		if (input[i])
 			i++;
+		if (input[i] == 39)
+			start = single_quotes_to_node(input, list, start, &i);
 		if (input[i] == '\0' && i != start)
 			insert_at_end_list(list, ft_substr(input, start, i - start));
 	}
