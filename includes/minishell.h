@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/06 14:40:34 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/11 22:17:08 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,25 @@ void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env);
 
 int print_message_and_exit(char *message, char *word, int exit_code);
 char	*command_line_input(void);
+void	free_env(char **env);
+int	count_env_vars(char **env);
+int	var_exists(char *arg, char **env);
+char	*extract_key(const char *arg);
+void	copy_except_key(char **old_env, char **new_env, char *key);
+void	remove_var_by_key(char *arg, char ***env);
+int	find_key_index(char *key, int key_len, char **env);
+int	replace_existing_key(char *arg, char ***env);
+void	add_new_var(char *arg, char ***env);
+int	is_valid_key(const char *str);
+void	update_env(char *arg, t_envp *env);
+void	print_key_value(char *env_var);
+void	sort_env(char **env);
+void	copy_env_vars(char **src, char **dst, int *dst_index);
+char	**merge_env_vars(t_envp *env);
+char *get_env_value(const char *name, char **env);
+char *handle_cd_home(t_envp *env);
+char *handle_cd_dash(t_envp *env);
+char *handle_cd_tilde(const char *arg, t_envp *env);
+char *resolve_cd_target(const char *arg, t_envp *env);
+
 #endif

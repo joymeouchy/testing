@@ -16,8 +16,12 @@ SRC =   src/parser/parser.c \
         src/builtins/pwd.c \
         src/builtins/env.c \
         src/builtins/export.c \
+        src/builtins/export_helper.c \
+        src/builtins/export_helper2.c \
+        src/builtins/export_helper3.c \
         src/builtins/unset.c \
         src/builtins/cd.c \
+        src/builtins/cd_helper.c \
         src/builtins/exit.c \
         src/parser/parsing_main.c \
         src/structures/free_structures.c \
