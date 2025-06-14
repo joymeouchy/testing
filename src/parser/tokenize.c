@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 13:23:04 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/05 21:21:09 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 10:56:23 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,18 @@ int	is_command(char *cmd, t_envp *envp)
 	int		cmd_len;
 
 	i = 0;
-	cmd_len = strlen(cmd);
+	cmd_len = ft_strlen(cmd);
+	if (!envp->split_path)
+		return (0);
 	while (envp->split_path[i])
 	{
-		path_len = strlen(envp->split_path[i]);
+		path_len = ft_strlen(envp->split_path[i]);
 		full_path = malloc(path_len + 1 + cmd_len + 1);
 		if (!full_path)
 			return (0);
-		strcpy(full_path, envp->split_path[i]);
+		ft_strlcpy(full_path, envp->split_path[i], path_len + 1);
 		full_path[path_len] = '/';
-		strcpy(full_path + path_len + 1, cmd);
+		ft_strlcpy(full_path + path_len + 1, cmd, path_len + 1);
 		if (access(full_path, X_OK) == 0)
 		{
 			free(full_path);

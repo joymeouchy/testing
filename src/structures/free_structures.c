@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_structures.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 08:38:44 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/03/18 21:00:16 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/13 19:48:15 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,3 +35,17 @@ void	free_stack(t_stack *stack)
 	free(stack->stack);
 	free(stack);
 }
+
+void	free_2darray(char **array)
+{
+	int i;
+	
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
+

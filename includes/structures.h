@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:16:36 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/10 21:43:49 by root             ###   ########.fr       */
+/*   Updated: 2025/06/14 12:32:53 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_envp
 	char	**split_path;
 	char	**environment;
 	char	**export_only;
-	int		is_malloced;
 	long long	exit_code;
 }t_envp;
 
@@ -99,6 +98,7 @@ typedef struct s_stack
 ///free_structures.c///
 void		free_list(t_list *list);
 void free_stack(t_stack *stack);
+void	free_2darray(char **array);
 
 ///linked list functions//
 ///linked_list_utils.c///

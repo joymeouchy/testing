@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:51:39 by root              #+#    #+#             */
-/*   Updated: 2025/05/31 12:33:57 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:41:18 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	count_args(t_tree_node *node)
 	return (count);
 }
 
-void	exit_builtin(t_tree_node *node, t_envp *env)
+int	exit_builtin(t_tree_node *node, t_envp **env)
 {
 	long long	value;
 	int			argc;
@@ -85,20 +85,22 @@ void	exit_builtin(t_tree_node *node, t_envp *env)
 	if (argc > 1)
 	{
 		printf("exit: too many arguments\n");
-		env->exit_code = 1;
-		return ;
+		(*env)->exit_code = 1;
+		return (1);
 	}
 	if (argc == 0)
-		exit((unsigned char)env->exit_code);
+		exit((unsigned char)(*env)->exit_code);
 	arg = node->right;
 	if (!is_numeric(arg->data) || !safe_atoll(arg->data, &value))
 	{
 		printf("exit: %s: numeric argument required\n", arg->data);
-		env->exit_code = 2;
+		(*env)->exit_code = 2;
 		exit(2);
 	}
 	if (value < 0)
 		value = -value;
-	env->exit_code = value % 256;
-	exit((unsigned char)(env->exit_code));
+	(*env)->exit_code = value % 256;
+	printf("exittt code: %lld\n",(*env)->exit_code);
+	exit((unsigned char)((*env)->exit_code));
+	return ((*env)->exit_code);
 }

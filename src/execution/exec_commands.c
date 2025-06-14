@@ -6,29 +6,29 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 21:04:58 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/04 09:51:06 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:50:42 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	exec_builtin(t_tree_node *node, t_envp *env)
+int	exec_builtin(t_tree_node *node, t_envp **env)
 {
 	if (ft_strcmp(node->data, "echo") == 0)
-		echo(node);
+		return (echo(node));
 	else if (ft_strcmp(node->data, "cd") == 0)
-		cd(node, env);
+		return (cd(node, env));
 	else if (ft_strcmp(node->data, "export") == 0)
-		export(node, env);
+		return (export(node, env));
 	else if (ft_strcmp(node->data, "pwd") == 0)
-		pwd();
+		return (pwd());
 	else if (ft_strcmp(node->data, "unset") == 0)
-		unset(node, env);
+		return (unset(node, env));
 	else if (ft_strcmp(node->data, "exit") == 0)
-		exit_builtin(node, env);
+		return (exit_builtin(node, env));
 	else if (ft_strcmp(node->data, "env") == 0)
-		env_getter(env);
-	env->exit_code = 0;
+		return (env_getter(env));
+	return ((*env)->exit_code);
 }
 
 char	*get_path_with_command(t_tree_node *node)
@@ -78,7 +78,7 @@ char	**fill_arguments(t_tree_node *node)
 	return (args);
 }
 
-void	exec_cmd(t_tree_node *node)
+int	exec_cmd(t_tree_node *node, t_envp **env)
 {
 	char	**args;
 	char	*path;
@@ -92,6 +92,7 @@ void	exec_cmd(t_tree_node *node)
 	{
 		execve(path, args, node->path->environment);
 		perror("execve failed");
+		(*env)->exit_code = 1;
 		exit(EXIT_FAILURE);
 	}
 	else if (pid > 0)
@@ -100,12 +101,14 @@ void	exec_cmd(t_tree_node *node)
 		perror("fork failed");
 	free(path);
 	free(args);
+	return (0);
 }
 
-void	exec_commands(t_tree_node *node, t_envp *env)
+int	exec_commands(t_tree_node *node, t_envp **env)
 {
 	if (node->token == BUILT_IN)
-		exec_builtin(node, env);
+		return (exec_builtin(node, env));
 	if (node->token == COMMAND)
-		exec_cmd(node);
+		return (exec_cmd(node, env));
+	return (print_message_and_exit(node->data, " : command not found", 127));
 }

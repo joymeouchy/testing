@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 19:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/06/02 10:26:43 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:22:25 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,13 @@ char	*expand(char *str, char **envp)
 	char	*replacement;
 	char	*expanded_str;
 
+	if (!envp)
+		return (NULL);
 	if (check_if_dollar_to_print(str))
 		return (str);
+	ft_putstr_fd("hi????\n", 1);
 	dollar_pos = find_dollar(str);
-	while ((dollar_pos) != -1)
+	while (dollar_pos != -1)
 	{
 		var_name = extract_variable_name(&str[dollar_pos]);
 		if (!var_name)
@@ -148,7 +151,9 @@ void	expand_list(t_list *list, t_envp *env)
 	while (current)
 	{
 		if (ft_strcmp(current->data, "$?") == 0)
+		{
 			current->data = ft_itoa(env->exit_code);
+		}
 		if (current->data && ft_strchr(current->data, '$'))
 		{
 			current->data = expand(current->data, env->environment);

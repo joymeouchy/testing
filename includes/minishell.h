@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/11 22:17:08 by root             ###   ########.fr       */
+/*   Updated: 2025/06/14 13:43:16 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ t_list  *input_to_list(char *input);
 int pwd(void);
 int	is_valid_key(const char *str);
 void	update_env(char *arg, t_envp *env);
-int	cd(t_tree_node *root, t_envp *env);
-void	exit_builtin(t_tree_node *node, t_envp *env);
+int	cd(t_tree_node *root, t_envp **env);
+int	exit_builtin(t_tree_node *node, t_envp **env);
 ///remove_quotes.c///
 
 void	skip_quotes_in_string(int *count_quotes, char *string, int *i, int quotes_ascii);
@@ -65,32 +65,31 @@ void	tokenize(t_list *list, t_envp *envp);
 int ft_strcmp(const char *s1, const char *s2);
 //get_env.c
 char **get_split_path(char **envp);
-void  env_getter(t_envp *env);
+int  env_getter(t_envp **env);
 
 ///main.c///
 char	*command_line_input(void);
 t_tree	*stack_to_tree(t_stack *stack, t_envp *environment);
 void	print_inorder(t_tree_node *node);
-// void	echo(t_tree_node *echo_node);
-void echo(t_tree_node *echo_node);
+int echo(t_tree_node *echo_node);
 void myhandler(int sigtype);
-int export(t_tree_node *root, t_envp *env);
-int	unset(t_tree_node *root, t_envp *env);
+int export(t_tree_node *root, t_envp **env);
+int	unset(t_tree_node *root, t_envp **env);
 void signals();
 void	parsing_main(t_envp *env, char *input);
 
 //exec
-void execution(t_tree_node *node, t_envp *env);
-void exec_commands(t_tree_node *node, t_envp *env);
+int execution(t_tree_node *node, t_envp **env);
+int exec_commands(t_tree_node *node, t_envp **env);
 void add_arg_to_redir(t_list *list);
 void swap_red(t_tree_node *node1, t_tree_node *node2);
 // void pipe_exec(t_tree_node *node);
-void pipe_exec(t_tree_node *node, int pipe_count, t_envp *env);
+int pipe_exec(t_tree_node *node, int pipe_count, t_envp **env);
 // static char *get_env_value(const char *key, t_envp *env);
 void pipe_exec_for_multiple(t_tree_node *node);
 void pipe_exec_for_single(t_tree_node *node);
 int count_pipes(t_tree_node *node);
-void handle_recirections(t_tree_node *node, t_envp *env);
+int handle_recirections(t_tree_node *node, t_envp **env);
 void	heredoc(t_tree_node *node, t_envp *env);
 void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env);
 

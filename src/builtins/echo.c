@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:58:23 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/06 14:22:34 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:27:39 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void echo(t_tree_node *echo_node)
+int echo(t_tree_node *echo_node)
 {
 	t_tree_node *arg;
 	int newline;
@@ -33,4 +33,5 @@ void echo(t_tree_node *echo_node)
 	}
 	if (newline)
 		ft_putchar_fd('\n', 1);
+	return (0);
 }

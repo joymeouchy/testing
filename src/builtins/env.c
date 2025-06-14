@@ -6,13 +6,13 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:32:14 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/02 10:14:25 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:01:57 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void  env_getter(t_envp *env)
+int  env_getter(t_envp *env)
 {
     int i;
 
@@ -22,4 +22,5 @@ void  env_getter(t_envp *env)
         printf("%s\n", env->environment[i]);
         i++;
     }
+    return (0);
 }

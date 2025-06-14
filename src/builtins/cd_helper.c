@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_helper.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:12:30 by root              #+#    #+#             */
-/*   Updated: 2025/06/11 22:16:00 by root             ###   ########.fr       */
+/*   Updated: 2025/06/13 20:23:32 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,3 +70,4 @@ char *resolve_cd_target(const char *arg, t_envp *env)
 		return handle_cd_tilde(arg, env);
 	return ft_strdup(arg);
 }
+									

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:56:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/06 12:06:57 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 12:43:01 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char **dup_env(char **envp)
 	char	**copy;
 	int		i;
 
+	if (!envp)
+		return (NULL);
 	count = 0;
 	i = 0;
 	while (envp && envp[count])
@@ -44,14 +46,15 @@ int	main(int argc, char **argv, char **envp)
 	env = malloc(sizeof(t_envp));
 	if (!env)
 		return (1);
+
 	env->split_path = get_split_path(envp);
 	env->environment = dup_env(envp);
-	env->is_malloced = 1;
-
 	while (1)
 	{
 		parsing_main(env, command_line_input());
 	}
-	free(env);
+	// free_2darray(env->split_path);
+	// free_2darray(env->environment);
+	free(env); //TODO Free stuff inside env
 	return (0);
 }

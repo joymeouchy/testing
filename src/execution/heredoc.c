@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/01 22:22:58 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 12:24:48 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-			break ;
 		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
@@ -69,7 +67,5 @@ void	heredoc(t_tree_node *node, t_envp *env)
 	if (pid == 0)
 		handle_heredoc_child(node, env);
 	else
-	{
 		waitpid(pid, NULL, 0);
-	}
 }

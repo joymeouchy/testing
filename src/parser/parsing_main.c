@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/08 17:13:37 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:44:06 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	check_file_executable(t_envp *env, char *file)
 		pid = fork();
 		if (pid == 0)
 		{
+			//ADD SHELVALUE NEW
 			execve(file, argv, env->environment);
 			if (errno == ENOEXEC)
 			{
@@ -85,7 +86,7 @@ void	parsing_main(t_envp *env, char *input)
 		if (check_file_executable(env, tree->root->data) == -1)
 			env->exit_code = print_message_and_exit(tree->root->data, ":command not found", 127);
 	}
-	execution(tree->root, env);
+	env->exit_code = execution(tree->root, &env);
 	if (list)
 		free_list(list);
 	if (stack)

@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:51:42 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/01 11:44:59 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:26:31 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ int	count_pipes(t_tree_node *node)
 	return (total);
 }
 
-void	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env)
+int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env)
 {
 	int		pipefd[2];
 	pid_t	read_pid;
 	pid_t	write_pid;
 
 	if (pipe(pipefd) == -1)
-		return ;
+		return (1);
 	if (pipe_count == 1)
 	{
 		write_to_pipe(node->right, &write_pid, pipefd, env);
@@ -82,4 +82,5 @@ void	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env)
 	close(pipefd[1]);
 	waitpid(write_pid, NULL, 0);
 	waitpid(read_pid, NULL, 0);
+	return (0);
 }

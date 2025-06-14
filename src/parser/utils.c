@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 08:03:35 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/05/26 11:18:31 by root             ###   ########.fr       */
+/*   Updated: 2025/06/14 10:56:29 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*append_char_to_string(char *src, char c)
 	int		i;
 	char	*new_str;
 
-	len = strlen(src) + 2;
+	len = ft_strlen(src) + 2;
 	new_str = malloc(len * sizeof(char));
 	if (new_str == NULL)
 		return (NULL);

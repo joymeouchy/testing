@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/05 21:10:40 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:26:46 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,12 @@ void	redir_output_append(t_tree_node *node, t_envp *env)
 		waitpid(pid, NULL, 0);
 }
 
-void	handle_recirections(t_tree_node *node, t_envp *env)
+int	handle_recirections(t_tree_node *node, t_envp *env)
 {
 	if (node->right && node->right->token != BUILT_IN && node->right->token != COMMAND)
 	{
 		env->exit_code=print_message_and_exit(node->right->data, ":command not found", 127);
-		return ;
+		return (127);
 	}
 	if (node->token == LEFT_REDIRECTION)
 		redir_input(node, env);
@@ -110,4 +110,5 @@ void	handle_recirections(t_tree_node *node, t_envp *env)
 		redir_output_append(node, env);
 	else if (node->token == LEFT_D_REDIRECTION)
 		heredoc(node, env);
+	return (0);
 }

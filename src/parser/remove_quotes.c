@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:16:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/04 09:09:29 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 12:26:13 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ int	check_if_contains_quotes(char *string)
 	while (string[i])
 	{
 		if (string[i] == 34 || string[i] == 39)
-			return (0);
+			return (1);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 void	remove_quotes_from_substring(char *string,

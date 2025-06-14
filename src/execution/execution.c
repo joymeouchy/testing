@@ -6,18 +6,18 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 20:41:59 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/02 10:16:02 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:50:04 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	execution(t_tree_node *node, t_envp *env)
+int	execution(t_tree_node *node, t_envp **env)
 {
 	int	pipe_count;
 
 	if (!node)
-		return ;
+		return (-1);
 	pipe_count = count_pipes(node);
 	if (node->token == PIPE)
 		return (pipe_exec(node, pipe_count, env));
@@ -25,4 +25,6 @@ void	execution(t_tree_node *node, t_envp *env)
 		return (exec_commands(node, env));
 	if (node->token >= 3 && node->token <= 6)
 		return (handle_recirections(node, env));
+	return ((*env)->exit_code);
+	// return (print_message_and_exit(node->data, " : command not found", 127));
 }
