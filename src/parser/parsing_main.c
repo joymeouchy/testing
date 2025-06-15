@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/14 13:44:06 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 15:41:41 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	check_file_executable(t_envp *env, char *file)
 {
 	char	*argv[] = { file, NULL };
 	pid_t	pid;
-	int		status;
 
 	if (ft_strncmp(file, "./", 2) != 0)
 		return (-1);
@@ -45,16 +44,20 @@ int	check_file_executable(t_envp *env, char *file)
 				execve("/bin/sh", sh_argv, env->environment);
 			}
 			perror(file);
-			exit(126);
+			exit(env->exit_code);
 		}
 		else if (pid > 0)
+		{
+			int status;
 			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+   				env->exit_code = WEXITSTATUS(status);
+		}
 	}
 	else
 		return (-1);
 	return (0);
 }
-
 
 void	parsing_main(t_envp *env, char *input)
 {
@@ -86,7 +89,7 @@ void	parsing_main(t_envp *env, char *input)
 		if (check_file_executable(env, tree->root->data) == -1)
 			env->exit_code = print_message_and_exit(tree->root->data, ":command not found", 127);
 	}
-	env->exit_code = execution(tree->root, &env);
+	env->exit_code = execution(tree->root, env);
 	if (list)
 		free_list(list);
 	if (stack)

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 21:04:58 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/14 13:50:42 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 14:57:16 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	exec_builtin(t_tree_node *node, t_envp **env)
+int	exec_builtin(t_tree_node *node, t_envp *env)
 {
 	if (ft_strcmp(node->data, "echo") == 0)
 		return (echo(node));
@@ -28,7 +28,7 @@ int	exec_builtin(t_tree_node *node, t_envp **env)
 		return (exit_builtin(node, env));
 	else if (ft_strcmp(node->data, "env") == 0)
 		return (env_getter(env));
-	return ((*env)->exit_code);
+	return (env->exit_code);
 }
 
 char	*get_path_with_command(t_tree_node *node)
@@ -78,7 +78,7 @@ char	**fill_arguments(t_tree_node *node)
 	return (args);
 }
 
-int	exec_cmd(t_tree_node *node, t_envp **env)
+int	exec_cmd(t_tree_node *node, t_envp *env)
 {
 	char	**args;
 	char	*path;
@@ -92,7 +92,7 @@ int	exec_cmd(t_tree_node *node, t_envp **env)
 	{
 		execve(path, args, node->path->environment);
 		perror("execve failed");
-		(*env)->exit_code = 1;
+		env->exit_code = 1;
 		exit(EXIT_FAILURE);
 	}
 	else if (pid > 0)
@@ -104,7 +104,7 @@ int	exec_cmd(t_tree_node *node, t_envp **env)
 	return (0);
 }
 
-int	exec_commands(t_tree_node *node, t_envp **env)
+int	exec_commands(t_tree_node *node, t_envp *env)
 {
 	if (node->token == BUILT_IN)
 		return (exec_builtin(node, env));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/14 12:24:48 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/14 15:37:14 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	heredoc(t_tree_node *node, t_envp *env)
 	pid = fork();
 	if (pid == -1)
 		return ;
-	if (pid == 0)
+	if (pid == 0 && node->redir_arg != NULL)
 		handle_heredoc_child(node, env);
 	else
 		waitpid(pid, NULL, 0);
