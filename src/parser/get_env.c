@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 13:23:04 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/13 19:55:12 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/15 14:50:25 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,7 @@ char	**get_split_path(char **envp)
 	char	**split_path;
 
 	if (envp == NULL)
-	{
-		printf("bonsoirrrrr\n\n");
 		return (NULL);
-		
-	}
 	split_path = ft_split(find_the_word_path_in_envp(envp), ':');
 	if (!split_path)
 		return (NULL);
