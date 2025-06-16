@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:16:36 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/14 12:32:53 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/16 21:28:58 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,43 +95,36 @@ typedef struct s_stack
 	t_stack_element	*stack;
 } t_stack;
 
-///free_structures.c///
-void		free_list(t_list *list);
-void free_stack(t_stack *stack);
+//free_structure
+void	free_list(t_list *list);
+void	free_stack(t_stack *stack);
 void	free_2darray(char **array);
-
-///linked list functions//
-///linked_list_utils.c///
-
-t_list		*init_list(void);
+//linked_list_utils
+void	insert_at_end_list(t_list *list, char *new_node_data);
+void	insert_at_beginning_list(t_list *list, char *new_node_data);
+void	insert_at_middle_list(t_list *list, char *new_node_data, int index);
+t_list	*init_list(void);
 t_list_node	*create_list_node(char *data);
-void		insert_at_end_list(t_list *list, char *new_node_data);
-void		insert_at_beginning_list(t_list *list, char *new_node_data);
-void		insert_at_middle_list(t_list *list, char *new_node_data, int index);
-
-///linked_list_utils2.c///
-
+//linked_list_utils_2
 void	print_list(t_list *list);
 void	update_list_index(t_list_node *temp);
+void	delete_node(t_list *list, t_list_node *node);
 t_list_node	*get_last_node(t_list *list);
 t_list_node	*get_first_node(t_list *list);
 t_list_node	*get_node_at_index(t_list *list, int index);
-void delete_node(t_list *list, t_list_node *node);
-
-///tree functions//
-///tree_utils.c///
-void printInorder(t_tree_node *node);
-t_tree *init_tree(void);
-t_tree_node *insert( t_tree_node *node, char *data, e_tokens token, bool *flag_inserted_node);
-// void stack_to_tree(t_stack *stack);
-///stack functions//
-///stack_utils.c///
-void    init_stack(t_list *list, t_stack *stack);
+//stack_utils
+void	init_stack(t_list *list, t_stack *stack);
 void	push(char *data, e_tokens token, char *redir_args, t_stack *stack);
-void pop(t_stack *stack);
-void print_stack(t_stack *stack);
-
-//redirections//
-int handle_redir(int *tokens, char **files, int redir_count);
-
+void	pop(t_stack *stack);
+void	print_stack(t_stack *stack);
+//tree_helper
+void	print_inorder(t_tree_node *node);
+t_tree	*init_tree(void);
+t_tree_node	*create_tree_node(t_stack *stack, t_envp *environment);
+t_tree_node	*build_tree(t_stack *stack, t_envp *environment);
+//tree_utils
+void	swap_redir_to_bottom(t_tree_node **node_ptr);
+void	swap_redir_in_tree(t_tree_node *node);
+bool	should_swap(t_tree_node *node);
+t_tree	*stack_to_tree(t_stack *stack, t_envp *environment);
 #endif

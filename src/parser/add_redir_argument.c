@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_redir_argument.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:26:02 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/14 15:40:34 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/16 21:29:58 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,32 +38,37 @@ void	add_arg_to_redir(t_list *list)
 	}
 }
 
+static void	swap_node_content(t_tree_node *a, t_tree_node *b)
+{
+	char	*tmp_data;
+	t_envp	*tmp_path;
+	char	*tmp_redir_arg;
+	int		tmp_token;
+
+	tmp_data = a->data;
+	tmp_path = a->path;
+	tmp_redir_arg = a->redir_arg;
+	tmp_token = a->token;
+	a->data = b->data;
+	a->path = b->path;
+	a->redir_arg = b->redir_arg;
+	a->token = b->token;
+	b->data = tmp_data;
+	b->path = tmp_path;
+	b->redir_arg = tmp_redir_arg;
+	b->token = tmp_token;
+}
+
 void	swap_red(t_tree_node *node1, t_tree_node *node2)
 {
-	t_tree_node	*temp;
+	int	tok1;
+	int	tok2;
 
 	if (!node1 || !node2)
 		return ;
-	temp = (t_tree_node *)malloc(sizeof(t_tree_node));
-	if (!temp)
-		return ;
-	if (node1->token == 1 || node1->token == 2 || node1->token == 7)
-	{
-		if (node2->token >= 3 && node2->token <= 6)
-		{
-			temp->data = node1->data;
-			node1->data = node2->data;
-			node2->data = temp->data;
-			temp->token = node1->token;
-			node1->token = node2->token;
-			node2->token = temp->token;
-			temp->path = node1->path;
-			node1->path = node2->path;
-			node2->path = temp->path;
-			temp->redir_arg = node1->redir_arg;
-			node1->redir_arg = node2->redir_arg;
-			node2->redir_arg = temp->redir_arg;
-		}
-		free (temp);
-	}
+	tok1 = node1->token;
+	tok2 = node2->token;
+	if ((tok1 == COMMAND || tok1 == BUILT_IN || tok1 == WORD)
+		&& (tok2 >= LEFT_REDIRECTION && tok2 <= RIGHT_D_REDIRECTION))
+		swap_node_content(node1, node2);
 }

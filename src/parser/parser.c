@@ -3,58 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:42:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/08 17:13:32 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/16 20:54:48 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	one_element_input_to_list(char *input, t_list *list, int *start, int *i)
-{
-	insert_at_end_list(list, ft_substr(input, *start, *i - *start));
-	insert_at_end_list(list, ft_substr(input, *i, 1));
-	*start = *i + 1;
-}
-
-void	two_element_input_to_list(char *input, t_list *list, int *start, int *i)
-{
-	insert_at_end_list(list, ft_substr(input, *start, *i - *start));
-	insert_at_end_list(list, ft_substr(input, *i, 2));
-	*start = ++*i + 1;
-}
-
-int	split_redirections(char *input, t_list *list, int start, int *i)
-{
-	if ((input[*i] == '<' && input[*i + 1] == '<')
-		|| (input[*i] == '>' && input[*i + 1] == '>'))
-		two_element_input_to_list(input, list, &start, i);
-	else if (input[*i] == '<' || input[*i] == '>')
-		one_element_input_to_list(input, list, &start, i);
-	return (start);
-}
-
-int	split_symbols(char *input, t_list *list, int start, int *i)
-{
-	if (input[*i] == ' ')
-	{
-		if (*i != start)
-			insert_at_end_list(list, ft_substr(input, start, *i - start));
-		while (input[*i] == ' ')
-			(*i)++;
-		start = *i;
-	}
-	if (input[*i] == '|')
-	{
-		insert_at_end_list(list, ft_substr(input, start, *i - start));
-		insert_at_end_list(list, ft_substr(input, *i, 1));
-		start = *i + 1;
-	}
-	return (start);
-}
-
 
 int	double_quotes_to_node(char *input, t_list *list, int start, int *i)
 {
@@ -103,7 +59,6 @@ t_list	*input_to_list(char *input)
 		start = split_redirections(input, list, start, &i);
 		if (input[i] == '"')
 			start = double_quotes_to_node(input, list, start, &i);
-		// printf("start is: %c\n", input[i]);
 		if (input[i])
 			i++;
 		if (input[i] == 39)

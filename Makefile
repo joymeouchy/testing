@@ -7,10 +7,13 @@ CFLAGS = -Wall -Wextra -Werror -g
 LFLAGS = -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 
 SRC =   src/parser/parser.c \
+        src/parser/parser_helper.c \
         src/parser/remove_quotes.c \
+        src/parser/expand_helper.c \
         src/parser/expand.c \
         src/parser/utils.c \
         src/parser/tokenize.c \
+        src/parser/tokenize_helper.c \
         src/parser/get_env.c \
         src/builtins/echo.c \
         src/builtins/pwd.c \
@@ -29,6 +32,7 @@ SRC =   src/parser/parser.c \
         src/structures/stack_utils.c \
         src/structures/linked_list_utils2.c \
         src/parser/shunting_yard.c \
+        src/structures/tree_helper.c \
         src/structures/tree_utils.c \
         src/execution/redirections.c \
         src/execution/signals.c \

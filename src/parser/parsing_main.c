@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/14 15:41:41 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/16 20:59:12 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,41 +22,42 @@ char	*command_line_input(void)
 	return (input);
 }
 
-#include <errno.h>
+static void	exec_script_or_binary(char *file, char **envp, int exit_code)
+{
+	char	*argv[] = { file, NULL };
+	char	*sh_argv[] = { "/bin/sh", file, NULL };
+
+	execve(file, argv, envp);
+	if (errno == ENOEXEC)
+		execve("/bin/sh", sh_argv, envp);
+	perror(file);
+	exit(exit_code);
+}
+
+static int	wait_for_child(pid_t pid, t_envp *env)
+{
+	int	status;
+
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		env->exit_code = WEXITSTATUS(status);
+	return (0);
+}
 
 int	check_file_executable(t_envp *env, char *file)
 {
-	char	*argv[] = { file, NULL };
 	pid_t	pid;
 
 	if (ft_strncmp(file, "./", 2) != 0)
 		return (-1);
-	if (access(file, X_OK) == 0)
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			//ADD SHELVALUE NEW
-			execve(file, argv, env->environment);
-			if (errno == ENOEXEC)
-			{
-				char *sh_argv[] = {"/bin/sh", file, NULL };
-				execve("/bin/sh", sh_argv, env->environment);
-			}
-			perror(file);
-			exit(env->exit_code);
-		}
-		else if (pid > 0)
-		{
-			int status;
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-   				env->exit_code = WEXITSTATUS(status);
-		}
-	}
-	else
+	if (access(file, X_OK) != 0)
 		return (-1);
-	return (0);
+	pid = fork();
+	if (pid == 0)
+		exec_script_or_binary(file, env->environment, env->exit_code);
+	else if (pid > 0)
+		return (wait_for_child(pid, env));
+	return (-1);
 }
 
 void	parsing_main(t_envp *env, char *input)
