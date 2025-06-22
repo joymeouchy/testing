@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/16 20:59:12 by root             ###   ########.fr       */
+/*   Updated: 2025/06/22 11:40:32 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	parsing_main(t_envp *env, char *input)
 	tokenize(list, env); //reorganized this section needs retesting
 	add_arg_to_redir(list);
 	check_and_remove_quotes(list);
+	// print_list(list);
 	tokenize(list, env); 
 	// print_list(list);
 	stack = shunting_yard(list);

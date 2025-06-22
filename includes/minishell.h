@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/16 21:23:05 by root             ###   ########.fr       */
+/*   Updated: 2025/06/19 14:50:59 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	exec_cmd(t_tree_node *node, t_envp *env);
 int	exec_commands(t_tree_node *node, t_envp *env);
 int	execution(t_tree_node *node, t_envp *env);
 int	count_pipes(t_tree_node *node);
-int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env);
 int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env);
 int	handle_recirections(t_tree_node *node, t_envp *env);
 void	heredoc(t_tree_node *node, t_envp *env);

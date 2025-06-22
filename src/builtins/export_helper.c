@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:50:26 by root              #+#    #+#             */
-/*   Updated: 2025/06/11 21:54:50 by root             ###   ########.fr       */
+/*   Updated: 2025/06/19 09:47:20 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int	var_exists(char *arg, char **env)
 	i = 0;
 	while (env && env[i])
 	{
-		if ((ft_strncmp(env[i], arg, key_len) == 0) &&
-			(env[i][key_len] == '\0' || env[i][key_len] == '='))
+		if ((ft_strncmp(env[i], arg, key_len) == 0)
+			&& (env[i][key_len] == '\0' || env[i][key_len] == '='))
 			return (1);
 		i++;
 	}
@@ -84,8 +84,8 @@ void	copy_except_key(char **old_env, char **new_env, char *key)
 	key_len = ft_strlen(key);
 	while (old_env[i])
 	{
-		if ((ft_strncmp(old_env[i], key, key_len) != 0) ||
-			(old_env[i][key_len] != '\0' && old_env[i][key_len] != '='))
+		if ((ft_strncmp(old_env[i], key, key_len) != 0)
+			|| (old_env[i][key_len] != '\0' && old_env[i][key_len] != '='))
 		{
 			new_env[j] = ft_strdup(old_env[i]);
 			j++;

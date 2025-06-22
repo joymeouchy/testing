@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:56:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/16 21:22:22 by root             ###   ########.fr       */
+/*   Updated: 2025/06/19 09:51:13 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-char **dup_env(char **envp)
+char	**dup_env(char **envp)
 {
 	int		count;
 	char	**copy;
@@ -33,7 +33,7 @@ char **dup_env(char **envp)
 		i++;
 	}
 	copy[i] = NULL;
-	return copy;
+	return (copy);
 }
 
 void	update_shlvl(t_envp *env)
@@ -57,13 +57,12 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	t_envp *env;
+	t_envp	*env;
 
 	signals();
 	env = malloc(sizeof(t_envp));
 	if (!env)
 		return (1);
-
 	env->split_path = get_split_path(envp);
 	env->environment = dup_env(envp);
 	update_shlvl(env);

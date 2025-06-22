@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 21:17:46 by root              #+#    #+#             */
-/*   Updated: 2025/06/16 21:18:57 by root             ###   ########.fr       */
+/*   Updated: 2025/06/19 14:24:10 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	print_inorder(t_tree_node *node)
 {
 	if (node == NULL)
 		return ;
-	printf("Data: %s, Token: %d, redurection%s\n", node->data, node->token, node->redir_arg);
+	printf("Data: %s, Token: %d, redurection%s\n",
+node->data, node->token, node->redir_arg);
 	if (node->right)
 		printf("right:%s\n", node->right->data);
 	if (node->left)

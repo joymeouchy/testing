@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/16 20:40:47 by root             ###   ########.fr       */
+/*   Updated: 2025/06/19 09:41:03 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env)
 	exit(1);
 }
 
-static void	redirect_stdout_and_exec(t_tree_node *node, char *file_name, int open_flag, t_envp *env)
+static void	redirect_stdout_and_exec(t_tree_node *node,
+	char *file_name, int open_flag, t_envp *env)
 {
 	int	fd;
 
@@ -96,12 +97,17 @@ void	redir_output_append(t_tree_node *node, t_envp *env)
 
 int	handle_recirections(t_tree_node *node, t_envp *env)
 {
-	if (node->right && node->right->token != BUILT_IN && node->right->token != COMMAND)
+	if (node->right && node->right->token != BUILT_IN
+		&& node->right->token != COMMAND)
 	{
-		return(env->exit_code=print_message_and_exit("minishell: syntax error near unexpected token `newline'", "", 2));
+		return (env->exit_code = print_message_and_exit(
+				"minishell: syntax error near unexpected token `newline'",
+				"", 2));
 	}
 	else if (node->redir_arg == NULL)
-		return (env->exit_code=print_message_and_exit("minishell: syntax error near unexpected token `newline'", "", 2));
+		return (env->exit_code = print_message_and_exit(
+				"minishell: syntax error near unexpected token `newline'",
+				"", 2));
 	else if (node->token == LEFT_REDIRECTION)
 		redir_input(node, env);
 	else if (node->token == RIGHT_REDIRECTION)

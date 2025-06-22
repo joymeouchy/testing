@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:30:37 by root              #+#    #+#             */
-/*   Updated: 2025/06/11 22:12:58 by root             ###   ########.fr       */
+/*   Updated: 2025/06/19 09:49:57 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int is_valid_directory(const char *path)
+static int	is_valid_directory(const char *path)
 {
-	DIR *dir;
+	DIR	*dir;
 
 	dir = opendir(path);
 	if (!dir)
@@ -31,14 +31,17 @@ static int is_valid_directory(const char *path)
 	return (1);
 }
 
-static void update_pwd_vars(t_envp *env, const char *oldpwd)
+static void	update_pwd_vars(t_envp *env, const char *oldpwd)
 {
-	char *cwd = getcwd(NULL, 0);
-	char *old_entry = NULL;
-	char *pwd_entry = NULL;
+	char	*cwd;
+	char	*old_entry;
+	char	*pwd_entry;
 
+	cwd = getcwd(NULL, 0);
+	old_entry = NULL;
+	pwd_entry = NULL;
 	if (!cwd)
-		return;
+		return ;
 	old_entry = ft_strjoin("OLDPWD=", oldpwd);
 	if (!old_entry)
 		return (free(cwd), (void)0);

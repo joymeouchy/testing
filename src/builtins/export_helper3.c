@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:04:06 by root              #+#    #+#             */
-/*   Updated: 2025/06/11 22:06:02 by root             ###   ########.fr       */
+/*   Updated: 2025/06/19 09:47:58 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	update_env(char *arg, t_envp *env)
 	if (!equal)
 	{
 		key = strdup(arg);
-		if (!var_exists(key, env->environment) && !var_exists(key, env->export_only))
+		if (!var_exists(key, env->environment)
+			&& !var_exists(key, env->export_only))
 			add_new_var(key, &env->export_only);
 		free(key);
 		return ;

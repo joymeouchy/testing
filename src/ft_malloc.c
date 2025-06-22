@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/09 15:32:14 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/19 09:43:18 by jmeouchy         ###   ########.fr       */
+/*   Created: 2025/06/19 09:00:37 by jmeouchy          #+#    #+#             */
+/*   Updated: 2025/06/22 11:49:08 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "includes/minishell.h"
 
-int	env_getter(t_envp *env)
+void *ft_malloc(int size, t_gc_node *gc_node)
 {
-	int	i;
-
-	i = 0;
-	while (env->environment[i])
-	{
-		printf("%s\n", env->environment[i]);
-		i++;
-	}
-	return (0);
+    
+    return (malloc(size));
 }

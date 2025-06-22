@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shunting_yard.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 12:39:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/16 21:03:24 by root             ###   ########.fr       */
+/*   Updated: 2025/06/19 09:36:41 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,14 @@ void	push_stack_to_other(t_stack *src, t_stack *dst)
 t_stack	*malloc_and_init_stack(t_list *list)
 {
 	t_stack	*stack;
+
 	stack = malloc(sizeof(t_stack));
 	init_stack(list, stack);
 	return (stack);
 }
 
-static void	process_token(t_list_node *temp, t_stack *word, t_stack *cmd, t_stack *output)
+static void	process_token(t_list_node *temp,
+	t_stack *word, t_stack *cmd, t_stack *output)
 {
 	if (temp->token > 0)
 		push(temp->data, temp->token, temp->redir_arg, word);

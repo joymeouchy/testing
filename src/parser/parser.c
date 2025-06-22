@@ -3,42 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:42:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/16 20:54:48 by root             ###   ########.fr       */
+/*   Updated: 2025/06/22 11:39:33 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	double_quotes_to_node(char *input, t_list *list, int start, int *i)
+char	*ft_strjoin_free(char *s1, char *s2)
 {
-	(*i)++;
-	while (input[*i] != '"')
-		(*i)++;
-	// (*i)++;
-	while (input[*i] != '|' && input[*i] != '<' && input[*i] != '>'
-			&& input[*i] != ' ' && input[*i] != '\0')
-		(*i)++;
-	insert_at_end_list(list, ft_substr(input, start, *i - start));
-	start = *i;
-	*(i) -= 1;
-	return (start);
+	char	*joined;
+
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
+	joined = ft_strjoin(s1, s2);
+	free(s1);
+	free(s2);
+	return (joined);
 }
 
-int	single_quotes_to_node(char *input, t_list *list, int start, int *i)
+char *quoted_section(char *input, int *i, int *segment_start, char *quote)
 {
-	(*i)++;
-	while (input[*i] != 39)
+	char	*temp;
+	
+	*quote = input[(*i)++];
+	*segment_start = *i;
+	while (input[*i] && input[*i] != *quote)
 		(*i)++;
-	// (*i)++;
-	while (input[*i] != '|' && input[*i] != '<' && input[*i] != '>'
-			&& input[*i] != ' ' && input[*i] != '\0')
+	temp = ft_substr(input, *segment_start - 1, (*i - *segment_start) + 2);
+	if (input[*i] == *quote)
 		(*i)++;
-	insert_at_end_list(list, ft_substr(input, start, *i - start));
+	return (temp);
+}
+char *unquoted_section(char *input, int *i, int *segment_start)
+{
+	char	*temp;
+
+	*segment_start = *i;
+	while (input[*i] && input[*i] != ' ' && input[*i] != '|'
+		&& input[*i] != '<' && input[*i] != '>'
+		&& input[*i] != '"' && input[*i] != '\'')
+		(*i)++;
+	temp = ft_substr(input, *segment_start, *i - *segment_start);
+	return (temp);
+}
+
+int	quoted_word_to_node(char *input, t_list *list, int start, int *i)
+{
+	char	*result;
+	char	*temp;
+	int		segment_start;
+	char	quote;
+
+	result = ft_strdup("");
+	while (input[*i] && !(input[*i] == ' ' || input[*i] == '|'
+			|| input[*i] == '<' || input[*i] == '>'))
+	{
+		if (input[*i] == '"' || input[*i] == '\'')
+			temp = quoted_section(input, i, &segment_start, &quote);
+		else
+			temp = unquoted_section(input, i, &segment_start);
+		result = ft_strjoin_free(result, temp);
+	}
+	insert_at_end_list(list, result);
 	start = *i;
-	*(i) -= 1;
 	return (start);
 }
 
@@ -48,7 +82,7 @@ t_list	*input_to_list(char *input)
 	int		i;
 	int		start;
 
-	if (input == NULL)
+	if (!input)
 		return (NULL);
 	i = 0;
 	list = init_list();
@@ -57,16 +91,17 @@ t_list	*input_to_list(char *input)
 	{
 		start = split_symbols(input, list, start, &i);
 		start = split_redirections(input, list, start, &i);
-		if (input[i] == '"')
-			start = double_quotes_to_node(input, list, start, &i);
+		if (input[i] && input[i] != ' ' && input[i] != '|'
+			&& input[i] != '<' && input[i] != '>')
+		{
+			start = quoted_word_to_node(input, list, start, &i);
+			continue ;
+		}
 		if (input[i])
 			i++;
-		if (input[i] == 39)
-			start = single_quotes_to_node(input, list, start, &i);
 		if (input[i] == '\0' && i != start)
 			insert_at_end_list(list, ft_substr(input, start, i - start));
 	}
-	if (input)
-		free(input);
+	free(input);
 	return (list);
 }

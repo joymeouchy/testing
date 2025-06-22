@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 13:58:23 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/14 13:27:39 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/19 09:47:34 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int echo(t_tree_node *echo_node)
+int	echo(t_tree_node *echo_node)
 {
-	t_tree_node *arg;
-	int newline;
+	t_tree_node	*arg;
+	int			newline;
 
 	arg = echo_node->right;
 	newline = 1;

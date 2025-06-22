@@ -6,7 +6,7 @@
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:50:44 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/14 14:56:08 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/19 16:00:49 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	export(t_tree_node *root, t_envp *env)
 		}
 		else
 		{
-			printf("minishell: export: `%s': not a valid identifier\n", arg->data);
-			env->exit_code = 1;
+			printf("minishell: unset:'");
+			return (print_message_and_exit(arg->data, "': not a valid identifier", 1));
 		}
 		arg = arg->right;
 	}

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:51:42 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/14 13:26:31 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:02:31 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	read_from_pipe(t_tree_node *node, pid_t *read_pid, int pipefd[2], t_envp *env)
+void	read_from_pipe(t_tree_node *node,
+	pid_t *read_pid, int pipefd[2], t_envp *env)
 {
 	*read_pid = fork();
 	if (*read_pid == -1)
@@ -27,7 +28,8 @@ void	read_from_pipe(t_tree_node *node, pid_t *read_pid, int pipefd[2], t_envp *e
 	}
 }
 
-void	write_to_pipe(t_tree_node *node, pid_t *write_pid, int pipefd[2],t_envp *env)
+void	write_to_pipe(t_tree_node *node,
+	pid_t *write_pid, int pipefd[2], t_envp *env)
 {
 	*write_pid = fork();
 	if (*write_pid == -1)
@@ -68,6 +70,10 @@ int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env)
 
 	if (pipe(pipefd) == -1)
 		return (1);
+	if (!node->right || !node->left)
+		return (env->exit_code = print_message_and_exit(
+				"minishell: syntax error near unexpected token `newline'",
+				"", 2));
 	if (pipe_count == 1)
 	{
 		write_to_pipe(node->right, &write_pid, pipefd, env);

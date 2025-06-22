@@ -6,7 +6,7 @@
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 21:04:58 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/14 14:57:16 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:26:13 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int	exec_cmd(t_tree_node *node, t_envp *env)
 		execve(path, args, node->path->environment);
 		perror("execve failed");
 		env->exit_code = 1;
-		exit(EXIT_FAILURE);
 	}
 	else if (pid > 0)
 		waitpid(pid, &status, 0);

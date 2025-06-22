@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:57:06 by root              #+#    #+#             */
-/*   Updated: 2025/06/11 21:58:21 by root             ###   ########.fr       */
+/*   Updated: 2025/06/19 09:48:43 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	remove_var_by_key(char *arg, char ***env)
 	*env = new_env;
 	free(key);
 }
+
 int	find_key_index(char *key, int key_len, char **env)
 {
 	int	i;
@@ -42,8 +43,8 @@ int	find_key_index(char *key, int key_len, char **env)
 	i = 0;
 	while (env && env[i])
 	{
-		if ((ft_strncmp(env[i], key, key_len) == 0) &&
-			(env[i][key_len] == '\0' || env[i][key_len] == '='))
+		if ((ft_strncmp(env[i], key, key_len) == 0)
+			&& (env[i][key_len] == '\0' || env[i][key_len] == '='))
 			return (i);
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:16:36 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/16 21:28:58 by root             ###   ########.fr       */
+/*   Updated: 2025/06/19 10:03:16 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
-#include <fcntl.h>
-#include <limits.h>
-#include <signal.h>
-#include <sys/wait.h>  
+# include <fcntl.h>
+# include <limits.h>
+# include <signal.h>
+# include <sys/wait.h>  
 
 typedef enum e_tokens
 {
@@ -35,6 +35,21 @@ typedef enum e_tokens
 	WORD = 7,
 	TILDE = 8,
 }	e_tokens;
+
+typedef	enum e_expr_type
+{
+	STRING,
+	ARRAY2D,
+	LIST,
+	STACK,
+	TREE
+}e_expr_types;
+
+typedef struct s_gc_node{
+	enum e_expr_type expr_type;
+	void *ptr;
+	struct s_gc_node *next;
+} t_gc_node;
 
 typedef struct s_envp
 {

@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 13:23:04 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/16 21:08:56 by root             ###   ########.fr       */
+/*   Updated: 2025/06/19 09:36:18 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void tokenize_redirections(t_list_node *temp)
+void	tokenize_redirections(t_list_node *temp)
 {
 	if (temp->data[0] == '<' && temp->data[1] == '<')
-			temp->token = LEFT_D_REDIRECTION;
+		temp->token = LEFT_D_REDIRECTION;
 	else if (temp->data[0] == '>' && temp->data[1] == '>')
 		temp->token = RIGHT_D_REDIRECTION;
 	else if (temp->data[0] == '<')
@@ -24,7 +24,8 @@ void tokenize_redirections(t_list_node *temp)
 		temp->token = RIGHT_REDIRECTION;
 }
 
-static void	assign_token_type(t_list_node *node, t_envp *envp, int *flag_command)
+static void	assign_token_type(t_list_node *node,
+	t_envp *envp, int *flag_command)
 {
 	if (!node || !node->data)
 		return ;

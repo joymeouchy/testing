@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_redir_argument.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:26:02 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/16 21:29:58 by root             ###   ########.fr       */
+/*   Updated: 2025/06/19 09:33:42 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ void	add_arg_to_redir(t_list *list)
 			&& (index->token >= LEFT_REDIRECTION
 				&& index->token <= RIGHT_D_REDIRECTION))
 		{
-			if (index && index->next && index->next->next && index->next->token == PIPE && index->next->next->token >= WORD)
+			if (index && index->next && index->next->next
+				&& index->next->token == PIPE
+				&& index->next->next->token >= WORD)
 			{
 				index->redir_arg = index->next->next->data;
 				delete_node(list, index->next->next);
