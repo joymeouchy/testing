@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/22 11:40:32 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:17:25 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,12 @@ int	check_file_executable(t_envp *env, char *file)
 {
 	pid_t	pid;
 
-	if (ft_strncmp(file, "./", 2) != 0)
+	if (!(file[0] == '/' || ft_strncmp(file, "./", 2) == 0 || ft_strncmp(file, "../", 3) == 0))
 		return (-1);
+
 	if (access(file, X_OK) != 0)
 		return (-1);
+
 	pid = fork();
 	if (pid == 0)
 		exec_script_or_binary(file, env->environment, env->exit_code);
@@ -75,6 +77,12 @@ void	parsing_main(t_envp *env, char *input)
 	if (!list->head)
 		return ;
 	expand_list(list, env);
+	// t_list_node *temp = list->head;
+	// while (temp)
+	// {
+	// 	printf("TOKEN: [%s]\n", temp->data);
+	// 	temp = temp->next;
+	// }
 	tokenize(list, env); //reorganized this section needs retesting
 	add_arg_to_redir(list);
 	check_and_remove_quotes(list);

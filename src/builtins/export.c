@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:50:44 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/19 16:00:49 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:23:15 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,14 @@ static int	export_print_mode(t_envp *env)
 int	export(t_tree_node *root, t_envp *env)
 {
 	t_tree_node	*arg;
+	int			ret;
 
 	if (!root || !env)
 		return (1);
 	arg = root->right;
 	if (!arg)
 		return (export_print_mode(env));
+	ret = 0;
 	while (arg)
 	{
 		if (is_valid_key(arg->data))
@@ -49,10 +51,12 @@ int	export(t_tree_node *root, t_envp *env)
 		}
 		else
 		{
-			printf("minishell: unset:'");
-			return (print_message_and_exit(arg->data, "': not a valid identifier", 1));
+			printf("minishell: export: `%s': not a valid identifier\n", arg->data);
+			ret = 1;
 		}
 		arg = arg->right;
 	}
-	return (env->exit_code);
+	env->exit_code = ret;
+	return (ret);
 }
+
