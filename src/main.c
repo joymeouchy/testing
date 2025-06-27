@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:56:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/19 09:51:13 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/27 20:28:58 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,17 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	env->split_path = get_split_path(envp);
 	env->environment = dup_env(envp);
+	env->home = get_env_value("HOME", env->environment);
+	// printf("env->home %s\n", env->home);
 	update_shlvl(env);
+	// printf("env->home hii%s\n", env->home);
 	while (1)
 	{
+		if (g_sigint)
+		{
+			g_sigint = 0;
+			continue;
+		}
 		parsing_main(env, command_line_input());
 	}
 	// free_2darray(env->split_path);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/19 14:50:59 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/27 20:32:30 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,13 @@
 # include <stdbool.h>
 # include <errno.h>
 # include <signal.h>
-#include <errno.h>
+# include <errno.h>
 # include <sys/wait.h>
-#include <sys/stat.h>
-#include <dirent.h>
+# include <sys/stat.h>
+# include <dirent.h>
 # define _GNU_SOURCE
 
+extern volatile sig_atomic_t g_sigint;
 ///Builtins
 char *get_env_value(const char *name, char **env);
 char *handle_cd_home(t_envp *env);
@@ -126,5 +127,5 @@ void	update_shlvl(t_envp *env);
 int	main(int argc, char **argv, char **envp);
 //syntax error
 int print_message_and_exit(char *message, char *word, int exit_code);
-
+void signal_in_child(void);
 #endif

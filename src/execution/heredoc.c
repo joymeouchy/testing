@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/14 15:37:14 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/27 20:32:12 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+volatile sig_atomic_t g_sigint = 0;
 
 static int	open_heredoc_file(void)
 {
@@ -60,12 +62,23 @@ static void	handle_heredoc_child(t_tree_node *node, t_envp *env)
 void	heredoc(t_tree_node *node, t_envp *env)
 {
 	pid_t	pid;
+	int status;
 
 	pid = fork();
 	if (pid == -1)
 		return ;
 	if (pid == 0 && node->redir_arg != NULL)
+	{
+		signal_in_child();
 		handle_heredoc_child(node, env);
+	}
 	else
+	{
 		waitpid(pid, NULL, 0);
+		if(WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		{
+			write(1, "\n", 1);
+			g_sigint = 1;
+		}
+	}
 }

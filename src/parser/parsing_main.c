@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/24 10:17:25 by root             ###   ########.fr       */
+/*   Updated: 2025/06/27 20:34:11 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,7 @@ void	parsing_main(t_envp *env, char *input)
 	if (!list->head)
 		return ;
 	expand_list(list, env);
-	// t_list_node *temp = list->head;
-	// while (temp)
-	// {
-	// 	printf("TOKEN: [%s]\n", temp->data);
-	// 	temp = temp->next;
-	// }
-	tokenize(list, env); //reorganized this section needs retesting
+	tokenize(list, env);
 	add_arg_to_redir(list);
 	check_and_remove_quotes(list);
 	// print_list(list);
