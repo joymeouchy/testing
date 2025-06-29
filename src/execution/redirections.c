@@ -6,7 +6,7 @@
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/19 09:41:03 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/30 00:15:13 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,10 @@ void	redir_output_append(t_tree_node *node, t_envp *env)
 		waitpid(pid, NULL, 0);
 }
 
+
 int	handle_recirections(t_tree_node *node, t_envp *env)
 {
-	if (node->right && node->right->token != BUILT_IN
-		&& node->right->token != COMMAND)
+	if (node->right && !(node->right->token >= 1 || node->right->token <=6))
 	{
 		return (env->exit_code = print_message_and_exit(
 				"minishell: syntax error near unexpected token `newline'",
@@ -108,7 +108,7 @@ int	handle_recirections(t_tree_node *node, t_envp *env)
 		return (env->exit_code = print_message_and_exit(
 				"minishell: syntax error near unexpected token `newline'",
 				"", 2));
-	else if (node->token == LEFT_REDIRECTION)
+	 if (node->token == LEFT_REDIRECTION)
 		redir_input(node, env);
 	else if (node->token == RIGHT_REDIRECTION)
 		redir_output(node, env);

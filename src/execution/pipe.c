@@ -6,7 +6,7 @@
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:51:42 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/19 15:02:31 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/30 00:26:21 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env)
 
 	if (pipe(pipefd) == -1)
 		return (1);
-	if (!node->right || !node->left)
+	if (!node->right && !node->left)
 		return (env->exit_code = print_message_and_exit(
 				"minishell: syntax error near unexpected token `newline'",
 				"", 2));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:16:36 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/27 19:26:45 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/29 21:02:26 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ typedef struct s_tree_node
 {
 	struct s_tree_node	*left;
 	struct s_tree_node	*right;
+	struct s_tree_node	*root;
 	char				*redir_arg;
 	t_envp				*path;
-	int					fd[2];
 	char				*data;
 	enum e_tokens		token;
 	

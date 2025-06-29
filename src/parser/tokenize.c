@@ -6,7 +6,7 @@
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 13:23:04 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/19 09:36:18 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/29 21:35:00 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	assign_token_type(t_list_node *node,
 		node->token = BUILT_IN;
 		*flag_command = true;
 	}
-	else if (!(*flag_command) && is_command(node->data, envp))
+	else if (!(*flag_command) && ft_strchr(node->data, '$') && is_command(node->data, envp))
 	{
 		node->token = COMMAND;
 		*flag_command = true;
