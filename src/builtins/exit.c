@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:51:39 by root              #+#    #+#             */
-/*   Updated: 2025/06/27 20:14:04 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/30 20:08:45 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,21 @@ int	safe_atoll(const char *str, long long *out)
 	}
 	else if (str[i] == '+')
 		i++;
-	while (str[i])
+	if (ft_strcmp(str, "-9223372036854775808") == 0)
+		*out = LLONG_MIN;
+	else
 	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		if (result > (9223372036854775807LL - (str[i] - '0')) / 10)
-			return (0);
-		result = result * 10 + (str[i] - '0');
-		i++;
+		while (str[i])
+		{
+			if (!ft_isdigit(str[i]))
+				return (0);
+			if (result > (9223372036854775807LL - (str[i] - '0')) / 10)
+				return (0);
+			result = result * 10 + (str[i] - '0');
+			i++;
+		}
+		*out = result * sign;
 	}
-	*out = result * sign;
 	return (1);
 }
 

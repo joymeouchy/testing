@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/27 20:32:12 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:49:47 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env)
 	while (1)
 	{
 		line = readline("> ");
-		if (ft_strcmp(line, delimiter) == 0)
+		if (ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
 		{
 			free(line);
 			break ;
 		}
-		if (quotes_in_delimiter == 1)
+		if (quotes_in_delimiter == 0) //TODO WHY
 			line = expand(line, env->environment);
 		write(temp_fd, line, ft_strlen(line));
 		write(temp_fd, "\n", 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:57:06 by root              #+#    #+#             */
-/*   Updated: 2025/06/19 09:48:43 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/30 19:43:56 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	is_valid_key(const char *str)
 	int	i;
 
 	i = 0;
-	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
+	if (!str || (!ft_isalpha(str[0]) && str[0] != '_' ))
 		return (0);
 	while (str[i] && str[i] != '=')
 	{

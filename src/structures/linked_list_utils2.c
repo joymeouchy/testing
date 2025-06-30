@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 06:42:48 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/19 20:49:33 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/30 19:01:52 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	print_list(t_list *list)
 	while (temp)
 	{
 		if (temp->data)
-			printf("index %d node:%s token:%d redirection: %s\n",
+			printf("index %d node:'%s' token:%d redirection: %s\n",
 				temp->index, temp->data, temp->token, temp->redir_arg);
 		else if (temp->data == NULL)
 			printf("index %d node:NULL\n", temp->index);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:30:37 by root              #+#    #+#             */
-/*   Updated: 2025/06/19 09:49:57 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/30 20:14:29 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int	cd(t_tree_node *root, t_envp *env)
 
 	if (root && root->right)
 		arg = root->right->data;
+	if(root->right->right)
+		return (env->exit_code = print_message_and_exit("cd:", "too many arguments", 1));
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 		return (1);
@@ -79,5 +81,5 @@ int	cd(t_tree_node *root, t_envp *env)
 	update_pwd_vars(env, oldpwd);
 	free(target);
 	free(oldpwd);
-	return (0);
+	return (env->exit_code);
 }

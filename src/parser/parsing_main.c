@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/30 00:05:16 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/30 19:57:32 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ int	check_file_executable(t_envp *env, char *file)
 	pid_t	pid;
 
 	if (!(file[0] == '/' || ft_strncmp(file, "./", 2) == 0 || ft_strncmp(file, "../", 3) == 0))
-		return (-1);
-
+	{
+		return (env->exit_code = print_message_and_exit(file, ":command not found", 127));
+	}
 	if (access(file, X_OK) != 0)
 		return (-1);
-
 	pid = fork();
 	if (pid == 0)
 		exec_script_or_binary(file, env->environment, env->exit_code);
@@ -78,20 +78,20 @@ void	parsing_main(t_envp *env, char *input)
 		return ;
 	expand_list(list, env);
 	tokenize(list, env);
+	// print_list(list);
 	add_arg_to_redir(list);
 	check_and_remove_quotes(list);
-	// print_list(list);
-	tokenize(list, env); 
+	// tokenize(list, env); 
 	// print_list(list);
 	stack = shunting_yard(list);
 	// print_stack(stack);
 	tree = stack_to_tree(stack, env);
-	printf("tree:\n");
-	print_inorder(tree->root);
+	// printf("tree:\n");
+	// print_inorder(tree->root);
 	if (tree->root->token >= WORD)
 	{
 		if (check_file_executable(env, tree->root->data) == -1)
-			env->exit_code = print_message_and_exit(tree->root->data, ":command not found", 127);
+			env->exit_code = print_message_and_exit(tree->root->data, ":no such file or directory", 127);
 	}
 	env->exit_code = execution(tree->root, env);
 	if (list)

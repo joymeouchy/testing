@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/30 00:15:13 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/06/30 20:27:20 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env)
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
 	{
+		printf("no such file"); //TODO write a better message
 		env->exit_code = 2;
 		exit(2);
 	}
