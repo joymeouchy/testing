@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/27 20:32:30 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:22:52 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char	*extract_variable_name(char *str);
 char	*command_line_input(void);
 char	*replace_variable(char *str, char *var_name,
 	char *replacement, int dollar_pos);
-    char	*expand(char *str, char **envp);
+char	*expand(char *str, char **envp);
 char	**get_split_path(char **envp);
 char	*append_char_to_string(char *src, char c);
 bool	check_if_dollar_to_print(char *str);

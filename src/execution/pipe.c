@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:51:42 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/30 00:26:21 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/02 20:49:23 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env)
 	{
 		write_to_pipe(node->right, &write_pid, pipefd, env);
 		read_from_pipe(node->left, &read_pid, pipefd, env);
+
 	}
 	else
 	{
@@ -90,3 +91,4 @@ int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env)
 	waitpid(read_pid, NULL, 0);
 	return (0);
 }
+

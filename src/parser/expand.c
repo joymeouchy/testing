@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 19:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/06/30 19:04:16 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/02 19:29:20 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ static char	*process_expansion(char *str, char **envp)
 	dollar_pos = find_dollar(str);
 	while (dollar_pos != -1)
 	{
+		if (!ft_isalpha(str[dollar_pos + 1]) && str[dollar_pos + 1] != '_'
+	&& str[dollar_pos + 1] != '?' && !(str[dollar_pos + 1] >= '0' && str[dollar_pos + 1] <= '9'))
+		{
+			// Not a valid var name — skip `$` and move on
+			dollar_pos = find_dollar(&str[dollar_pos + 1]);
+			continue;
+		}
 		var_name = extract_variable_name(&str[dollar_pos]);
 		if (!var_name)
 			return (free(str), NULL);
@@ -88,3 +95,4 @@ void	expand_list(t_list *list, t_envp *env)
 		current = current->next;
 	}
 }
+

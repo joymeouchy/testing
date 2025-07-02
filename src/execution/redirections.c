@@ -6,12 +6,34 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/30 20:27:20 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/02 20:02:21 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env)
+// {
+// 	int	fd;
+
+// 	fd = open(file_name, O_RDONLY);
+// 	if (fd == -1)
+// 	{
+// 		printf("no such file"); //TODO write a better message
+// 		env->exit_code = 2;
+// 		exit(2);
+// 	}
+// 	if (dup2(fd, STDIN_FILENO) == -1)
+// 	{
+// 		env->exit_code = 2;
+// 		close(fd);
+// 		exit(2);
+// 	}
+// 	close(fd);
+// 	unlink("heredoc_temp.txt");
+// 	execution(node->right, env);
+// 	exit(1);
+// }
 void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env)
 {
 	int	fd;
@@ -19,43 +41,76 @@ void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env)
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
 	{
-		printf("no such file"); //TODO write a better message
-		env->exit_code = 2;
-		exit(2);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(file_name, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putendl_fd(strerror(errno), 2);
+		env->exit_code = 1;
+		exit(1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
-		env->exit_code = 2;
+		ft_putstr_fd("minishell: dup2 failed: ", 2);
+		ft_putendl_fd(strerror(errno), 2);
 		close(fd);
-		exit(2);
+		env->exit_code = 1;
+		exit(1);
 	}
 	close(fd);
 	unlink("heredoc_temp.txt");
 	execution(node->right, env);
-	exit(1);
+	exit(env->exit_code);
 }
 
+// static void	redirect_stdout_and_exec(t_tree_node *node,
+// 	char *file_name, int open_flag, t_envp *env)
+// {
+// 	int	fd;
+
+// 	fd = open(file_name, O_WRONLY | O_CREAT | open_flag, 0777);
+// 	if (fd == -1)
+// 	{
+// 		env->exit_code = 2;
+// 		exit(2);
+// 	}
+// 	if (dup2(fd, STDOUT_FILENO) == -1)
+// 	{
+// 		perror("Error redirecting stdout to file");
+// 		close(fd);
+// 		exit(1);
+// 	}
+// 	close(fd);
+// 	execution(node->right, env);
+// 	exit(1);
+// }
 static void	redirect_stdout_and_exec(t_tree_node *node,
 	char *file_name, int open_flag, t_envp *env)
 {
 	int	fd;
 
-	fd = open(file_name, O_WRONLY | O_CREAT | open_flag, 0777);
+	fd = open(file_name, O_WRONLY | O_CREAT | open_flag, 0644);
 	if (fd == -1)
 	{
-		env->exit_code = 2;
-		exit(2);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(file_name, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putendl_fd(strerror(errno), 2);
+		env->exit_code = 1;
+		exit(1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
-		perror("Error redirecting stdout to file");
+		ft_putstr_fd("minishell: dup2 failed: ", 2);
+		ft_putendl_fd(strerror(errno), 2);
 		close(fd);
+		env->exit_code = 1;
 		exit(1);
 	}
 	close(fd);
 	execution(node->right, env);
-	exit(1);
+	exit(env->exit_code);
 }
+
 
 void	redir_input(t_tree_node *node, t_envp *env)
 {
