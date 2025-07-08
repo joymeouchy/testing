@@ -6,7 +6,7 @@
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:16:36 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/29 21:02:26 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/08 09:20:32 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,4 +143,6 @@ void	swap_redir_to_bottom(t_tree_node **node_ptr);
 void	swap_redir_in_tree(t_tree_node *node);
 bool	should_swap(t_tree_node *node);
 t_tree	*stack_to_tree(t_stack *stack, t_envp *environment);
+
+void	check_and_remove_empty(t_list *list);
 #endif

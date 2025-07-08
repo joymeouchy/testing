@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 13:23:04 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/30 19:08:12 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/08 09:09:53 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	assign_token_type(t_list_node *node,
 		node->token = BUILT_IN;
 		*flag_command = true;
 	}
-	else if (!(*flag_command) && is_command(node->data, envp))
+	else if (!(*flag_command) && ft_strcmp(node->data, "") && is_command(node->data, envp))
 	{
 		// printf("hiiiiiii\n");
 		node->token = COMMAND;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samira <samira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 19:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/07/03 22:51:57 by samira           ###   ########.fr       */
+/*   Updated: 2025/07/08 09:13:24 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static char	*process_expansion(char *str, char **envp)
 		if (!ft_isalpha(str[dollar_pos + 1]) && str[dollar_pos + 1] != '_'
 	&& str[dollar_pos + 1] != '?' && !(str[dollar_pos + 1] >= '0' && str[dollar_pos + 1] <= '9'))
 		{
-			// Not a valid var name — skip `$` and move on
 			dollar_pos = find_dollar(&str[dollar_pos + 1]);
 			continue;
 		}
@@ -53,7 +52,7 @@ static char	*process_expansion(char *str, char **envp)
 			return (free(str), NULL);
 		replacement = ft_getenv(envp, var_name);
 		if (!replacement)
-			replacement = "";
+			replacement = ft_calloc(1, 1);
 		expanded = replace_variable(str, var_name, replacement, dollar_pos);
 		free(str);
 		str = expanded;

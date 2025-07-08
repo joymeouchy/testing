@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 06:42:48 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/30 19:01:52 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/08 09:26:35 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/structures.h"
+#include "../../includes/minishell.h"
 
 void	print_list(t_list *list)
 {
@@ -93,4 +93,19 @@ void	delete_node(t_list *list, t_list_node *node)
 		return ;
 	current->next = node->next;
 	free(node);
+}
+
+void	check_and_remove_empty(t_list *list)
+{
+	t_list_node	*temp;
+	t_list_node	*next;
+
+	temp = list->head;
+	while (temp)
+	{
+		next = temp->next;
+		if (ft_strcmp(temp->data, "") == 0)
+			delete_node(list, temp);
+		temp = next;
+	}
 }

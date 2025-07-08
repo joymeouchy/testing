@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/02 19:51:47 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/08 09:36:21 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,13 @@ int	check_file_executable(t_envp *env, char *file)
 {
 	pid_t	pid;
 
+	if (!file[0])
+		return (1);
 	if (!(file[0] == '/' || ft_strncmp(file, "./", 2) == 0 || ft_strncmp(file, "../", 3) == 0))
 	{
 		return (env->exit_code = print_message_and_exit(file, ":command not found", 127));
 	}
-	if (access(file, X_OK) != 0)
+	if (access(file, X_OK | R_OK) == -1)
 		return (-1);
 	pid = fork();
 	if (pid == 0)
@@ -81,11 +83,18 @@ void	parsing_main(t_envp *env, char *input)
 	// print_list(list);
 	add_arg_to_redir(list);
 	check_and_remove_quotes(list);
+	check_and_remove_empty(list);
+	if(!list)
+		return ; //something exit code and free
 	// tokenize(list, env); 
 	// print_list(list);
 	stack = shunting_yard(list);
+	if(!stack)
+		return ;
 	// print_stack(stack);
 	tree = stack_to_tree(stack, env);
+	if (!tree)
+		return ; //something exit code and free
 	// printf("tree:\n");
 	// print_inorder(tree->root);
 	if (tree->root->token >= WORD)

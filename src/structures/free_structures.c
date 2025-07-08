@@ -6,7 +6,7 @@
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 08:38:44 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/29 21:03:00 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/05 22:33:50 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	free_2darray(char **array)
 	free(array);
 }
 
-void free_tree_node(t_tree_node *node)
+void	free_tree_node(t_tree_node *node)
 {
 	if (!node)
 		return;
@@ -99,14 +99,14 @@ void free_tree_node(t_tree_node *node)
 	free(node);
 }
 
-void free_tree(t_tree_node *root)
+void	free_tree(t_tree_node *root)
 {
 	if (!root)
 		return;
 	free_tree_node(root);
 }
 
-void free_env_struct(t_envp *env)
+void	free_env_struct(t_envp *env)
 {
 	free_2darray(env->split_path);
 	free_2darray(env->split_path);

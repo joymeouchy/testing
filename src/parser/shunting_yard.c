@@ -6,7 +6,7 @@
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 12:39:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/19 09:36:41 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/08 09:29:17 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ t_stack	*shunting_yard(t_list *list)
 	t_stack		*word_stack;
 	t_list_node	*temp;
 
+	if (!list || !list->head)
+		return (NULL);
 	temp = list->head;
 	stack = malloc_and_init_stack(list);
 	cmd_stack = malloc_and_init_stack(list);

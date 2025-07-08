@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 12:05:32 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/22 12:04:41 by root             ###   ########.fr       */
+/*   Updated: 2025/07/08 09:30:05 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ t_tree	*stack_to_tree(t_stack *stack, t_envp *environment)
 {
 	t_tree	*tree;
 
+	if (!stack || stack->top == -1)
+		return (NULL);
 	tree = init_tree();
 	tree->root = build_tree(stack, environment);
 	swap_redir_in_tree(tree->root);

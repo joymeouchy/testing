@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/30 18:49:47 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/08 09:38:50 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env)
 			free(line);
 			break ;
 		}
-		if (quotes_in_delimiter == 0) //TODO WHY
+		if (quotes_in_delimiter == 0) //TODO WHY 3am totbosh l dene
 			line = expand(line, env->environment);
 		write(temp_fd, line, ft_strlen(line));
 		write(temp_fd, "\n", 1);
