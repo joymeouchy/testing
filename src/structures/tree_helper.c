@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 21:17:46 by root              #+#    #+#             */
-/*   Updated: 2025/07/12 00:09:37 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/14 20:16:03 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ t_tree_node	*build_tree(t_stack *stack, t_envp *environment)
 	}
 	if ((new_node->token >= LEFT_REDIRECTION
 			&& new_node->token <= RIGHT_D_REDIRECTION)
-		&& stack->stack[stack->top].token != PIPE)
+			&& stack->stack[stack->top].token != PIPE
+			&& stack->stack[stack->top].token != BUILT_IN
+			&& stack->stack[stack->top].token != COMMAND)
 		new_node->right = build_tree(stack, environment);
 	if (new_node->token == WORD && stack->stack[stack->top].token >= 3)
 		new_node->right = build_tree(stack, environment);

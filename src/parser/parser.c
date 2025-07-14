@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:42:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/14 19:49:34 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/14 20:32:49 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_list	*input_to_list(char *input)
 	{
 		start = split_symbols(input, list, start, &i);
 		start = split_redirections(input, list, start, &i);
-		if (input[i] && is_space(input[i]) && input[i] != '|'
+		if (input[i] && !is_space(input[i]) && input[i] != '|'
 			&& input[i] != '<' && input[i] != '>')
 		{
 			start = quoted_word_to_node(input, list, start, &i);
