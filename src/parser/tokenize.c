@@ -6,7 +6,7 @@
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 13:23:04 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/08 09:09:53 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/11 23:41:59 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static void	assign_token_type(t_list_node *node,
 	}
 	else if (!(*flag_command) && ft_strcmp(node->data, "") && is_command(node->data, envp))
 	{
-		// printf("hiiiiiii\n");
 		node->token = COMMAND;
 		*flag_command = true;
 	}

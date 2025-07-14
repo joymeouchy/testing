@@ -6,7 +6,7 @@
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/08 09:36:21 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/13 12:41:44 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,17 @@ void	parsing_main(t_envp *env, char *input)
 	check_and_remove_empty(list);
 	if(!list)
 		return ; //something exit code and free
-	// tokenize(list, env); 
+	tokenize(list, env); 
 	// print_list(list);
 	stack = shunting_yard(list);
 	if(!stack)
 		return ;
-	// print_stack(stack);
+	print_stack(stack);
 	tree = stack_to_tree(stack, env);
 	if (!tree)
 		return ; //something exit code and free
-	// printf("tree:\n");
-	// print_inorder(tree->root);
+	printf("\ntree:\n");
+	print_inorder(tree->root);
 	if (tree->root->token >= WORD)
 	{
 		if (check_file_executable(env, tree->root->data) == -1)

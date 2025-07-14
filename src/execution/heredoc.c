@@ -6,7 +6,7 @@
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/08 09:38:50 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/11 23:42:37 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,18 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env)
 	while (1)
 	{
 		line = readline("> ");
-		if (ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
+		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
 			break ;
 		}
-		if (quotes_in_delimiter == 0) //TODO WHY 3am totbosh l dene
+		if (quotes_in_delimiter == 0)
 			line = expand(line, env->environment);
+		if (!line)
+		{
+			printf("expand returned NULL\n");
+			break;
+		}
 		write(temp_fd, line, ft_strlen(line));
 		write(temp_fd, "\n", 1);
 		free(line);

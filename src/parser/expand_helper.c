@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/07/02 19:29:29 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/11 23:41:13 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,15 @@ bool	check_if_dollar_to_print(char *str)
 
 	i = 0;
 	in_double_quote = 0;
-	while (str[i] != '$')
+	while (str[i] && str[i] != '$')
 	{
 		if (str[i] == '"' )
 			in_double_quote = !in_double_quote;
 		i++;
 	}
-	i += 1;
+	if (str[i] == '\0')
+		return (true);
+	i++;
 	if (str[i] == '\0'
 		|| ((ft_isalnum(str[i]) == 0 || str[i] == '0' || str[i] == '$')
 			&& in_double_quote == 0))
