@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samira <samira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/03 22:52:12 by samira           ###   ########.fr       */
+/*   Updated: 2025/07/14 19:45:05 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,4 +128,5 @@ int	main(int argc, char **argv, char **envp);
 //syntax error
 int print_message_and_exit(char *message, char *word, int exit_code);
 void signal_in_child(void);
+bool	is_space(char c);
 #endif
