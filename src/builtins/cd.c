@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:30:37 by root              #+#    #+#             */
-/*   Updated: 2025/06/30 20:14:29 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/15 19:54:34 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	is_valid_directory(const char *path)
 	return (1);
 }
 
-static void	update_pwd_vars(t_envp *env, const char *oldpwd)
+static void	update_pwd_vars(t_envp *env, const char *oldpwd, t_gc_list *grbg_collector)
 {
 	char	*cwd;
 	char	*old_entry;
@@ -48,14 +48,14 @@ static void	update_pwd_vars(t_envp *env, const char *oldpwd)
 	pwd_entry = ft_strjoin("PWD=", cwd);
 	if (!pwd_entry)
 		return (free(cwd), free(old_entry), (void)0);
-	update_env(old_entry, env);
-	update_env(pwd_entry, env);
+	update_env(old_entry, env, grbg_collector);
+	update_env(pwd_entry, env, grbg_collector);
 	free(cwd);
 	free(old_entry);
 	free(pwd_entry);
 }
 
-int	cd(t_tree_node *root, t_envp *env)
+int	cd(t_tree_node *root, t_envp *env, t_gc_list *grbg_collector)
 {
 	char		*target;
 	const char	*arg = NULL;
@@ -78,7 +78,7 @@ int	cd(t_tree_node *root, t_envp *env)
 		free(oldpwd);
 		return (1);
 	}
-	update_pwd_vars(env, oldpwd);
+	update_pwd_vars(env, oldpwd, grbg_collector);
 	free(target);
 	free(oldpwd);
 	return (env->exit_code);

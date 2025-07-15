@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:51:42 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/02 20:49:23 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/15 19:58:38 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 void	read_from_pipe(t_tree_node *node,
-	pid_t *read_pid, int pipefd[2], t_envp *env)
+	pid_t *read_pid, int pipefd[2], t_envp *env, t_gc_list *grbg_collector)
 {
 	*read_pid = fork();
 	if (*read_pid == -1)
@@ -23,13 +23,13 @@ void	read_from_pipe(t_tree_node *node,
 		dup2(pipefd[0], 0);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		execution(node, env);
+		execution(node, env, grbg_collector);
 		exit(0);
 	}
 }
 
 void	write_to_pipe(t_tree_node *node,
-	pid_t *write_pid, int pipefd[2], t_envp *env)
+	pid_t *write_pid, int pipefd[2], t_envp *env, t_gc_list *grbg_collector)
 {
 	*write_pid = fork();
 	if (*write_pid == -1)
@@ -39,7 +39,7 @@ void	write_to_pipe(t_tree_node *node,
 		dup2(pipefd[1], 1);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		execution(node, env);
+		execution(node, env, grbg_collector);
 		exit(0);
 	}
 }
@@ -62,7 +62,7 @@ int	count_pipes(t_tree_node *node)
 	return (total);
 }
 
-int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env)
+int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env, t_gc_list *grbg_collector)
 {
 	int		pipefd[2];
 	pid_t	read_pid;
@@ -76,14 +76,14 @@ int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env)
 				"", 2));
 	if (pipe_count == 1)
 	{
-		write_to_pipe(node->right, &write_pid, pipefd, env);
-		read_from_pipe(node->left, &read_pid, pipefd, env);
+		write_to_pipe(node->right, &write_pid, pipefd, env, grbg_collector);
+		read_from_pipe(node->left, &read_pid, pipefd, env, grbg_collector);
 
 	}
 	else
 	{
-		write_to_pipe(node->left, &write_pid, pipefd, env);
-		read_from_pipe(node->right, &read_pid, pipefd, env);
+		write_to_pipe(node->left, &write_pid, pipefd, env, grbg_collector);
+		read_from_pipe(node->right, &read_pid, pipefd, env, grbg_collector);
 	}
 	close(pipefd[0]);
 	close(pipefd[1]);

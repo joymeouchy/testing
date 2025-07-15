@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/07 00:11:11 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:04:13 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 // 	execution(node->right, env);
 // 	exit(1);
 // }
-void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env)
+void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env, t_gc_list *grbg_collector)
 {
 	int	fd;
 
@@ -58,7 +58,7 @@ void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env)
 	}
 	close(fd);
 	unlink("heredoc_temp.txt");
-	execution(node->right, env);
+	execution(node->right, env, grbg_collector);
 	exit(env->exit_code);
 }
 
@@ -84,7 +84,7 @@ void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env)
 // 	exit(1);
 // }
 static void	redirect_stdout_and_exec(t_tree_node *node,
-	char *file_name, int open_flag, t_envp *env)
+	char *file_name, int open_flag, t_envp *env, t_gc_list *grbg_collector)
 {
 	int	fd;
 
@@ -107,12 +107,12 @@ static void	redirect_stdout_and_exec(t_tree_node *node,
 		exit(1);
 	}
 	close(fd);
-	execution(node->right, env);
+	execution(node->right, env, grbg_collector);
 	exit(env->exit_code);
 }
 
 
-void	redir_input(t_tree_node *node, t_envp *env)
+void	redir_input(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 {
 	pid_t	pid;
 
@@ -120,12 +120,12 @@ void	redir_input(t_tree_node *node, t_envp *env)
 	if (pid == -1)
 		return ;
 	if (pid == 0)
-		redirect_stdin_and_exec(node, node->redir_arg, env);
+		redirect_stdin_and_exec(node, node->redir_arg, env, grbg_collector);
 	else if (pid > 0)
 		waitpid(pid, NULL, 0);
 }
 
-void	redir_output(t_tree_node *node, t_envp *env)
+void	redir_output(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 {
 	pid_t	pid;
 
@@ -133,12 +133,12 @@ void	redir_output(t_tree_node *node, t_envp *env)
 	if (pid == -1)
 		return ;
 	if (pid == 0)
-		redirect_stdout_and_exec(node, node->redir_arg, O_TRUNC, env);
+		redirect_stdout_and_exec(node, node->redir_arg, O_TRUNC, env, grbg_collector);
 	else if (pid > 0)
 		waitpid(pid, NULL, 0);
 }
 
-void	redir_output_append(t_tree_node *node, t_envp *env)
+void	redir_output_append(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 {
 	pid_t	pid;
 
@@ -146,13 +146,13 @@ void	redir_output_append(t_tree_node *node, t_envp *env)
 	if (pid == -1)
 		return ;
 	if (pid == 0)
-		redirect_stdout_and_exec(node, node->redir_arg, O_APPEND, env);
+		redirect_stdout_and_exec(node, node->redir_arg, O_APPEND, env, grbg_collector);
 	else if (pid > 0)
 		waitpid(pid, NULL, 0);
 }
 
 
-int	handle_recirections(t_tree_node *node, t_envp *env)
+int	handle_recirections(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 {
 	if (node->right && !(node->right->token >= 1 || node->right->token <=6))
 	{
@@ -165,12 +165,12 @@ int	handle_recirections(t_tree_node *node, t_envp *env)
 				"minishell: syntax error near unexpected token `newline'",
 				"", 2));
 	 if (node->token == LEFT_REDIRECTION)
-		redir_input(node, env);
+		redir_input(node, env, grbg_collector);
 	else if (node->token == RIGHT_REDIRECTION)
-		redir_output(node, env);
+		redir_output(node, env, grbg_collector);
 	else if (node->token == RIGHT_D_REDIRECTION)
-		redir_output_append(node, env);
+		redir_output_append(node, env, grbg_collector);
 	else if (node->token == LEFT_D_REDIRECTION)
-		heredoc(node, env);
+		heredoc(node, env, grbg_collector);
 	return (0);
 }

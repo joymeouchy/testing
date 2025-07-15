@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:16:36 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/08 09:20:32 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/15 19:55:55 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,16 @@ typedef enum e_tokens
 	TILDE = 8,
 }	e_tokens;
 
-typedef	enum e_expr_type
+typedef struct s_gc_node
 {
-	STRING,
-	ARRAY2D,
-	LIST,
-	STACK,
-	TREE
-}e_expr_types;
-
-typedef struct s_gc_node{
-	enum e_expr_type expr_type;
-	void *ptr;
-	struct s_gc_node *next;
+    void *ptr;
+    struct s_gc_node *next;
 } t_gc_node;
+
+typedef struct s_gc_list
+{
+    t_gc_node   *head;
+} t_gc_list;
 
 typedef struct s_envp
 {
@@ -116,11 +112,12 @@ void	free_list(t_list *list);
 void	free_stack(t_stack *stack);
 void	free_2darray(char **array);
 //linked_list_utils
-void	insert_at_end_list(t_list *list, char *new_node_data);
-void	insert_at_beginning_list(t_list *list, char *new_node_data);
-void	insert_at_middle_list(t_list *list, char *new_node_data, int index);
-t_list	*init_list(void);
-t_list_node	*create_list_node(char *data);
+void	insert_at_end_list(t_list *list, char *new_node_data, t_gc_list *grgb_collector);
+void	insert_at_beginning_list(t_list *list, char *new_node_data, t_gc_list *grgb_collector);
+void	insert_at_middle_list(t_list *list, char *new_node_data, int index, t_gc_list *grgb_collector);
+t_list	*init_list(t_gc_list *grbg_collector);
+t_list_node	*create_list_node(char *data, t_gc_list *grgb_collector);
+
 //linked_list_utils_2
 void	print_list(t_list *list);
 void	update_list_index(t_list_node *temp);
@@ -129,20 +126,20 @@ t_list_node	*get_last_node(t_list *list);
 t_list_node	*get_first_node(t_list *list);
 t_list_node	*get_node_at_index(t_list *list, int index);
 //stack_utils
-void	init_stack(t_list *list, t_stack *stack);
+void	init_stack(t_list *list, t_stack *stack, t_gc_list *grgb_collector);
 void	push(char *data, e_tokens token, char *redir_args, t_stack *stack);
 void	pop(t_stack *stack);
 void	print_stack(t_stack *stack);
 //tree_helper
 void	print_inorder(t_tree_node *node);
-t_tree	*init_tree(void);
-t_tree_node	*create_tree_node(t_stack *stack, t_envp *environment);
-t_tree_node	*build_tree(t_stack *stack, t_envp *environment);
+t_tree	*init_tree(t_gc_list *grgb_collector);
+t_tree_node	*create_tree_node(t_stack *stack, t_envp *environment, t_gc_list *grgb_collector);
+t_tree_node	*build_tree(t_stack *stack, t_envp *environment, t_gc_list *grgb_collector);
 //tree_utils
 void	swap_redir_to_bottom(t_tree_node **node_ptr);
 void	swap_redir_in_tree(t_tree_node *node);
 bool	should_swap(t_tree_node *node);
-t_tree	*stack_to_tree(t_stack *stack, t_envp *environment);
+t_tree	*stack_to_tree(t_stack *stack, t_envp *environment, t_gc_list *grbg_collector);
 
 void	check_and_remove_empty(t_list *list);
 #endif

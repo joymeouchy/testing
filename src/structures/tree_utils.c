@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 12:05:32 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/11 23:57:41 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/15 19:55:48 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ void	swap_redir_in_tree(t_tree_node *node)
 	swap_redir_to_bottom(&node);
 }
 
-t_tree	*stack_to_tree(t_stack *stack, t_envp *environment)
+t_tree	*stack_to_tree(t_stack *stack, t_envp *environment, t_gc_list *grbg_collector)
 {
 	t_tree	*tree;
 
 	if (!stack || stack->top == -1)
 		return (NULL);
-	tree = init_tree();
-	tree->root = build_tree(stack, environment);
+	tree = init_tree(grbg_collector);
+	tree->root = build_tree(stack, environment, grbg_collector);
 	swap_redir_in_tree(tree->root);
 	return (tree);
 }

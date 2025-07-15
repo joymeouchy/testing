@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/11 23:42:37 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:19:18 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env)
 	}
 }
 
-static void	handle_heredoc_child(t_tree_node *node, t_envp *env)
+static void	handle_heredoc_child(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 {
 	int		temp_fd;
 
@@ -61,10 +61,10 @@ static void	handle_heredoc_child(t_tree_node *node, t_envp *env)
 		exit(1);
 	write_heredoc_to_file(temp_fd, node->redir_arg, env);
 	close(temp_fd);
-	redirect_stdin_and_exec(node, "heredoc_temp.txt", env);
+	redirect_stdin_and_exec(node, "heredoc_temp.txt", env, grbg_collector);
 }
 
-void	heredoc(t_tree_node *node, t_envp *env)
+void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 {
 	pid_t	pid;
 	int status;
@@ -75,7 +75,7 @@ void	heredoc(t_tree_node *node, t_envp *env)
 	if (pid == 0 && node->redir_arg != NULL)
 	{
 		signal_in_child();
-		handle_heredoc_child(node, env);
+		handle_heredoc_child(node, env, grbg_collector);
 	}
 	else
 	{

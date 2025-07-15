@@ -6,13 +6,13 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:56:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/27 20:28:58 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:30:14 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-char	**dup_env(char **envp)
+char	**dup_env(char **envp, 	t_gc_list *grgb_collector)
 {
 	int		count;
 	char	**copy;
@@ -24,7 +24,7 @@ char	**dup_env(char **envp)
 	i = 0;
 	while (envp && envp[count])
 		count++;
-	copy = malloc(sizeof(char *) * (count + 1));
+	copy = ft_malloc(sizeof(char *) * (count + 1), grgb_collector);
 	if (!copy)
 		return (NULL);
 	while (i < count)
@@ -36,7 +36,7 @@ char	**dup_env(char **envp)
 	return (copy);
 }
 
-void	update_shlvl(t_envp *env)
+void	update_shlvl(t_envp *env, t_gc_list *grgb_collector)
 {
 	char	*value;
 	int		shlvl;
@@ -48,8 +48,8 @@ void	update_shlvl(t_envp *env)
 	new_value = ft_itoa(shlvl);
 	new_entry = ft_strjoin("SHLVL=", new_value);
 	free(new_value);
-	remove_var_by_key("SHLVL", &env->environment);
-	add_new_var(new_entry, &env->environment);
+	remove_var_by_key("SHLVL", &env->environment, grgb_collector);
+	add_new_var(new_entry, &env->environment, grgb_collector);
 	free(new_entry);
 }
 
@@ -57,17 +57,20 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
+	(void)envp;
 	t_envp	*env;
+	t_gc_list *grgb_collector;
 
 	signals();
-	env = malloc(sizeof(t_envp));
+    grgb_collector = init_grbg_collector();
+	env = ft_malloc(sizeof(t_envp), grgb_collector);
 	if (!env)
 		return (1);
 	env->split_path = get_split_path(envp);
-	env->environment = dup_env(envp);
+	env->environment = dup_env(envp, grgb_collector);
 	env->home = get_env_value("HOME", env->environment);
 	// printf("env->home %s\n", env->home);
-	update_shlvl(env);
+	update_shlvl(env, grgb_collector);
 	// printf("env->home hii%s\n", env->home);
 	while (1)
 	{
@@ -76,10 +79,8 @@ int	main(int argc, char **argv, char **envp)
 			g_sigint = 0;
 			continue;
 		}
-		parsing_main(env, command_line_input());
+		parsing_main(env, command_line_input(), grgb_collector);
 	}
-	// free_2darray(env->split_path);
-	// free_2darray(env->environment);
-	free(env); //TODO Free stuff inside env
+	ft_free_gc(grgb_collector);
 	return (0);
 }

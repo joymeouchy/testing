@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:50:44 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/06/24 10:23:15 by root             ###   ########.fr       */
+/*   Updated: 2025/07/15 19:53:56 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	export_print_mode(t_envp *env)
+static int	export_print_mode(t_envp *env, t_gc_list *grbg_collector)
 {
 	char	**merged;
 	int		i;
 
-	merged = merge_env_vars(env);
+	merged = merge_env_vars(env, grbg_collector);
 	if (!merged)
 		return (1);
 	sort_env(merged);
@@ -31,7 +31,7 @@ static int	export_print_mode(t_envp *env)
 	return (0);
 }
 
-int	export(t_tree_node *root, t_envp *env)
+int	export(t_tree_node *root, t_envp *env, t_gc_list *grbg_collector)
 {
 	t_tree_node	*arg;
 	int			ret;
@@ -40,13 +40,13 @@ int	export(t_tree_node *root, t_envp *env)
 		return (1);
 	arg = root->right;
 	if (!arg)
-		return (export_print_mode(env));
+		return (export_print_mode(env, grbg_collector));
 	ret = 0;
 	while (arg)
 	{
 		if (is_valid_key(arg->data))
 		{
-			update_env(arg->data, env);
+			update_env(arg->data, env, grbg_collector);
 			env->exit_code = 0;
 		}
 		else

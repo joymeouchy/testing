@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:42:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/14 20:32:49 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/15 19:51:10 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char *unquoted_section(char *input, int *i, int *segment_start)
 	return (temp);
 }
 
-int	quoted_word_to_node(char *input, t_list *list, int start, int *i)
+int	quoted_word_to_node(char *input, t_list *list, int start, int *i, t_gc_list *grbg_collector)
 {
 	char	*result;
 	char	*temp;
@@ -71,12 +71,12 @@ int	quoted_word_to_node(char *input, t_list *list, int start, int *i)
 			temp = unquoted_section(input, i, &segment_start);
 		result = ft_strjoin_free(result, temp);
 	}
-	insert_at_end_list(list, result);
+	insert_at_end_list(list, result, grbg_collector);
 	start = *i;
 	return (start);
 }
 
-t_list	*input_to_list(char *input)
+t_list	*input_to_list(char *input, t_gc_list *grbg_collector)
 {
 	t_list	*list;
 	int		i;
@@ -85,23 +85,24 @@ t_list	*input_to_list(char *input)
 	if (!input)
 		return (NULL);
 	i = 0;
-	list = init_list();
+	list = init_list(grbg_collector);
 	start = i;
 	while (input[i])
 	{
-		start = split_symbols(input, list, start, &i);
-		start = split_redirections(input, list, start, &i);
-		if (input[i] && !is_space(input[i]) && input[i] != '|'
+		start = split_symbols(input, list, start, &i, grbg_collector);
+		start = split_redirections(input, list, start, &i, grbg_collector);
+		if (input[i] && is_space(input[i]) && input[i] != '|'
 			&& input[i] != '<' && input[i] != '>')
 		{
-			start = quoted_word_to_node(input, list, start, &i);
+			start = quoted_word_to_node(input, list, start, &i, grbg_collector);
 			continue ;
 		}
 		if (input[i])
 			i++;
 		if (input[i] == '\0' && i != start)
-			insert_at_end_list(list, ft_substr(input, start, i - start));
+			insert_at_end_list(list, ft_substr(input, start, i - start), grbg_collector);
 	}
 	free(input);
 	return (list);
 }
+	

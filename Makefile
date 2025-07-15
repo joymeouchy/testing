@@ -42,7 +42,9 @@ SRC =   src/parser/parser.c \
         src/execution/pipe.c \
         src/parser/add_redir_argument.c \
         src/execution/heredoc.c \
-        src/syntax_error.c
+        src/syntax_error.c \
+	src/ft_malloc.c
+
 
 OBJ = $(SRC:.c=.o)
 

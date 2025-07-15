@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samira <samira@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 20:41:59 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/10 21:00:00 by samira           ###   ########.fr       */
+/*   Updated: 2025/07/15 20:04:40 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void precreate_output_redirections(t_tree_node *node)
 	}
 }
 
-int	execution(t_tree_node *node, t_envp *env)
+int	execution(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 {
 	int	pipe_count;
 
@@ -45,10 +45,10 @@ int	execution(t_tree_node *node, t_envp *env)
 	precreate_output_redirections(node);
 	pipe_count = count_pipes(node);
 	if (node->token == PIPE)
-		return (pipe_exec(node, pipe_count, env));
+		return (pipe_exec(node, pipe_count, env, grbg_collector));
 	if (node->token == COMMAND || node->token == BUILT_IN)
-		return (exec_commands(node, env));
+		return (exec_commands(node, env, grbg_collector));
 	if (node->token >= 3 && node->token <= 6)
-		return (handle_recirections(node, env));
+		return (handle_recirections(node, env, grbg_collector));
 	return (env->exit_code);
 }

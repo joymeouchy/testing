@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:04:06 by root              #+#    #+#             */
-/*   Updated: 2025/06/19 09:47:58 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/15 19:28:57 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	update_env(char *arg, t_envp *env)
+void	update_env(char *arg, t_envp *env, t_gc_list *grgb_collector)
 {
 	char	*equal;
 	char	*key;
@@ -25,13 +25,13 @@ void	update_env(char *arg, t_envp *env)
 		key = strdup(arg);
 		if (!var_exists(key, env->environment)
 			&& !var_exists(key, env->export_only))
-			add_new_var(key, &env->export_only);
+			add_new_var(key, &env->export_only, grgb_collector);
 		free(key);
 		return ;
 	}
-	remove_var_by_key(arg, &env->export_only);
+	remove_var_by_key(arg, &env->export_only, grgb_collector);
 	if (!replace_existing_key(arg, &env->environment))
-		add_new_var(arg, &env->environment);
+		add_new_var(arg, &env->environment, grgb_collector);
 }
 
 void	print_key_value(char *env_var)
@@ -98,7 +98,7 @@ void	copy_env_vars(char **src, char **dst, int *dst_index)
 	}
 }
 
-char	**merge_env_vars(t_envp *env)
+char	**merge_env_vars(t_envp *env, t_gc_list *grgb_collector)
 {
 	char	**merged;
 	int		env_count;
@@ -111,7 +111,7 @@ char	**merge_env_vars(t_envp *env)
 	env_count = count_env_vars(env->environment);
 	exp_count = count_env_vars(env->export_only);
 	total_count = env_count + exp_count;
-	merged = malloc(sizeof(char *) * (total_count + 1));
+	merged = ft_malloc(sizeof(char *) * (total_count + 1), grgb_collector);
 	if (!merged)
 		return (NULL);
 	index = 0;

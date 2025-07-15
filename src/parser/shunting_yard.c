@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shunting_yard.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 12:39:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/08 09:29:17 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:20:37 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ void	push_stack_to_other(t_stack *src, t_stack *dst)
 	}
 }
 
-t_stack	*malloc_and_init_stack(t_list *list)
+t_stack	*malloc_and_init_stack(t_list *list, t_gc_list *grgb_collector)
 {
 	t_stack	*stack;
 
-	stack = malloc(sizeof(t_stack));
-	init_stack(list, stack);
+	stack = ft_malloc(sizeof(t_stack), grgb_collector);
+	init_stack(list, stack, grgb_collector);
 	return (stack);
 }
 
@@ -56,7 +56,7 @@ static void	push_remaining_stacks(t_stack *word, t_stack *cmd, t_stack *output)
 		push_stack_to_other(cmd, output);
 }
 
-t_stack	*shunting_yard(t_list *list)
+t_stack	*shunting_yard(t_list *list, t_gc_list *grgb_collector)
 {
 	t_stack		*stack;
 	t_stack		*cmd_stack;
@@ -66,16 +66,14 @@ t_stack	*shunting_yard(t_list *list)
 	if (!list || !list->head)
 		return (NULL);
 	temp = list->head;
-	stack = malloc_and_init_stack(list);
-	cmd_stack = malloc_and_init_stack(list);
-	word_stack = malloc_and_init_stack(list);
+	stack = malloc_and_init_stack(list, grgb_collector);
+	cmd_stack = malloc_and_init_stack(list, grgb_collector);
+	word_stack = malloc_and_init_stack(list, grgb_collector);
 	while (temp)
 	{
 		process_token(temp, word_stack, cmd_stack, stack);
 		temp = temp->next;
 	}
 	push_remaining_stacks(word_stack, cmd_stack, stack);
-	free_stack(cmd_stack);
-	free_stack(word_stack);
 	return (stack);
 }

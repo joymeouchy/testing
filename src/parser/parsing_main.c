@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/14 20:23:56 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:27:13 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,35 +64,30 @@ int	check_file_executable(t_envp *env, char *file)
 	return (-1);
 }
 
-void	parsing_main(t_envp *env, char *input)
+void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 {
 	t_list	*list;
 	t_stack	*stack;
 	t_tree	*tree;
 
-	list = input_to_list(input);
-	if (!list)
+	list = input_to_list(input, grbg_collector);
+	if (!list || !list->head)
 	{
-		write(1, "exit\n", 5);
-		exit(1);
-	}
-	if (!list->head)
 		return ;
+	}
 	expand_list(list, env);
 	tokenize(list, env);
 	// print_list(list);
 	add_arg_to_redir(list);
 	check_and_remove_quotes(list);
 	check_and_remove_empty(list);
-	if(!list)
-		return ; //something exit code and free
 	tokenize(list, env); 
 	// print_list(list);
-	stack = shunting_yard(list);
+	stack = shunting_yard(list, grbg_collector);
 	if(!stack)
 		return ;
-	// print_stack(stack);
-	tree = stack_to_tree(stack, env);
+	// // print_stack(stack);
+	tree = stack_to_tree(stack, env, grbg_collector);
 	if (!tree)
 		return ; //something exit code and free
 	// printf("\ntree:\n");
@@ -102,9 +97,5 @@ void	parsing_main(t_envp *env, char *input)
 		if (check_file_executable(env, tree->root->data) == -1)
 			env->exit_code = print_message_and_exit(tree->root->data, ":no such file or directory", 127);
 	}
-	env->exit_code = execution(tree->root, env);
-	if (list)
-		free_list(list);
-	if (stack)
-		free_stack(stack);
+	env->exit_code = execution(tree->root, env, grbg_collector);
 }

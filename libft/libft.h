@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 10:59:48 by jmeouchy          #+#    #+#             */
-/*   Updated: 2024/06/17 15:55:02 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:01:23 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdarg.h>
+# include "/home/jmeouchy/42 cursus/temp/includes/minishell.h"
 
 int		ft_atoi(const char *str);
 int		ft_isalnum(int c);

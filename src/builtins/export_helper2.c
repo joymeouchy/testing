@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:57:06 by root              #+#    #+#             */
-/*   Updated: 2025/06/30 19:43:56 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/15 20:11:46 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	remove_var_by_key(char *arg, char ***env)
+void	remove_var_by_key(char *arg, char ***env, t_gc_list *grgb_collector)
 {
 	char	*key;
 	int		size;
@@ -24,14 +24,14 @@ void	remove_var_by_key(char *arg, char ***env)
 	if (!key)
 		return ;
 	size = count_env_vars(*env);
-	new_env = malloc(sizeof(char *) * (size + 1));
+	new_env = ft_malloc(sizeof(char *) * (size + 1), grgb_collector);
 	if (!new_env)
 	{
 		free(key);
 		return ;
 	}
 	copy_except_key(*env, new_env, key);
-	free_env(*env);
+	// free_env(*env);
 	*env = new_env;
 	free(key);
 }
@@ -78,7 +78,7 @@ int	replace_existing_key(char *arg, char ***env)
 	return (0);
 }
 
-void	add_new_var(char *arg, char ***env)
+void	add_new_var(char *arg, char ***env, t_gc_list *grgb_collector)
 {
 	char	**new_env;
 	int		size;
@@ -89,7 +89,7 @@ void	add_new_var(char *arg, char ***env)
 	if (replace_existing_key(arg, env))
 		return ;
 	size = count_env_vars(*env);
-	new_env = malloc(sizeof(char *) * (size + 2));
+	new_env = ft_malloc(sizeof(char *) * (size + 2), grgb_collector);
 	if (!new_env)
 		return ;
 	i = 0;
@@ -100,7 +100,7 @@ void	add_new_var(char *arg, char ***env)
 	}
 	new_env[i] = ft_strdup(arg);
 	new_env[i + 1] = NULL;
-	free_env(*env);
+	// free_env(*env);
 	*env = new_env;
 }
 
