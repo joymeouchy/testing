@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:04:06 by root              #+#    #+#             */
-/*   Updated: 2025/07/15 19:28:57 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:33:54 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void	update_env(char *arg, t_envp *env, t_gc_list *grgb_collector)
 		return ;
 	}
 	remove_var_by_key(arg, &env->export_only, grgb_collector);
-	if (!replace_existing_key(arg, &env->environment))
+	if (!replace_existing_key(arg, &env->environment, grgb_collector))
 		add_new_var(arg, &env->environment, grgb_collector);
 }
 
-void	print_key_value(char *env_var)
+void	print_key_value(char *env_var, t_gc_list *grbg_collector)
 {
 	char	*equal;
 	char	*key;
@@ -48,7 +48,7 @@ void	print_key_value(char *env_var)
 		return ;
 	}
 	key_len = equal - env_var;
-	key = ft_substr(env_var, 0, key_len);
+	key = ft_substr(env_var, 0, key_len, grbg_collector);
 	value = strdup(equal + 1);
 	if (key && value)
 		printf("declare -x %s=\"%s\"\n", key, value);
@@ -85,14 +85,14 @@ void	sort_env(char **env)
 	}
 }
 
-void	copy_env_vars(char **src, char **dst, int *dst_index)
+void	copy_env_vars(char **src, char **dst, int *dst_index, t_gc_list *grbg_collector)
 {
 	int	i;
 
 	i = 0;
 	while (src && src[i])
 	{
-		dst[*dst_index] = ft_strdup(src[i]);
+		dst[*dst_index] = ft_strdup(src[i], grbg_collector);
 		(*dst_index)++;
 		i++;
 	}
@@ -115,8 +115,8 @@ char	**merge_env_vars(t_envp *env, t_gc_list *grgb_collector)
 	if (!merged)
 		return (NULL);
 	index = 0;
-	copy_env_vars(env->environment, merged, &index);
-	copy_env_vars(env->export_only, merged, &index);
+	copy_env_vars(env->environment, merged, &index, grgb_collector);
+	copy_env_vars(env->export_only, merged, &index, grgb_collector);
 	merged[index] = NULL;
 	return (merged);
 }

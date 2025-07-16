@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 06:42:48 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/15 19:32:20 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 21:37:30 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	init_stack(t_list *list, t_stack *stack, t_gc_list *grgb_collector)
 {
 	if (list == NULL || stack == NULL || list->list_size <= 0)
 		return ;
-	stack->stack = ft_malloc(sizeof(t_stack_element) * (list->list_size + 1), grgb_collector);
+	stack->top = -1;
+	stack->stack = ft_malloc(sizeof(t_stack_element) * list->list_size , grgb_collector);
 	if (!stack->stack)
 		return ;
-	stack->top = -1;
 }
 
 void	push(char *data, e_tokens token, char *redir_args, t_stack *stack)

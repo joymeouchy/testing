@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 12:05:32 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/15 19:55:48 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 21:40:53 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_tree	*stack_to_tree(t_stack *stack, t_envp *environment, t_gc_list *grbg_colle
 {
 	t_tree	*tree;
 
-	if (!stack || stack->top == -1)
+	if (!stack || stack->top < 0)
 		return (NULL);
 	tree = init_tree(grbg_collector);
 	tree->root = build_tree(stack, environment, grbg_collector);

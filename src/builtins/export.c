@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:50:44 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/15 19:53:56 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:34:19 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	export_print_mode(t_envp *env, t_gc_list *grbg_collector)
 	i = 0;
 	while (merged[i])
 	{
-		print_key_value(merged[i]);
+		print_key_value(merged[i], grbg_collector);
 		i++;
 	}
 	free_env(merged);

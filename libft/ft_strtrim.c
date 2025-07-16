@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:18:12 by jmeouchy          #+#    #+#             */
-/*   Updated: 2024/06/14 16:10:07 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:20:51 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	ft_is_set(char c, const char *str)
 	return (0);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set, t_gc_list *grbg_collector)
 {
 	int		start;
 	int		end;
@@ -42,7 +42,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	while (ft_is_set(s1[end], set) && end > start)
 		end--;
 	end = end - start + 1;
-	str = (char *)malloc(end + 1);
+	str = (char *)ft_malloc(end + 1, grbg_collector);
 	if (str == NULL)
 		return (NULL);
 	i = 0;

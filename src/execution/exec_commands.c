@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 21:04:58 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/15 19:56:42 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:26:43 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	exec_builtin(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 	return (env->exit_code);
 }
 
-char	*get_path_with_command(t_tree_node *node)
+char	*get_path_with_command(t_tree_node *node, t_gc_list *grbg_collector)
 {
 	char	*path_command;
 	int		i;
@@ -39,7 +39,7 @@ char	*get_path_with_command(t_tree_node *node)
 	i = 0;
 	while (node->path->split_path[i])
 	{
-		path_command = ft_strjoin(node->path->split_path[i], node->data);
+		path_command = ft_strjoin(node->path->split_path[i], node->data, grbg_collector);
 		if (access(path_command, X_OK | F_OK) == 0)
 		{
 			return (path_command);
@@ -85,7 +85,7 @@ int	exec_cmd(t_tree_node *node, t_envp *env, t_gc_list *grgb_collector)
 	int		status;
 	pid_t	pid;
 
-	path = get_path_with_command(node);
+	path = get_path_with_command(node, grgb_collector);
 	args = fill_arguments(node, grgb_collector);
 	pid = fork();
 	if (pid == 0)

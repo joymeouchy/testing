@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 10:30:35 by jmeouchy          #+#    #+#             */
-/*   Updated: 2024/06/17 15:40:22 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:15:37 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ static int	is_neg(int n, char *ptr)
 	return (n);
 }
 
-char	*ft_itoa(int n)
+char	*ft_itoa(int n, t_gc_list *grbg_collector)
 {
 	int		size;
 	char	*ptr;
 
 	size = count_digits(n);
-	ptr = (char *)malloc(sizeof(char) * (size + 1));
+	ptr = (char *)ft_malloc(sizeof(char) * (size + 1), grbg_collector);
 	if (ptr == NULL)
 		return (NULL);
 	n = is_neg(n, ptr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:50:26 by root              #+#    #+#             */
-/*   Updated: 2025/06/24 10:21:17 by root             ###   ########.fr       */
+/*   Updated: 2025/07/16 20:32:07 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	var_exists(char *arg, char **env)
 	return (0);
 }
 
-char	*extract_key(const char *arg)
+char	*extract_key(const char *arg, t_gc_list *grbg_collector)
 {
 	char	*equal;
 	char	*key;
@@ -69,11 +69,11 @@ char	*extract_key(const char *arg)
 		key_len = equal - arg;
 	else
 		key_len = ft_strlen(arg);
-	key = ft_substr(arg, 0, key_len);
+	key = ft_substr(arg, 0, key_len, grbg_collector);
 	return (key);
 }
 
-void	copy_except_key(char **old_env, char **new_env, char *key)
+void	copy_except_key(char **old_env, char **new_env, char *key, t_gc_list *grbg_collector)
 {
 	int	i;
 	int	j;
@@ -87,7 +87,7 @@ void	copy_except_key(char **old_env, char **new_env, char *key)
 		if ((ft_strncmp(old_env[i], key, key_len) != 0)
 			|| (old_env[i][key_len] != '\0' && old_env[i][key_len] != '='))
 		{
-			new_env[j] = ft_strdup(old_env[i]);
+			new_env[j] = ft_strdup(old_env[i], grbg_collector);
 			j++;
 		}
 		i++;

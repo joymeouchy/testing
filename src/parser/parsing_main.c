@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/15 20:27:13 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 21:50:00 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,14 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 	t_list	*list;
 	t_stack	*stack;
 	t_tree	*tree;
+	// (void)env;
 
 	list = input_to_list(input, grbg_collector);
 	if (!list || !list->head)
 	{
 		return ;
 	}
-	expand_list(list, env);
+	expand_list(list, env, grbg_collector);
 	tokenize(list, env);
 	// print_list(list);
 	add_arg_to_redir(list);
@@ -86,12 +87,12 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 	stack = shunting_yard(list, grbg_collector);
 	if(!stack)
 		return ;
-	// // print_stack(stack);
+	print_stack(stack);
 	tree = stack_to_tree(stack, env, grbg_collector);
 	if (!tree)
 		return ; //something exit code and free
-	// printf("\ntree:\n");
-	// print_inorder(tree->root);
+	// // printf("\ntree:\n");
+	// // print_inorder(tree->root);
 	if (tree->root->token >= WORD)
 	{
 		if (check_file_executable(env, tree->root->data) == -1)

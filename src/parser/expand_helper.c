@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/07/11 23:41:13 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:31:05 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ bool	check_if_dollar_to_print(char *str)
 	return (false);
 }
 
-char	*extract_variable_name(char *str)
+char	*extract_variable_name(char *str, t_gc_list *grbg_collector)
 {
 	int	i;
 	int	start;
@@ -89,9 +89,9 @@ char	*extract_variable_name(char *str)
 	i++;
 	start = i;
 	if (str[i] >= '1' && str[i] <= '9')
-		return (ft_substr(str, start, i + 1 - start));
+		return (ft_substr(str, start, i + 1 - start, grbg_collector));
 	start = i;
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
-	return (ft_substr(str, start, i - start));
+	return (ft_substr(str, start, i - start, grbg_collector));
 }

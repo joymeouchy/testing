@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:56:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/15 20:30:14 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 21:50:04 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	**dup_env(char **envp, 	t_gc_list *grgb_collector)
 		return (NULL);
 	while (i < count)
 	{
-		copy[i] = ft_strdup(envp[i]);
+		copy[i] = ft_strdup(envp[i], grgb_collector);
 		i++;
 	}
 	copy[i] = NULL;
@@ -43,14 +43,14 @@ void	update_shlvl(t_envp *env, t_gc_list *grgb_collector)
 	char	*new_value;
 	char	*new_entry;
 
-	value = get_env_value("SHLVL", env->environment);
+	value = get_env_value("SHLVL", env->environment, grgb_collector);
 	shlvl = ft_atoi(value) + 1;
-	new_value = ft_itoa(shlvl);
-	new_entry = ft_strjoin("SHLVL=", new_value);
-	free(new_value);
+	new_value = ft_itoa(shlvl, grgb_collector);
+	new_entry = ft_strjoin("SHLVL=", new_value, grgb_collector);
+	// free(new_value);
 	remove_var_by_key("SHLVL", &env->environment, grgb_collector);
 	add_new_var(new_entry, &env->environment, grgb_collector);
-	free(new_entry);
+	// free(new_entry);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -66,21 +66,21 @@ int	main(int argc, char **argv, char **envp)
 	env = ft_malloc(sizeof(t_envp), grgb_collector);
 	if (!env)
 		return (1);
-	env->split_path = get_split_path(envp);
+	env->split_path = get_split_path(envp, grgb_collector);
 	env->environment = dup_env(envp, grgb_collector);
-	env->home = get_env_value("HOME", env->environment);
+	env->home = get_env_value("HOME", env->environment, grgb_collector);
 	// printf("env->home %s\n", env->home);
 	update_shlvl(env, grgb_collector);
 	// printf("env->home hii%s\n", env->home);
-	while (1)
-	{
-		if (g_sigint)
-		{
-			g_sigint = 0;
-			continue;
-		}
-		parsing_main(env, command_line_input(), grgb_collector);
-	}
+	// while (1)
+	// {
+	// 	if (g_sigint)
+	// 	{
+	// 		g_sigint = 0;
+	// 		continue;
+	// 	}
+		parsing_main(env, "ls", grgb_collector);
+	// }
 	ft_free_gc(grgb_collector);
 	return (0);
 }

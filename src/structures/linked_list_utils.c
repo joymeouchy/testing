@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 06:42:48 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/15 19:31:57 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:55:57 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	insert_at_end_list(t_list *list, char *new_node_data, t_gc_list *grgb_colle
 
 	if (*new_node_data == '\0')
 	{
-		free(new_node_data);
+		// free(new_node_data);
 		return ;
 	}
 	new_node = create_list_node(new_node_data, grgb_collector);

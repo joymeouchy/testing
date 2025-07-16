@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 21:17:46 by root              #+#    #+#             */
-/*   Updated: 2025/07/15 19:35:54 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 21:48:00 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ t_tree_node	*build_tree(t_stack *stack, t_envp *environment, t_gc_list *grgb_col
 		new_node->right = build_tree(stack, environment, grgb_collector);
 		new_node->left = build_tree(stack, environment, grgb_collector);
 	}
-	if ((new_node->token >= LEFT_REDIRECTION
+	if (stack && stack->stack && stack->top >-1 && (new_node->token >= LEFT_REDIRECTION
 			&& new_node->token <= RIGHT_D_REDIRECTION)
 			&& stack->stack[stack->top].token != PIPE
 			&& stack->stack[stack->top].token != BUILT_IN
 			&& stack->stack[stack->top].token != COMMAND)
 		new_node->right = build_tree(stack, environment, grgb_collector);
-	if (new_node->token == WORD && stack->stack[stack->top].token >= 3)
+	if (new_node && stack && stack->stack && stack->top > -1 && new_node->token == WORD && stack->stack[stack->top].token >= 3)
 		new_node->right = build_tree(stack, environment, grgb_collector);
 	return (new_node);
 }

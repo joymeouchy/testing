@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 10:59:48 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/15 20:01:23 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:28:04 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdarg.h>
-# include "/home/jmeouchy/42 cursus/temp/includes/minishell.h"
+# include "../includes/garbage_collector.h"
 
 int		ft_atoi(const char *str);
 int		ft_isalnum(int c);
@@ -38,24 +38,24 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t nitems, size_t size);
+void	*ft_calloc(size_t nitems, size_t size, t_gc_list *grbg_collector);
 void	*ft_memchr(const void *str, int c, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memset(void *dest, int c, size_t count);
 void	*ft_memmove(void *dst, const void *src, size_t n);
 char	*ft_strchr(const char *s, int c);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char const *s, char c, t_gc_list *grbg_collector);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlen(const char *str);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	*ft_strrchr(const char *s, int c);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
-char	*ft_strdup(const char *s);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-char	*ft_strtrim(char const *s1, char const *set);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_itoa(int n);
+char	*ft_strdup(const char *s, t_gc_list *grbg_collector);
+char	*ft_strjoin(char const *s1, char const *s2, t_gc_list *grbg_collector);
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char), t_gc_list *grbg_collector);
+char	*ft_strtrim(char const *s1, char const *set, t_gc_list *grbg_collector);
+char	*ft_substr(char const *s, unsigned int start, size_t len, t_gc_list *grbg_collector);
+char	*ft_itoa(int n, t_gc_list *grbg_collector);
 
 #endif

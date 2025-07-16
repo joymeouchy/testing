@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:57:06 by root              #+#    #+#             */
-/*   Updated: 2025/07/15 20:11:46 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:40:39 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@ void	remove_var_by_key(char *arg, char ***env, t_gc_list *grgb_collector)
 
 	if (!env || !(*env))
 		return ;
-	key = extract_key(arg);
+	key = extract_key(arg, grgb_collector);
 	if (!key)
 		return ;
 	size = count_env_vars(*env);
 	new_env = ft_malloc(sizeof(char *) * (size + 1), grgb_collector);
 	if (!new_env)
 	{
-		free(key);
+		// free(key);
 		return ;
 	}
-	copy_except_key(*env, new_env, key);
+	copy_except_key(*env, new_env, key, grgb_collector);
 	// free_env(*env);
 	*env = new_env;
-	free(key);
+	// free(key);
 }
 
 int	find_key_index(char *key, int key_len, char **env)
@@ -51,7 +51,7 @@ int	find_key_index(char *key, int key_len, char **env)
 	return (-1);
 }
 
-int	replace_existing_key(char *arg, char ***env)
+int	replace_existing_key(char *arg, char ***env, t_gc_list *grbg_collector)
 {
 	char	*equal;
 	char	*key;
@@ -63,18 +63,18 @@ int	replace_existing_key(char *arg, char ***env)
 		key_len = equal - arg;
 	else
 		key_len = ft_strlen(arg);
-	key = ft_substr(arg, 0, key_len);
+	key = ft_substr(arg, 0, key_len, grbg_collector);
 	if (!key || !env || !(*env))
 		return (0);
 	index = find_key_index(key, key_len, *env);
 	if (index >= 0)
 	{
 		free((*env)[index]);
-		(*env)[index] = ft_strdup(arg);
-		free(key);
+		(*env)[index] = ft_strdup(arg, grbg_collector);
+		// free(key);
 		return (1);
 	}
-	free(key);
+	// free(key);
 	return (0);
 }
 
@@ -86,7 +86,7 @@ void	add_new_var(char *arg, char ***env, t_gc_list *grgb_collector)
 
 	if (!env)
 		return ;
-	if (replace_existing_key(arg, env))
+	if (replace_existing_key(arg, env, grgb_collector))
 		return ;
 	size = count_env_vars(*env);
 	new_env = ft_malloc(sizeof(char *) * (size + 2), grgb_collector);
@@ -95,10 +95,10 @@ void	add_new_var(char *arg, char ***env, t_gc_list *grgb_collector)
 	i = 0;
 	while (*env && (*env)[i])
 	{
-		new_env[i] = ft_strdup((*env)[i]);
+		new_env[i] = ft_strdup((*env)[i], grgb_collector);
 		i++;
 	}
-	new_env[i] = ft_strdup(arg);
+	new_env[i] = ft_strdup(arg, grgb_collector);
 	new_env[i + 1] = NULL;
 	// free_env(*env);
 	*env = new_env;

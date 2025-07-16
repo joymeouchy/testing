@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/15 20:18:35 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:35:53 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@
 
 extern volatile sig_atomic_t g_sigint;
 ///Builtins
-char *get_env_value(const char *name, char **env);
-char *handle_cd_home(t_envp *env);
-char *handle_cd_dash(t_envp *env);
-char *handle_cd_tilde(const char *arg, t_envp *env);
-char *resolve_cd_target(const char *arg, t_envp *env);
-char	*extract_key(const char *arg);
+char *get_env_value(const char *name, char **env, t_gc_list *grbg_collector);
+char *handle_cd_home(t_envp *env, t_gc_list *grbg_collector);
+char *handle_cd_dash(t_envp *env, t_gc_list *grbg_collector);
+char *handle_cd_tilde(const char *arg, t_envp *env, t_gc_list *grbg_collector);
+char *resolve_cd_target(const char *arg, t_envp *env, t_gc_list *grbg_collector);
+char	*extract_key(const char *arg, t_gc_list *grbg_collector);
 char	**merge_env_vars(t_envp *env, t_gc_list *grgb_collector);
 int	cd(t_tree_node *root, t_envp *env, t_gc_list *grbg_collector);
 int echo(t_tree_node *echo_node);
@@ -46,7 +46,7 @@ int	count_env_vars(char **env);
 int	var_exists(char *arg, char **env);
 int	exit_builtin(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector);
 int	find_key_index(char *key, int key_len, char **env);
-int	replace_existing_key(char *arg, char ***env);
+int	replace_existing_key(char *arg, char ***env, t_gc_list *grbg_collector);
 int	is_valid_key(const char *str);
 int	export(t_tree_node *root, t_envp *env, t_gc_list *grbg_collector);
 int	pwd(void);
@@ -54,17 +54,17 @@ int	is_valid_var_name(const char *name);
 int	match_key(const char *env_entry, const char *key);
 int	unset(t_tree_node *root, t_envp *env);
 void	free_env(char **env);
-void	copy_except_key(char **old_env, char **new_env, char *key);
+void	copy_except_key(char **old_env, char **new_env, char *key, t_gc_list *grbg_collector);
 void	remove_var_by_key(char *arg, char ***env, t_gc_list *grgb_collector);
 void	add_new_var(char *arg, char ***env, t_gc_list *grgb_collector);
 void	update_env(char *arg, t_envp *env, t_gc_list *grgb_collector);
-void	print_key_value(char *env_var);
+void	print_key_value(char *env_var, t_gc_list *grbg_collector);
 void	sort_env(char **env);
-void	copy_env_vars(char **src, char **dst, int *dst_index);
+void	copy_env_vars(char **src, char **dst, int *dst_index, t_gc_list *grbg_collector);
 void	remove_env_entry(char **env, int index);
 void	remove_var_from_env(const char *var_name, t_envp *env);
 //Execution
-char	*get_path_with_command(t_tree_node *node);
+char	*get_path_with_command(t_tree_node *, t_gc_list *grbg_collectornode);
 char	**fill_arguments(t_tree_node *node, t_gc_list *grgb_collector);
 int	exec_builtin(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector);
 int	exec_cmd(t_tree_node *node, t_envp *env, t_gc_list *grgb_collector);
@@ -86,7 +86,7 @@ void	signals(void);
 void	add_arg_to_redir(t_list *list);
 void	swap_red(t_tree_node *node1, t_tree_node *node2);
 char	*ft_getenv(char **envp, const char *var_name);
-void	expand_list(t_list *list, t_envp *env);
+void	expand_list(t_list *list, t_envp *env, t_gc_list *grbg_collector);
 void	one_element_input_to_list(char *input, t_list *list, int *start, int *i, t_gc_list *grbg_collector);
 void	two_element_input_to_list(char *input, t_list *list, int *start, int *i, t_gc_list *grbg_collector);
 void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector);
@@ -110,12 +110,12 @@ int	check_and_remove_quotes(t_list *list);
 int	ft_strcmp(const char *s1, const char *s2);
 int	check_builtin(char *data);
 int	is_command(char *cmd, t_envp *envp);
-char	*extract_variable_name(char *str);
+char	*extract_variable_name(char *str, t_gc_list *grbg_collector);
 char	*command_line_input(void);
 char	*replace_variable(char *str, char *var_name,
-	char *replacement, int dollar_pos);
-char	*expand(char *str, char **envp);
-char	**get_split_path(char **envp);
+	char *replacement, int dollar_pos, t_gc_list *grbg_collector);
+char	*expand(char *str, char **envp, t_gc_list *grbg_collector);
+char	**get_split_path(char **envp, t_gc_list *grbg_collector);
 char	*append_char_to_string(char *src, char c);
 bool	check_if_dollar_to_print(char *str);
 t_list	*input_to_list(char *input, t_gc_list *grbg_collector);
@@ -129,9 +129,5 @@ void	update_shlvl(t_envp *env, t_gc_list *grgb_collector);
 int print_message_and_exit(char *message, char *word, int exit_code);
 void signal_in_child(void);
 bool	is_space(char c);
-
-void *ft_malloc(int size, t_gc_list *grbg_collector);
-t_gc_list *init_grbg_collector(void);
-void ft_free_gc(t_gc_list *grbg_collector);
 
 #endif

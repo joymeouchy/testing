@@ -6,13 +6,13 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 11:19:09 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/01/23 12:36:19 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:21:07 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t len, t_gc_list *grbg_collector)
 {
 	char	*ptr;
 
@@ -22,7 +22,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		len = 0;
 	if (ft_strlen(s + start) < len)
 		len = ft_strlen(s + start);
-	ptr = malloc(sizeof(char) * (len + 1));
+	ptr = ft_malloc(sizeof(char) * (len + 1), grbg_collector);
 	if (ptr == NULL)
 		return (NULL);
 	ft_strlcpy(ptr, s + start, len + 1);

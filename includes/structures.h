@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:16:36 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/15 19:55:55 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:16:26 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <limits.h>
 # include <signal.h>
 # include <sys/wait.h>  
+# include "includes/garbage_collector.h" 
 
 typedef enum e_tokens
 {
@@ -35,17 +36,6 @@ typedef enum e_tokens
 	WORD = 7,
 	TILDE = 8,
 }	e_tokens;
-
-typedef struct s_gc_node
-{
-    void *ptr;
-    struct s_gc_node *next;
-} t_gc_node;
-
-typedef struct s_gc_list
-{
-    t_gc_node   *head;
-} t_gc_list;
 
 typedef struct s_envp
 {

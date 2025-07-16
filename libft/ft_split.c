@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:39:43 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/15 20:05:04 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:27:55 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static size_t	ft_toklen(const char *s, char c)
 	return (ret);
 }
 
-char	**ft_split(const char *s, char c)
+char	**ft_split(const char *s, char c, t_gc_list *grbg_collector)
 {
 	char	**ret;
 	size_t	i;
@@ -40,7 +40,7 @@ char	**ft_split(const char *s, char c)
 	if (!s)
 		return (0);
 	i = 0;
-	ret = malloc(sizeof(char *) * (ft_toklen(s, c) + 1));
+	ret = ft_malloc(sizeof(char *) * (ft_toklen(s, c) + 1), grbg_collector);
 	if (!ret)
 		return (0);
 	while (*s)
@@ -50,7 +50,7 @@ char	**ft_split(const char *s, char c)
 			len = 0;
 			while (*s && *s != c && ++len)
 				++s;
-			ret[i++] = ft_substr(s - len, 0, len);
+			ret[i++] = ft_substr(s - len, 0, len, grbg_collector);
 		}
 		else
 			++s;

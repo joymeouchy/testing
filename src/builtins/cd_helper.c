@@ -6,13 +6,13 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:12:30 by root              #+#    #+#             */
-/*   Updated: 2025/06/27 20:09:15 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:35:36 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*get_env_value(const char *name, char **env)
+char	*get_env_value(const char *name, char **env, t_gc_list *grbg_collector)
 {
 	int		i;
 	size_t	len;
@@ -26,7 +26,7 @@ char	*get_env_value(const char *name, char **env)
 		if (ft_strncmp(env[i], name, len) == 0 && env[i][len] == '=')
 		{
 			value_start = env[i] + len + 1;
-			env_value = ft_strdup(value_start);
+			env_value = ft_strdup(value_start, grbg_collector);
 			return (env_value);
 		}
 		i++;
@@ -35,39 +35,39 @@ char	*get_env_value(const char *name, char **env)
 }
 
 
-char	*handle_cd_home(t_envp *env)
+char	*handle_cd_home(t_envp *env, t_gc_list *grbg_collector)
 {
 	char	*home;
 
-	home = get_env_value("HOME", env->environment);
+	home = get_env_value("HOME", env->environment, grbg_collector);
 	if (!home)
 	{
 		printf("minishell: cd: HOME not set\n");
 		return (NULL);
 	}
-	return (ft_strdup(home));
+	return (ft_strdup(home, grbg_collector));
 }
 
-char	*handle_cd_dash(t_envp *env)
+char	*handle_cd_dash(t_envp *env, t_gc_list *grbg_collector)
 {
 	char	*oldpwd;
 
-	oldpwd = get_env_value("OLDPWD", env->environment);
+	oldpwd = get_env_value("OLDPWD", env->environment, grbg_collector);
 	if (!oldpwd)
 	{
 		printf("minishell: cd: OLDPWD not set\n");
 		return (NULL);
 	}
 	printf("%s\n", oldpwd);
-	return (ft_strdup(oldpwd));
+	return (ft_strdup(oldpwd, grbg_collector));
 }
 
-char	*handle_cd_tilde(const char *arg, t_envp *env)
+char	*handle_cd_tilde(const char *arg, t_envp *env, t_gc_list *grbg_collector)
 {
 	char	*home;
 	char	*path;
 
-	home = get_env_value("HOME", env->environment);
+	home = get_env_value("HOME", env->environment, grbg_collector);
 	if (!home)
 		home = env->home;
 	if (!home)
@@ -76,7 +76,7 @@ char	*handle_cd_tilde(const char *arg, t_envp *env)
 		return (NULL);
 	}
 	printf("home%s\n", home);
-	path = ft_strjoin(home, arg + 1);
+	path = ft_strjoin(home, arg + 1, grbg_collector);
 	printf("path:%s\n", path);
 	if (!path)
 		return (NULL);
@@ -86,13 +86,13 @@ char	*handle_cd_tilde(const char *arg, t_envp *env)
 }
 
 
-char	*resolve_cd_target(const char *arg, t_envp *env)
+char	*resolve_cd_target(const char *arg, t_envp *env, t_gc_list *grbg_collector)
 {
 	if (arg == NULL)
-		return (handle_cd_home(env));
+		return (handle_cd_home(env, grbg_collector));
 	if (ft_strcmp(arg, "-") == 0)
-		return (handle_cd_dash(env));
+		return (handle_cd_dash(env, grbg_collector));
 	if (arg[0] == '~')
-		return (handle_cd_tilde(arg, env));
-	return (ft_strdup(arg));
+		return (handle_cd_tilde(arg, env, grbg_collector));
+	return (ft_strdup(arg, grbg_collector));
 }

@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 12:39:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/15 20:20:37 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 21:35:41 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	process_token(t_list_node *temp,
 		push(temp->data, temp->token, temp->redir_arg, word);
 	else
 	{
-		if (cmd->stack[cmd->top].token == PIPE)
+		if (cmd && cmd->stack && cmd->top > -1 && cmd->stack[cmd->top].token == PIPE)
 		{
 			push_stack_to_other(word, output);
 			push_stack_to_other(cmd, output);
@@ -50,9 +50,9 @@ static void	process_token(t_list_node *temp,
 
 static void	push_remaining_stacks(t_stack *word, t_stack *cmd, t_stack *output)
 {
-	if (word->top > -1)
+	while (word->top > -1)
 		push_stack_to_other(word, output);
-	if (cmd->top > -1)
+	while (cmd->top > -1)
 		push_stack_to_other(cmd, output);
 }
 

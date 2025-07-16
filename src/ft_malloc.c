@@ -6,11 +6,11 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 09:00:37 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/15 19:12:10 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:17:21 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "/home/jmeouchy/42 cursus/temp/includes/minishell.h"
+#include "../includes/minishell.h"
 
 void *ft_malloc(int size, t_gc_list *grbg_collector)
 {

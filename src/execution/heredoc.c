@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/15 20:19:18 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:27:28 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	open_heredoc_file(void)
 	return (fd);
 }
 
-static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env)
+static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env, t_gc_list *grbg_collector)
 {
 	char	*line;
 	int		quotes_in_delimiter;
@@ -40,7 +40,7 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env)
 			break ;
 		}
 		if (quotes_in_delimiter == 0)
-			line = expand(line, env->environment);
+			line = expand(line, env->environment, grbg_collector);
 		if (!line)
 		{
 			printf("expand returned NULL\n");
@@ -59,7 +59,7 @@ static void	handle_heredoc_child(t_tree_node *node, t_envp *env, t_gc_list *grbg
 	temp_fd = open_heredoc_file();
 	if (temp_fd == -1)
 		exit(1);
-	write_heredoc_to_file(temp_fd, node->redir_arg, env);
+	write_heredoc_to_file(temp_fd, node->redir_arg, env, grbg_collector);
 	close(temp_fd);
 	redirect_stdin_and_exec(node, "heredoc_temp.txt", env, grbg_collector);
 }
