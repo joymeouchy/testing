@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 21:04:58 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/16 20:26:43 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:28:55 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*get_path_with_command(t_tree_node *node, t_gc_list *grbg_collector)
 		{
 			return (path_command);
 		}
-		free(path_command);
+		// free(path_command);
 		i++;
 	}
 	return (NULL);
@@ -98,8 +98,8 @@ int	exec_cmd(t_tree_node *node, t_envp *env, t_gc_list *grgb_collector)
 		waitpid(pid, &status, 0);
 	else
 		perror("fork failed");
-	free(path);
-	free(args);
+	// free(path);
+	// free(args);
 	return (env->exit_code);
 }
 

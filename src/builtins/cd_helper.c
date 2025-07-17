@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:12:30 by root              #+#    #+#             */
-/*   Updated: 2025/07/16 20:35:36 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:58:21 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,13 @@ char	*handle_cd_tilde(const char *arg, t_envp *env, t_gc_list *grbg_collector)
 	printf("path:%s\n", path);
 	if (!path)
 		return (NULL);
-	// if (home)  //TODO HUUH?????
-		// free(home);
 	return (path);
 }
 
 
 char	*resolve_cd_target(const char *arg, t_envp *env, t_gc_list *grbg_collector)
 {
-	if (arg == NULL)
+	if (!arg || arg == NULL)
 		return (handle_cd_home(env, grbg_collector));
 	if (ft_strcmp(arg, "-") == 0)
 		return (handle_cd_dash(env, grbg_collector));
@@ -96,3 +94,4 @@ char	*resolve_cd_target(const char *arg, t_envp *env, t_gc_list *grbg_collector)
 		return (handle_cd_tilde(arg, env, grbg_collector));
 	return (ft_strdup(arg, grbg_collector));
 }
+	

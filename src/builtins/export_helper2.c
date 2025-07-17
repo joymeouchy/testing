@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:57:06 by root              #+#    #+#             */
-/*   Updated: 2025/07/16 20:40:39 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/17 19:14:08 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	replace_existing_key(char *arg, char ***env, t_gc_list *grbg_collector)
 	int		key_len;
 	int		index;
 
-	equal = strchr(arg, '=');
+	equal = ft_strchr(arg, '=');
 	if (equal)
 		key_len = equal - arg;
 	else

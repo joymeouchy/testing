@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:51:39 by root              #+#    #+#             */
-/*   Updated: 2025/07/15 19:42:31 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/17 19:08:43 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static int	handle_exit_args(t_tree_node *arg, t_envp *env, t_gc_list *grbg_colle
 	}
 	env->exit_code = (unsigned char)value;
 	ft_free_gc(grbg_collector);
-	exit(env->exit_code);
+	exit((unsigned char)value);
 }
 
 int	exit_builtin(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
@@ -102,6 +102,7 @@ int	exit_builtin(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 	t_tree_node	*arg;
 	long long	value;
 	int			argc;
+	long long			exit_code;
 
 	printf("exit\n");
 	arg = node->right;
@@ -121,8 +122,9 @@ int	exit_builtin(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 	}
 	if (argc == 0)
 	{
+		exit_code = env->exit_code;
 		ft_free_gc(grbg_collector);
-		exit((unsigned char)env->exit_code);
+		exit(exit_code);
 	}
 	return (handle_exit_args(arg, env, grbg_collector));
 }

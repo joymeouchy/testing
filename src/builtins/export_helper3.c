@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:04:06 by root              #+#    #+#             */
-/*   Updated: 2025/07/16 20:33:54 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/17 19:20:13 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ void	update_env(char *arg, t_envp *env, t_gc_list *grgb_collector)
 
 	if (!env)
 		return ;
-	equal = strchr(arg, '=');
+	equal = ft_strchr(arg, '=');
 	if (!equal)
 	{
-		key = strdup(arg);
+		key = ft_strdup(arg, grgb_collector);
 		if (!var_exists(key, env->environment)
 			&& !var_exists(key, env->export_only))
 			add_new_var(key, &env->export_only, grgb_collector);
-		free(key);
+		// free(key);
 		return ;
 	}
 	remove_var_by_key(arg, &env->export_only, grgb_collector);
@@ -41,7 +41,7 @@ void	print_key_value(char *env_var, t_gc_list *grbg_collector)
 	char	*value;
 	int		key_len;
 
-	equal = strchr(env_var, '=');
+	equal = ft_strchr(env_var, '=');
 	if (!equal)
 	{
 		printf("declare -x %s\n", env_var);
@@ -49,11 +49,11 @@ void	print_key_value(char *env_var, t_gc_list *grbg_collector)
 	}
 	key_len = equal - env_var;
 	key = ft_substr(env_var, 0, key_len, grbg_collector);
-	value = strdup(equal + 1);
+	value = ft_strdup(equal + 1, grbg_collector);
 	if (key && value)
 		printf("declare -x %s=\"%s\"\n", key, value);
-	free(key);
-	free(value);
+	// free(key);
+	// free(value);
 }
 
 void	sort_env(char **env)
@@ -73,7 +73,7 @@ void	sort_env(char **env)
 		i = 0;
 		while (i < size - 1)
 		{
-			if (strcmp(env[i], env[i + 1]) > 0)
+			if (ft_strcmp(env[i], env[i + 1]) > 0)
 			{
 				tmp = env[i];
 				env[i] = env[i + 1];
@@ -89,14 +89,15 @@ void	copy_env_vars(char **src, char **dst, int *dst_index, t_gc_list *grbg_colle
 {
 	int	i;
 
-	i = 0;
-	while (src && src[i])
+	if (src ==NULL )
+		return;
+	for (i = 0; src[i] != NULL; i++)
 	{
 		dst[*dst_index] = ft_strdup(src[i], grbg_collector);
 		(*dst_index)++;
-		i++;
 	}
 }
+
 
 char	**merge_env_vars(t_envp *env, t_gc_list *grgb_collector)
 {

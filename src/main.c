@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:56:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/16 21:50:04 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/17 19:10:22 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,18 @@ int	main(int argc, char **argv, char **envp)
 	env->split_path = get_split_path(envp, grgb_collector);
 	env->environment = dup_env(envp, grgb_collector);
 	env->home = get_env_value("HOME", env->environment, grgb_collector);
+	env->exit_code = 0;
 	// printf("env->home %s\n", env->home);
 	update_shlvl(env, grgb_collector);
 	// printf("env->home hii%s\n", env->home);
 	// while (1)
 	// {
-	// 	if (g_sigint)
-	// 	{
-	// 		g_sigint = 0;
-	// 		continue;
-	// 	}
-		parsing_main(env, "ls", grgb_collector);
+		// if (g_sigint)
+		// {
+		// 	g_sigint = 0;
+		// 	continue;
+		// }
+		parsing_main(env, "export", grgb_collector);
 	// }
 	ft_free_gc(grgb_collector);
 	return (0);

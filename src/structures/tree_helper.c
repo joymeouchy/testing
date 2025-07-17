@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 21:17:46 by root              #+#    #+#             */
-/*   Updated: 2025/07/16 21:48:00 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:29:18 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ t_tree_node	*build_tree(t_stack *stack, t_envp *environment, t_gc_list *grgb_col
 	new_node = create_tree_node(stack, environment, grgb_collector);
 	if (!new_node)
 		return (NULL);
-	if ((new_node->token == COMMAND || new_node->token == BUILT_IN)
+	if (stack && stack->stack && stack->top >-1 &&
+		(new_node->token == COMMAND || new_node->token == BUILT_IN)
 		&& stack->stack[stack->top].token != PIPE
 		&& stack->stack[stack->top].token != BUILT_IN
 		&& stack->stack[stack->top].token != COMMAND)

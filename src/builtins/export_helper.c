@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:50:26 by root              #+#    #+#             */
-/*   Updated: 2025/07/16 20:32:07 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/17 19:13:40 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*extract_key(const char *arg, t_gc_list *grbg_collector)
 
 	if (!arg)
 		return (NULL);
-	equal = strchr(arg, '=');
+	equal = ft_strchr(arg, '=');
 	if (equal)
 		key_len = equal - arg;
 	else
