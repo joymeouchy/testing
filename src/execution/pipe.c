@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:51:42 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/15 19:58:38 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/17 20:21:00 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	read_from_pipe(t_tree_node *node,
 		close(pipefd[0]);
 		close(pipefd[1]);
 		execution(node, env, grbg_collector);
+		ft_free_gc(grbg_collector);
 		exit(0);
 	}
 }
@@ -40,6 +41,7 @@ void	write_to_pipe(t_tree_node *node,
 		close(pipefd[0]);
 		close(pipefd[1]);
 		execution(node, env, grbg_collector);
+		ft_free_gc(grbg_collector);
 		exit(0);
 	}
 }

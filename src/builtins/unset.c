@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:06:11 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/17 19:07:08 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/17 20:09:38 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	match_key(const char *env_entry, const char *key)
 
 void	remove_env_entry(char **env, int index)
 {
-	free(env[index]);
+	// free(env[index]);
 	while (env[index])
 	{
 		env[index] = env[index + 1];

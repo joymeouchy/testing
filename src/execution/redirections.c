@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/15 20:04:13 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/17 20:19:31 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env, t_gc_list *grbg_collector)
 {
 	int	fd;
+	long long	exit_code;
 
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
@@ -46,6 +47,7 @@ void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env, t_
 		ft_putstr_fd(": ", 2);
 		ft_putendl_fd(strerror(errno), 2);
 		env->exit_code = 1;
+		ft_free_gc(grbg_collector);
 		exit(1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
@@ -54,12 +56,15 @@ void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env, t_
 		ft_putendl_fd(strerror(errno), 2);
 		close(fd);
 		env->exit_code = 1;
+		ft_free_gc(grbg_collector);
 		exit(1);
 	}
 	close(fd);
 	unlink("heredoc_temp.txt");
 	execution(node->right, env, grbg_collector);
-	exit(env->exit_code);
+	exit_code = env->exit_code;
+	ft_free_gc(grbg_collector);
+	exit(exit_code);
 }
 
 // static void	redirect_stdout_and_exec(t_tree_node *node,
@@ -87,6 +92,7 @@ static void	redirect_stdout_and_exec(t_tree_node *node,
 	char *file_name, int open_flag, t_envp *env, t_gc_list *grbg_collector)
 {
 	int	fd;
+	long long	exit_code;
 
 	fd = open(file_name, O_WRONLY | O_CREAT | open_flag, 0644);
 	if (fd == -1)
@@ -96,6 +102,7 @@ static void	redirect_stdout_and_exec(t_tree_node *node,
 		ft_putstr_fd(": ", 2);
 		ft_putendl_fd(strerror(errno), 2);
 		env->exit_code = 1;
+		ft_free_gc(grbg_collector);
 		exit(1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
@@ -104,11 +111,14 @@ static void	redirect_stdout_and_exec(t_tree_node *node,
 		ft_putendl_fd(strerror(errno), 2);
 		close(fd);
 		env->exit_code = 1;
+		ft_free_gc(grbg_collector);
 		exit(1);
 	}
 	close(fd);
 	execution(node->right, env, grbg_collector);
-	exit(env->exit_code);
+	exit_code = env->exit_code;
+	ft_free_gc(grbg_collector);
+	exit(exit_code);
 }
 
 

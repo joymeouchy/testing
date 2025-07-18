@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:56:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/17 19:10:22 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/18 09:06:04 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,15 @@ int	main(int argc, char **argv, char **envp)
 	// printf("env->home %s\n", env->home);
 	update_shlvl(env, grgb_collector);
 	// printf("env->home hii%s\n", env->home);
-	// while (1)
-	// {
-		// if (g_sigint)
-		// {
-		// 	g_sigint = 0;
-		// 	continue;
-		// }
-		parsing_main(env, "export", grgb_collector);
-	// }
+	while (1)
+	{
+		if (g_sigint)
+		{
+			g_sigint = 0;
+			continue;
+		}
+		parsing_main(env, command_line_input(), grgb_collector);
+	}
 	ft_free_gc(grgb_collector);
 	return (0);
 }

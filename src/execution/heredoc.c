@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/17 18:29:42 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/17 20:21:13 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ static void	handle_heredoc_child(t_tree_node *node, t_envp *env, t_gc_list *grbg
 
 	temp_fd = open_heredoc_file();
 	if (temp_fd == -1)
+	{
+		ft_free_gc(grbg_collector);
 		exit(1);
+	}
 	write_heredoc_to_file(temp_fd, node->redir_arg, env, grbg_collector);
 	close(temp_fd);
 	redirect_stdin_and_exec(node, "heredoc_temp.txt", env, grbg_collector);
