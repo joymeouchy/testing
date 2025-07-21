@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:56:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/18 09:06:04 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/21 19:29:33 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	main(int argc, char **argv, char **envp)
 	env->split_path = get_split_path(envp, grgb_collector);
 	env->environment = dup_env(envp, grgb_collector);
 	env->home = get_env_value("HOME", env->environment, grgb_collector);
+	env->export_only = NULL;
 	env->exit_code = 0;
 	// printf("env->home %s\n", env->home);
 	update_shlvl(env, grgb_collector);
@@ -85,3 +86,4 @@ int	main(int argc, char **argv, char **envp)
 	ft_free_gc(grgb_collector);
 	return (0);
 }
+	

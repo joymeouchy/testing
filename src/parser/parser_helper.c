@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:54:18 by root              #+#    #+#             */
-/*   Updated: 2025/07/16 20:30:49 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/21 19:19:55 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,20 @@ bool	is_space(char c)
 	return (false);
 }
 
+void skip_spaces(char *input, int *i, int *start)
+{
+    while (is_space(input[*i]))
+        (*i)++;
+    *start = *i;
+}
+
 int	split_symbols(char *input, t_list *list, int start, int *i, t_gc_list *grbg_collector)
 {
 	if (is_space(input[*i]))
 	{
-		if (*i != start)
+		if (*i > start)
 			insert_at_end_list(list, ft_substr(input, start, *i - start, grbg_collector), grbg_collector);
-		while (is_space(input[*i]))
-			(*i)++;
-		start = *i;
+		skip_spaces(input, i, &start);
 	}
 	if (input[*i] == '|')
 	{

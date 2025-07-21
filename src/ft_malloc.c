@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 09:00:37 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/16 20:17:21 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/21 19:35:18 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,5 @@ void ft_free_gc(t_gc_list *grbg_collector)
 	}
 	grbg_collector->head = NULL;
 	free(grbg_collector);
+	rl_clear_history();
 }
