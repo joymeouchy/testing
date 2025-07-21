@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 19:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/07/21 20:42:43 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/21 20:50:34 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,31 @@ char	*replace_variable(char *str, char *var_name,
 	return (result);
 }
 
+int	get_pid_from_proc(void)
+{
+	int		fd;
+	char	buf[256];
+	int		i;
+	int		pid;
+
+	fd = open("/proc/self/stat", O_RDONLY);
+	if (fd < 0)
+		return (-1);
+	i = read(fd, buf, sizeof(buf) - 1);
+	close(fd);
+	if (i <= 0)
+		return (-1);
+	buf[i] = '\0';
+	i = 0;
+	pid = 0;
+	while (buf[i] >= '0' && buf[i] <= '9')
+	{
+		pid = pid * 10 + (buf[i] - '0');
+		i++;
+	}
+	return (pid);
+}
+
 static char	*process_expansion(char *str, t_envp *env, t_gc_list *grbg_collector)
 {
 	int		dollar_pos;
@@ -45,6 +70,11 @@ static char	*process_expansion(char *str, t_envp *env, t_gc_list *grbg_collector
 		{
 			var_name = "$?";
 			replacement = ft_itoa(env->exit_code, grbg_collector);
+		}
+		else if(str[dollar_pos + 1] == '$')
+		{
+			var_name = "$$";
+			replacement = ft_itoa(get_pid_from_proc(), grbg_collector);
 		}
 		else
 		{
