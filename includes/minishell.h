@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/21 19:20:26 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/21 20:10:04 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char	*extract_variable_name(char *str, t_gc_list *grbg_collector);
 char	*command_line_input(void);
 char	*replace_variable(char *str, char *var_name,
 	char *replacement, int dollar_pos, t_gc_list *grbg_collector);
-char	*expand(char *str, char **envp, t_gc_list *grbg_collector);
+char	*expand(char *str, t_envp *env, t_gc_list *grbg_collector);
 char	**get_split_path(char **envp, t_gc_list *grbg_collector);
 char	*append_char_to_string(char *src, char c);
 bool	check_if_dollar_to_print(char *str);

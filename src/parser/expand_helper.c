@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/07/16 20:31:05 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/21 20:05:59 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ bool	check_if_dollar_to_print(char *str)
 	if (str[i] == '\0')
 		return (true);
 	i++;
+	if(str[i] == '?' || str[i] == '$')
+		return (false);
 	if (str[i] == '\0'
 		|| ((ft_isalnum(str[i]) == 0 || str[i] == '0' || str[i] == '$')
 			&& in_double_quote == 0))
@@ -88,7 +90,7 @@ char	*extract_variable_name(char *str, t_gc_list *grbg_collector)
 	i = find_dollar(str);
 	i++;
 	start = i;
-	if (str[i] >= '1' && str[i] <= '9')
+	if (str[i] == '?' || str[i] == '$' || (str[i] >= '1' && str[i] <= '9'))
 		return (ft_substr(str, start, i + 1 - start, grbg_collector));
 	start = i;
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
