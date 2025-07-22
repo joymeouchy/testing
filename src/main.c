@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:56:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/21 19:29:33 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/22 21:53:50 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int argc, char **argv, char **envp)
 	t_envp	*env;
 	t_gc_list *grgb_collector;
 
-	signals();
+	main_signal();
     grgb_collector = init_grbg_collector();
 	env = ft_malloc(sizeof(t_envp), grgb_collector);
 	if (!env)
@@ -76,11 +76,12 @@ int	main(int argc, char **argv, char **envp)
 	// printf("env->home hii%s\n", env->home);
 	while (1)
 	{
-		if (g_sigint)
-		{
-			g_sigint = 0;
-			continue;
-		}
+		// if (g_sigint)
+		// {
+		// 	g_sigint = 0;
+		// 	continue;
+		// }
+
 		parsing_main(env, command_line_input(), grgb_collector);
 	}
 	ft_free_gc(grgb_collector);

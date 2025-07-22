@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:54:18 by root              #+#    #+#             */
-/*   Updated: 2025/07/21 19:19:55 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/22 20:39:15 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ int	split_redirections(char *input, t_list *list, int start, int *i, t_gc_list *
 
 bool	is_space(char c)
 {
-	if (c == ' ' || c == '\t' || c == '\n'
-		|| c == '\f' || c == '\r' || c == '\v')
+	if (c == ' ' || c == '\t' || c == '\n')
 		return (true);
 	return (false);
 }
@@ -67,4 +66,4 @@ int	split_symbols(char *input, t_list *list, int start, int *i, t_gc_list *grbg_
 	}
 	return (start);
 }
-	
+		

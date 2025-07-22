@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 21:04:58 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/17 18:28:55 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/22 21:36:17 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	exec_cmd(t_tree_node *node, t_envp *env, t_gc_list *grgb_collector)
 	pid = fork();
 	if (pid == 0)
 	{
+		restore_signals();
 		execve(path, args, node->path->environment);
 		perror("execve failed");
 		return (env->exit_code = 1);

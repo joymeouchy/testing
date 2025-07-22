@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:42:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/21 19:19:44 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/22 20:49:12 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ int	quoted_word_to_node(char *input, t_list *list, int start, int *i, t_gc_list 
 	char	quote;
 
 	result = ft_strdup("", grbg_collector);
-	while (input[*i] && !(input[*i] == ' ' || input[*i] == '|'
-			|| input[*i] == '<' || input[*i] == '>'))
+	while (input[*i] && !is_space(input[*i]) && input[*i] != '|'
+			&& input[*i] != '<' && input[*i] != '>')
 	{
 		if (input[*i] == '"' || input[*i] == '\'')
 			temp = quoted_section(input, i, &segment_start, &quote, grbg_collector);

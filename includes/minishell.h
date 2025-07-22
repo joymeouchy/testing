@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/21 20:10:04 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/22 22:03:45 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@
 # include <dirent.h>
 # define _GNU_SOURCE
 
-extern volatile sig_atomic_t g_sigint;
+// extern volatile sig_atomic_t g_sigint;
+extern int g_sigint;
 ///Builtins
 char *get_env_value(const char *name, char **env, t_gc_list *grbg_collector);
 char *handle_cd_home(t_envp *env, t_gc_list *grbg_collector);
@@ -130,4 +131,8 @@ int print_message_and_exit(char *message, char *word, int exit_code);
 void signal_in_child(void);
 bool	is_space(char c);
 
+void    main_signal(void);
+void    ignore_signals(void);
+void    restore_signals(void);
+void    restore_signals_heredoc(void);
 #endif

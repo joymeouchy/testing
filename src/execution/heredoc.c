@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/21 20:22:30 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/22 22:01:09 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-volatile sig_atomic_t g_sigint = 0;
+// volatile sig_atomic_t g_sigint = 0;
 
 static int	open_heredoc_file(void)
 {
@@ -77,7 +77,8 @@ void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 		return ;
 	if (pid == 0 && node->redir_arg != NULL)
 	{
-		signal_in_child();
+		// signal_in_child();
+		restore_signals_heredoc();
 		handle_heredoc_child(node, env, grbg_collector);
 	}
 	else
@@ -86,7 +87,7 @@ void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 		if(WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		{
 			write(1, "\n", 1);
-			g_sigint = 1;
+			// g_sigint = 1;
 		}
 	}
 }

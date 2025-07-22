@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/21 19:13:31 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/22 22:01:58 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*command_line_input(void)
 	char	*input;
 
 	input = readline("Minishell$ ");
+	if(!input)
+		exit(0);
 	if (input && *input)
 		add_history(input);
 	return (input);
@@ -37,8 +39,9 @@ static void	exec_script_or_binary(char *file, char **envp, int exit_code)
 static int	wait_for_child(pid_t pid, t_envp *env)
 {
 	int	status;
-
+	ignore_signals();
 	waitpid(pid, &status, 0);
+	main_signal();
 	if (WIFEXITED(status))
 		env->exit_code = WEXITSTATUS(status);
 	return (0);
@@ -70,7 +73,11 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 	t_stack	*stack;
 	t_tree	*tree;
 	// (void)env;
-
+	if(g_sigint == 130)
+	{
+		env->exit_code = 130;
+		g_sigint = 0;
+	}
 	list = input_to_list(input, grbg_collector);
 	if (!list || !list->head)
 	{
