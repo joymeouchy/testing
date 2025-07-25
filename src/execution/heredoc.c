@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/22 22:01:09 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/25 20:37:50 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 	pid_t	pid;
 	int status;
 
-	pid = fork();
+	pid = fork(); //TODO add ext code
 	if (pid == -1)
 		return ;
 	if (pid == 0 && node->redir_arg != NULL)
@@ -81,13 +81,10 @@ void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 		restore_signals_heredoc();
 		handle_heredoc_child(node, env, grbg_collector);
 	}
-	else
+	else if (pid > 0)
 	{
-		waitpid(pid, NULL, 0);
-		if(WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		{
-			write(1, "\n", 1);
-			// g_sigint = 1;
-		}
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+            env->exit_code = WEXITSTATUS(status);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:42:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/22 20:49:12 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/25 17:02:47 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_list	*input_to_list(char *input, t_gc_list *grbg_collector)
 	{
 		start = split_symbols(input, list, start, &i, grbg_collector);
 		start = split_redirections(input, list, start, &i, grbg_collector);
-		if (input[i] && is_space(input[i]) && input[i] != '|'
+		if (input[i] && !is_space(input[i]) && input[i] != '|'
 			&& input[i] != '<' && input[i] != '>')
 		{
 			start = quoted_word_to_node(input, list, start, &i, grbg_collector);

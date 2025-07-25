@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 21:04:58 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/22 21:36:17 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/25 17:22:30 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,17 @@ int	exec_cmd(t_tree_node *node, t_envp *env, t_gc_list *grgb_collector)
 		return (env->exit_code = 1);
 	}
 	else if (pid > 0)
+	{
 		waitpid(pid, &status, 0);
+        if (WIFEXITED(status))
+            env->exit_code = WEXITSTATUS(status);	
+	}
+		// waitpid(pid, &status, 0);
 	else
-		perror("fork failed");
+	{
+        perror("fork failed");
+        env->exit_code = 1;
+    }
 	// free(path);
 	// free(args);
 	return (env->exit_code);

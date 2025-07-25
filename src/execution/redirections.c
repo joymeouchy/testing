@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/17 20:19:31 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/25 21:47:40 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ static void	redirect_stdout_and_exec(t_tree_node *node,
 		ft_putstr_fd(": ", 2);
 		ft_putendl_fd(strerror(errno), 2);
 		env->exit_code = 1;
+		ft_putstr_fd("hellloooooooooooo\n", 1);
 		ft_free_gc(grbg_collector);
 		exit(1);
 	}
@@ -125,6 +126,7 @@ static void	redirect_stdout_and_exec(t_tree_node *node,
 void	redir_input(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid == -1)
@@ -132,12 +134,16 @@ void	redir_input(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 	if (pid == 0)
 		redirect_stdin_and_exec(node, node->redir_arg, env, grbg_collector);
 	else if (pid > 0)
+	{
 		waitpid(pid, NULL, 0);
+		if (WIFEXITED(status))
+            env->exit_code = WEXITSTATUS(status);
+	}
 }
-
 void	redir_output(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid == -1)
@@ -145,12 +151,17 @@ void	redir_output(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 	if (pid == 0)
 		redirect_stdout_and_exec(node, node->redir_arg, O_TRUNC, env, grbg_collector);
 	else if (pid > 0)
-		waitpid(pid, NULL, 0);
+	{
+		waitpid(pid, &status, 0);
+        if (WIFEXITED(status))
+            env->exit_code = WEXITSTATUS(status);
+	}
 }
 
 void	redir_output_append(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid == -1)
@@ -158,7 +169,11 @@ void	redir_output_append(t_tree_node *node, t_envp *env, t_gc_list *grbg_collect
 	if (pid == 0)
 		redirect_stdout_and_exec(node, node->redir_arg, O_APPEND, env, grbg_collector);
 	else if (pid > 0)
+	{
 		waitpid(pid, NULL, 0);
+		if (WIFEXITED(status))
+            env->exit_code = WEXITSTATUS(status);
+	}
 }
 
 

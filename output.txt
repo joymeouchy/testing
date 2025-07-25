@@ -1,0 +1,10 @@
+includes
+kh
+libft
+Makefile
+minishell
+minishell_tester
+output1.txt
+output2.txt
+output.txt
+src

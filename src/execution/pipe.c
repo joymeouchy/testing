@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:51:42 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/17 20:21:00 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/25 20:32:46 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ void	read_from_pipe(t_tree_node *node,
 {
 	*read_pid = fork();
 	if (*read_pid == -1)
+	{
 		return ;
+	}
 	if (*read_pid == 0)
 	{
 		dup2(pipefd[0], 0);
@@ -34,7 +36,9 @@ void	write_to_pipe(t_tree_node *node,
 {
 	*write_pid = fork();
 	if (*write_pid == -1)
+	{
 		return ;
+	}
 	if (*write_pid == 0)
 	{
 		dup2(pipefd[1], 1);
@@ -69,6 +73,7 @@ int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env, t_gc_list *grbg_co
 	int		pipefd[2];
 	pid_t	read_pid;
 	pid_t	write_pid;
+	int		status;
 
 	if (pipe(pipefd) == -1)
 		return (1);
@@ -89,8 +94,8 @@ int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env, t_gc_list *grbg_co
 	}
 	close(pipefd[0]);
 	close(pipefd[1]);
-	waitpid(write_pid, NULL, 0);
-	waitpid(read_pid, NULL, 0);
+	waitpid(write_pid, &status, 0);
+	waitpid(read_pid, &status, 0);
 	return (0);
 }
 
