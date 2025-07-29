@@ -6,13 +6,13 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:30:37 by root              #+#    #+#             */
-/*   Updated: 2025/07/25 16:50:09 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/29 19:25:26 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	is_valid_directory(const char *path)
+int	is_valid_directory(const char *path)
 {
 	DIR	*dir;
 
