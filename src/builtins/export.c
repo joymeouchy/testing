@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:50:44 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/17 19:21:18 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/29 20:53:52 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ int	export(t_tree_node *root, t_envp *env, t_gc_list *grbg_collector)
 		}
 		else
 		{
-			printf("minishell: export: `%s': not a valid identifier\n", arg->data);
+			ft_putstr_fd("minishell: export: ", 2);
+			ft_putstr_fd(arg->data, 2);
+			ft_putendl_fd(": not a valid identifier", 2);
 			ret = 1;
 		}
 		arg = arg->right;

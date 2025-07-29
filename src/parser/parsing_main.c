@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/29 20:38:22 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/29 20:57:17 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ static void	exec_script_or_binary(char *file, char **envp, int exit_code)
 	// printf("%s, file\n",file);
 	// if (!(ft_strncmp(file, "./", 2) == 0))
 	// {
-	// 	printf("hiiiiiiiiiiiiiiiiiii\n");
 		if(is_valid_directory(file)) //fix
 		{
 			ft_putstr_fd(file, 2);
-			ft_putstr_fd(": is a directory\n", 2);
+			ft_putstr_fd(": Is a directory\n", 2);
 			exit(126);
 		}
 	// }

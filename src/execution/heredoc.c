@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/29 20:02:32 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/29 20:57:06 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env, t_g
 			line = expand(line, env, grbg_collector);
 		if (!line)
 		{
-			printf("expand returned NULL\n");
+			ft_putendl_fd("expand returned NULL", 2);
 			break;
 		}
 		write(temp_fd, line, ft_strlen(line));

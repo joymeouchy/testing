@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:16:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/17 18:28:07 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/29 20:57:25 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	check_and_remove_quotes(t_list *list)
 			flag_balanced_quotes = check_if_quotes_balanced(temp->data);
 		if (flag_balanced_quotes == 1)
 		{
-			printf("syntax error: missing quote\n");
+			ft_putendl_fd("syntax error: missing quote", 2);
 			return (1); // TO-DO ADD ERROR MESSAGE AND STOP PROCESS
 		}
 		remove_quotes_from_string(temp->data);

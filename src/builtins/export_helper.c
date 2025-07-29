@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:50:26 by root              #+#    #+#             */
-/*   Updated: 2025/07/17 19:13:40 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/29 20:52:58 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	free_env(char **env)
-{
-	int	i;
-
-	i = 0;
-	if (!env)
-		return ;
-	while (env[i])
-	{
-		free(env[i]);
-		i++;
-	}
-	free(env);
-}
 
 int	count_env_vars(char **env)
 {

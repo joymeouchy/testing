@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:06:11 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/17 20:09:38 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/29 20:55:17 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	unset(t_tree_node *root, t_envp *env)
 			remove_var_from_env(arg->data, env);
 		else
 		{
-			printf("minishell: unset:'");
+			ft_putstr_fd("minishell: unset:'", 2);
 			return (print_message_and_exit(arg->data, "': not a valid identifier", 1));
 		}
 		arg = arg->right;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_helper.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:12:30 by root              #+#    #+#             */
-/*   Updated: 2025/07/17 18:58:21 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/29 20:56:27 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*handle_cd_home(t_envp *env, t_gc_list *grbg_collector)
 	home = get_env_value("HOME", env->environment, grbg_collector);
 	if (!home)
 	{
-		printf("minishell: cd: HOME not set\n");
+		ft_putendl_fd("minishell: cd: HOME not set", 2);
 		return (NULL);
 	}
 	return (ft_strdup(home, grbg_collector));
@@ -55,7 +55,7 @@ char	*handle_cd_dash(t_envp *env, t_gc_list *grbg_collector)
 	oldpwd = get_env_value("OLDPWD", env->environment, grbg_collector);
 	if (!oldpwd)
 	{
-		printf("minishell: cd: OLDPWD not set\n");
+		ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
 		return (NULL);
 	}
 	printf("%s\n", oldpwd);
@@ -72,7 +72,7 @@ char	*handle_cd_tilde(const char *arg, t_envp *env, t_gc_list *grbg_collector)
 		home = env->home;
 	if (!home)
 	{
-		printf("minishell: cd: cannot determine home directory\n");
+		ft_putendl_fd("minishell: cd: cannot determine home directory", 2);
 		return (NULL);
 	}
 	printf("home%s\n", home);

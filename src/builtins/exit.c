@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:51:39 by root              #+#    #+#             */
-/*   Updated: 2025/07/17 19:08:43 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/29 20:53:14 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,9 @@ static int	handle_exit_args(t_tree_node *arg, t_envp *env, t_gc_list *grbg_colle
 
 	if (!is_numeric(arg->data) || !safe_atoll(arg->data, &value))
 	{
-		printf("exit: %s: numeric argument required\n", arg->data);
+		ft_putstr_fd("exit: ", 2);
+		ft_putstr_fd(arg->data, 2);
+		ft_putendl_fd(": numeric argument required", 2);
 		env->exit_code = 2;
 		ft_free_gc(grbg_collector);
 		exit(2);
@@ -109,14 +111,18 @@ int	exit_builtin(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 	argc = count_args(node);
 	if (argc >= 1 && (!is_numeric(arg->data) || !safe_atoll(arg->data, &value)))
 	{
-		printf("exit: %s: numeric argument required\n", arg->data);
+		ft_putstr_fd("exit: ", 2);
+		ft_putstr_fd(arg->data, 2);
+		ft_putendl_fd(": numeric argument required", 2);
+		// printf("exit: %s: numeric argument required\n", arg->data);
 		env->exit_code = 2;
 		ft_free_gc(grbg_collector);
 		exit(2);
 	}
 	if (argc > 1)
 	{
-		printf("exit: too many arguments\n");
+		ft_putendl_fd("exit: too many arguments", 2);
+		// printf("exit: too many arguments\n");
 		env->exit_code = 1;
 		return (1);
 	}

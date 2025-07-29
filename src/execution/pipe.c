@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:51:42 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/29 20:16:24 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/29 21:14:10 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	read_from_pipe(t_tree_node *node,
 	pid_t *read_pid, int pipefd[2], t_envp *env, t_gc_list *grbg_collector)
 {
+	long long int	exit_code;
 	*read_pid = fork();
 	if (*read_pid == -1)
 	{
@@ -25,15 +26,17 @@ void	read_from_pipe(t_tree_node *node,
 		dup2(pipefd[0], 0);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		execution(node, env, grbg_collector);
+		env->exit_code = execution(node, env, grbg_collector);
+		exit_code = env->exit_code;
 		ft_free_gc(grbg_collector);
-		exit(0);
+		exit(exit_code);
 	}
 }
 
 void	write_to_pipe(t_tree_node *node,
 	pid_t *write_pid, int pipefd[2], t_envp *env, t_gc_list *grbg_collector)
 {
+	long long int	exit_code;
 	*write_pid = fork();
 	if (*write_pid == -1)
 	{
@@ -44,9 +47,10 @@ void	write_to_pipe(t_tree_node *node,
 		dup2(pipefd[1], 1);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		execution(node, env, grbg_collector);
+		env->exit_code = execution(node, env, grbg_collector);
+		exit_code = env->exit_code;
 		ft_free_gc(grbg_collector);
-		exit(0);
+		exit(exit_code);
 	}
 }
 
@@ -85,9 +89,8 @@ int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env, t_gc_list *grbg_co
 	{
 		write_to_pipe(node->right, &write_pid, pipefd, env, grbg_collector);
 		read_from_pipe(node->left, &read_pid, pipefd, env, grbg_collector);
-
 	}
-	else
+	else if (pipe_count > 1)
 	{
 		write_to_pipe(node->left, &write_pid, pipefd, env, grbg_collector);
 		read_from_pipe(node->right, &read_pid, pipefd, env, grbg_collector);
@@ -96,6 +99,8 @@ int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env, t_gc_list *grbg_co
 	close(pipefd[1]);
 	waitpid(write_pid, &status, 0);
 	waitpid(read_pid, &status, 0);
-	return (0);
+	if (WIFEXITED(status))
+			env->exit_code = WEXITSTATUS(status);
+	return (env->exit_code);
 }
 
