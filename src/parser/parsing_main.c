@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/29 20:57:17 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/29 21:27:21 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,12 @@ static void	exec_script_or_binary(char *file, char **envp, int exit_code)
 {
 	char	*argv[] = { file, NULL };
 	char	*sh_argv[] = { "/bin/sh", file, NULL };
-	// printf("%s, file\n",file);
-	// if (!(ft_strncmp(file, "./", 2) == 0))
-	// {
-		if(is_valid_directory(file)) //fix
-		{
-			ft_putstr_fd(file, 2);
-			ft_putstr_fd(": Is a directory\n", 2);
-			exit(126);
-		}
-	// }
-	// if (access(file, X_OK) == 0)
-	// {
-	// 	write(1, "is a dir\n", 10);
-	// 	return ;
-	// }
+	if(is_valid_directory(file)) //fix
+	{
+		ft_putstr_fd(file, 2);
+		ft_putstr_fd(": Is a directory\n", 2);
+		exit(126);
+	}
 	execve(file, argv, envp);
 	if (errno == ENOEXEC)
 		execve("/bin/sh", sh_argv, envp);
@@ -71,8 +62,12 @@ int	check_file_executable(t_envp *env, char *file)
 	{
 		return (env->exit_code = print_message_and_exit(file, ":command not found", 127));
 	}
-	if (access(file, X_OK | R_OK) == -1)
+	if (access(file, R_OK) == -1)
 		return (-1);
+	if (access(file, X_OK | R_OK) == -1)
+	{
+		return (env->exit_code = print_message_and_exit(file, ": Permission denied", 126));
+	}
 	pid = fork();
 	if (pid == 0)
 		exec_script_or_binary(file, env->environment, env->exit_code);

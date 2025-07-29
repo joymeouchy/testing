@@ -6,13 +6,13 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 19:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/07/25 18:33:06 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/29 21:17:55 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*replace_variable(char *str, char *var_name,
+char	*replace_variable_word(char *str, char *var_name,
 	char *replacement, int dollar_pos, t_gc_list *grbg_collector)
 {
 	char	*before;
@@ -23,6 +23,23 @@ char	*replace_variable(char *str, char *var_name,
 	before = ft_substr(str, 0, dollar_pos, grbg_collector);
 	after = ft_substr(str, dollar_pos
 			+ ft_strlen(var_name) + 1, ft_strlen(str), grbg_collector);
+	temp = ft_strjoin(before, replacement, grbg_collector);
+	result = ft_strjoin(temp, after, grbg_collector);
+	// free(before);
+	// free(after);
+	// free(temp);
+	return (result);
+}char	*replace_variable_dollar(char *str, char *var_name,
+	char *replacement, int dollar_pos, t_gc_list *grbg_collector)
+{
+	char	*before;
+	char	*after;
+	char	*result;
+	char	*temp;
+
+	before = ft_substr(str, 0, dollar_pos, grbg_collector);
+	after = ft_substr(str, dollar_pos
+			+ ft_strlen(var_name), ft_strlen(str), grbg_collector);
 	temp = ft_strjoin(before, replacement, grbg_collector);
 	result = ft_strjoin(temp, after, grbg_collector);
 	// free(before);
@@ -70,11 +87,15 @@ static char	*process_expansion(char *str, t_envp *env, t_gc_list *grbg_collector
 		{
 			var_name = "$?";
 			replacement = ft_itoa(env->exit_code, grbg_collector);
+			expanded = replace_variable_dollar(str, var_name, replacement, dollar_pos, grbg_collector);
+			str = expanded;
 		}
 		else if(str[dollar_pos + 1] == '$')
 		{
 			var_name = "$$";
 			replacement = ft_itoa(get_pid_from_proc(), grbg_collector);
+			expanded = replace_variable_dollar(str, var_name, replacement, dollar_pos, grbg_collector);
+			str = expanded;
 		}
 		else
 		{
@@ -91,9 +112,9 @@ static char	*process_expansion(char *str, t_envp *env, t_gc_list *grbg_collector
 			replacement = ft_getenv(env->environment, var_name);
 			if (!replacement)
 				replacement = ft_calloc(1, 1, grbg_collector);
-		}
-		expanded = replace_variable(str, var_name, replacement, dollar_pos, grbg_collector);
+		expanded = replace_variable_word(str, var_name, replacement, dollar_pos, grbg_collector);
 		str = expanded;
+		}
 		dollar_pos = find_dollar(str);
 	}
 	return (str);
