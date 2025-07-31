@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/31 21:04:56 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/31 22:04:17 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	remove_quotes_from_substring(char *string,
 void	remove_quotes_from_string(char *string);
 void tokenize_redirections(t_list_node *temp);
 void	tokenize(t_list *list, t_envp *envp);
+void	tokenize_after_quotes(t_list *list, t_envp *envp);
 void	push_stack_to_other(t_stack *src, t_stack *dst);
 int	find_dollar(char *str);
 int	split_redirections(char *input, t_list *list, int start, int *i, t_gc_list *grbg_collector);

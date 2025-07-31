@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/31 21:55:56 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/31 22:04:35 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 	check_and_remove_quotes(list);
 	add_arg_to_redir(list);
 	check_and_remove_empty(list);
-	// tokenize(list, env); 
+	tokenize_after_quotes(list, env);
+	// tokenize(list, env); // this is because when we remove quotes we need to retokenize
 	// print_list(list);
 	stack = shunting_yard(list, grbg_collector);
 	if(!stack)

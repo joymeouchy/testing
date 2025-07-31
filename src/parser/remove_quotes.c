@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:16:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/29 20:57:25 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/31 22:01:58 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	remove_quotes_from_string(char *string)
 	ft_strlcpy(string, copy_string, ft_strlen(copy_string) + 1);
 	free(copy_string);
 }
+
 
 int	check_and_remove_quotes(t_list *list)
 {
