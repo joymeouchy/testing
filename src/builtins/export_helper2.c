@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:57:06 by root              #+#    #+#             */
-/*   Updated: 2025/07/17 19:14:08 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/31 22:51:48 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,10 @@ void	remove_var_by_key(char *arg, char ***env, t_gc_list *grgb_collector)
 	new_env = ft_malloc(sizeof(char *) * (size + 1), grgb_collector);
 	if (!new_env)
 	{
-		// free(key);
 		return ;
 	}
 	copy_except_key(*env, new_env, key, grgb_collector);
-	// free_env(*env);
 	*env = new_env;
-	// free(key);
 }
 
 int	find_key_index(char *key, int key_len, char **env)
@@ -71,10 +68,8 @@ int	replace_existing_key(char *arg, char ***env, t_gc_list *grbg_collector)
 	{
 		free((*env)[index]);
 		(*env)[index] = ft_strdup(arg, grbg_collector);
-		// free(key);
 		return (1);
 	}
-	// free(key);
 	return (0);
 }
 
@@ -100,7 +95,6 @@ void	add_new_var(char *arg, char ***env, t_gc_list *grgb_collector)
 	}
 	new_env[i] = ft_strdup(arg, grgb_collector);
 	new_env[i + 1] = NULL;
-	// free_env(*env);
 	*env = new_env;
 }
 

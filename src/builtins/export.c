@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:50:44 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/29 20:53:52 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/31 22:53:36 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static int	export_print_mode(t_envp *env, t_gc_list *grbg_collector)
 		print_key_value(merged[i], grbg_collector);
 		i++;
 	}
-	// free_env(merged);
 	return (0);
 }
 
@@ -61,4 +60,3 @@ int	export(t_tree_node *root, t_envp *env, t_gc_list *grbg_collector)
 	env->exit_code = ret;
 	return (ret);
 }
-

@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:06:11 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/29 20:55:17 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/31 22:54:31 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	match_key(const char *env_entry, const char *key)
 
 void	remove_env_entry(char **env, int index)
 {
-	// free(env[index]);
 	while (env[index])
 	{
 		env[index] = env[index + 1];
@@ -80,7 +79,8 @@ int	unset(t_tree_node *root, t_envp *env)
 		else
 		{
 			ft_putstr_fd("minishell: unset:'", 2);
-			return (print_message_and_exit(arg->data, "': not a valid identifier", 1));
+			return (print_message_and_exit(arg->data
+					, "': not a valid identifier", 1));
 		}
 		arg = arg->right;
 	}

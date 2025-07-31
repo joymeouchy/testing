@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:30:37 by root              #+#    #+#             */
-/*   Updated: 2025/07/29 19:25:26 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/31 22:41:45 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	is_valid_directory(const char *path)
 	return (1);
 }
 
-static void	update_pwd_vars(t_envp *env, const char *oldpwd, t_gc_list *grbg_collector)
+static void	update_pwd_vars(t_envp *env, const char *oldpwd,
+		t_gc_list *grbg_collector)
 {
 	char	*cwd;
 	char	*old_entry;
@@ -59,22 +60,21 @@ int	cd(t_tree_node *root, t_envp *env, t_gc_list *grbg_collector)
 	char		*oldpwd;
 
 	if (root && root->right)
-		arg = root->right->data; 
+		arg = root->right->data;
 	if (root->right && root->right->right)
-		return (env->exit_code = print_message_and_exit("cd:", "too many arguments", 1));
+		return (env->exit_code = print_message_and_exit("cd:",
+				"too many arguments", 1));
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 		return (1);
 	target = resolve_cd_target(arg, env, grbg_collector);
 	if (!target)
-		return ( 1);
+		return (1);
 	if (!is_valid_directory(target) || chdir(target) != 0)
 	{
 		env->exit_code = 1;
 		return (1);
 	}
 	update_pwd_vars(env, oldpwd, grbg_collector);
-	// free(target);
-	// free(oldpwd);
 	return (env->exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:12:30 by root              #+#    #+#             */
-/*   Updated: 2025/07/29 20:56:27 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/31 22:39:23 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ char	*get_env_value(const char *name, char **env, t_gc_list *grbg_collector)
 	}
 	return (NULL);
 }
-
 
 char	*handle_cd_home(t_envp *env, t_gc_list *grbg_collector)
 {
@@ -62,7 +61,8 @@ char	*handle_cd_dash(t_envp *env, t_gc_list *grbg_collector)
 	return (ft_strdup(oldpwd, grbg_collector));
 }
 
-char	*handle_cd_tilde(const char *arg, t_envp *env, t_gc_list *grbg_collector)
+char	*handle_cd_tilde(const char *arg, t_envp *env
+	, t_gc_list *grbg_collector)
 {
 	char	*home;
 	char	*path;
@@ -83,8 +83,8 @@ char	*handle_cd_tilde(const char *arg, t_envp *env, t_gc_list *grbg_collector)
 	return (path);
 }
 
-
-char	*resolve_cd_target(const char *arg, t_envp *env, t_gc_list *grbg_collector)
+char	*resolve_cd_target(const char *arg, t_envp *env
+	, t_gc_list *grbg_collector)
 {
 	if (!arg || arg == NULL)
 		return (handle_cd_home(env, grbg_collector));
@@ -94,4 +94,3 @@ char	*resolve_cd_target(const char *arg, t_envp *env, t_gc_list *grbg_collector)
 		return (handle_cd_tilde(arg, env, grbg_collector));
 	return (ft_strdup(arg, grbg_collector));
 }
-	

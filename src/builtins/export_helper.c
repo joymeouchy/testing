@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:50:26 by root              #+#    #+#             */
-/*   Updated: 2025/07/29 20:52:58 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/31 22:51:22 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ char	*extract_key(const char *arg, t_gc_list *grbg_collector)
 	return (key);
 }
 
-void	copy_except_key(char **old_env, char **new_env, char *key, t_gc_list *grbg_collector)
+void	copy_except_key(char **old_env, char **new_env
+	, char *key, t_gc_list *grbg_collector)
 {
 	int	i;
 	int	j;

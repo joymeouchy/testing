@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:04:06 by root              #+#    #+#             */
-/*   Updated: 2025/07/17 19:20:13 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/31 22:53:11 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ void	update_env(char *arg, t_envp *env, t_gc_list *grgb_collector)
 	if (!equal)
 	{
 		key = ft_strdup(arg, grgb_collector);
-		if (!var_exists(key, env->environment)
-			&& !var_exists(key, env->export_only))
+		if (!var_exists(key, env->environment) && !var_exists(key,
+				env->export_only))
 			add_new_var(key, &env->export_only, grgb_collector);
-		// free(key);
 		return ;
 	}
 	remove_var_by_key(arg, &env->export_only, grgb_collector);
@@ -52,8 +51,6 @@ void	print_key_value(char *env_var, t_gc_list *grbg_collector)
 	value = ft_strdup(equal + 1, grbg_collector);
 	if (key && value)
 		printf("declare -x %s=\"%s\"\n", key, value);
-	// free(key);
-	// free(value);
 }
 
 void	sort_env(char **env)
@@ -85,19 +82,21 @@ void	sort_env(char **env)
 	}
 }
 
-void	copy_env_vars(char **src, char **dst, int *dst_index, t_gc_list *grbg_collector)
+void	copy_env_vars(char **src, char **dst, int *dst_index,
+		t_gc_list *grbg_collector)
 {
 	int	i;
 
-	if (src ==NULL )
-		return;
-	for (i = 0; src[i] != NULL; i++)
+	if (src == NULL)
+		return ;
+	i = 0;
+	while (src[i] != NULL)
 	{
 		dst[*dst_index] = ft_strdup(src[i], grbg_collector);
 		(*dst_index)++;
+		i++;
 	}
 }
-
 
 char	**merge_env_vars(t_envp *env, t_gc_list *grgb_collector)
 {
