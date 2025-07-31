@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/29 19:55:28 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/31 21:41:42 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env, t_
 		exit(1);
 	}
 	close(fd);
-	unlink("heredoc_temp.txt");
+	// unlink(node->redir_arg);
 	execution(node->right, env, grbg_collector);
 	exit_code = env->exit_code;
 	ft_free_gc(grbg_collector);
@@ -150,13 +150,13 @@ int	handle_recirections(t_tree_node *node, t_envp *env, t_gc_list *grbg_collecto
 		return (env->exit_code = print_message_and_exit(
 				"minishell: syntax error near unexpected token `newline'",
 				"", 2));
-	 if (node->token == LEFT_REDIRECTION)
+	// if (node->token == LEFT_D_REDIRECTION)
+	// 	heredoc(node, env, grbg_collector);
+	if (node->token == LEFT_REDIRECTION)
 		return (redir_input(node, env, grbg_collector));
 	else if (node->token == RIGHT_REDIRECTION)
 		return (redir_output(node, env, grbg_collector));
 	else if (node->token == RIGHT_D_REDIRECTION)
 		return (redir_output_append(node, env, grbg_collector));
-	else if (node->token == LEFT_D_REDIRECTION)
-		heredoc(node, env, grbg_collector);
 	return (0);
 }

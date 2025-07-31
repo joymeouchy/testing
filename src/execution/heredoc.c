@@ -3,23 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/29 20:57:06 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/31 21:42:05 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	open_heredoc_file(void)
+char *open_heredoc_file(int *temp_fd, t_gc_list *grbg_collector, int heredoc_counter)
 {
-	int	fd;
+	char *filename;
 
-	fd = open("heredoc_temp.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
+	filename = ft_strdup("heredoc_temp", grbg_collector);
+	filename = ft_strjoin(filename, ft_itoa(heredoc_counter, grbg_collector), grbg_collector);
+	filename = ft_strjoin(filename, ".txt", grbg_collector);
+	*temp_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (*temp_fd == -1)
 		perror("Error creating temporary file for heredoc");
-	return (fd);
+	return (filename);
+}
+
+void replace_heredoc_node(t_tree_node *node, char *filename)
+{
+	node->data = "<";
+	node->token = LEFT_REDIRECTION;
+	node->redir_arg = filename;
 }
 
 static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env, t_gc_list *grbg_collector)
@@ -50,11 +60,12 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env, t_g
 	}
 }
 
-static void	handle_heredoc_child(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
+void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector, int heredoc_counter)
 {
 	int		temp_fd;
+	char	*filename;
 
-	temp_fd = open_heredoc_file();
+	filename = open_heredoc_file(&temp_fd, grbg_collector, heredoc_counter);
 	if (temp_fd == -1)
 	{
 		ft_free_gc(grbg_collector);
@@ -62,26 +73,6 @@ static void	handle_heredoc_child(t_tree_node *node, t_envp *env, t_gc_list *grbg
 	}
 	write_heredoc_to_file(temp_fd, node->redir_arg, env, grbg_collector);
 	close(temp_fd);
-	redirect_stdin_and_exec(node, "heredoc_temp.txt", env, grbg_collector);
+	replace_heredoc_node(node, filename);
 }
 
-void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
-{
-	pid_t	pid;
-	int status;
-
-	pid = fork(); //TODO add ext code
-	if (pid == -1)
-		return ;
-	if (pid == 0 && node->redir_arg != NULL)
-	{
-		restore_signals_heredoc();
-		handle_heredoc_child(node, env, grbg_collector);
-	}
-	else if (pid > 0)
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-            env->exit_code = WEXITSTATUS(status);
-	}
-}

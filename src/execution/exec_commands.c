@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 21:04:58 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/25 17:22:30 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/31 21:41:20 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,11 @@ int	exec_cmd(t_tree_node *node, t_envp *env, t_gc_list *grgb_collector)
         if (WIFEXITED(status))
             env->exit_code = WEXITSTATUS(status);	
 	}
-		// waitpid(pid, &status, 0);
 	else
 	{
         perror("fork failed");
         env->exit_code = 1;
     }
-	// free(path);
-	// free(args);
 	return (env->exit_code);
 }
 

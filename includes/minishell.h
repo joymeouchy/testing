@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/29 19:56:43 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/31 21:04:56 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	execution(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector);
 int	count_pipes(t_tree_node *node);
 int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env, t_gc_list *grbg_collector);
 int     handle_recirections(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector);
-void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector);
+void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector, int heredoc_counter);
 void	read_from_pipe(t_tree_node *node, pid_t *read_pid, int pipefd[2], t_envp *env, t_gc_list *grbg_collector);
 void	write_to_pipe(t_tree_node *node, pid_t *write_pid, int pipefd[2],t_envp *env, t_gc_list *grbg_collector);
 void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env, t_gc_list *grbg_collector);

@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:16:36 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/16 20:16:26 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/07/31 21:52:31 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ t_tree_node	*create_tree_node(t_stack *stack, t_envp *environment, t_gc_list *gr
 t_tree_node	*build_tree(t_stack *stack, t_envp *environment, t_gc_list *grgb_collector);
 //tree_utils
 void	swap_redir_to_bottom(t_tree_node **node_ptr);
-void	swap_redir_in_tree(t_tree_node *node);
+void	swap_redir_in_tree(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector, int *heredoc_counter);
 bool	should_swap(t_tree_node *node);
 t_tree	*stack_to_tree(t_stack *stack, t_envp *environment, t_gc_list *grbg_collector);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/29 21:27:21 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/07/31 21:55:56 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,12 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 	tree = stack_to_tree(stack, env, grbg_collector);
 	if (!tree)
 		return ; //something exit code and free
-	// printf("\ntree:\n");
-	// print_inorder(tree->root);
 	if (tree->root->token >= WORD)
 	{
 		if (check_file_executable(env, tree->root->data) == -1)
 			env->exit_code = print_message_and_exit(tree->root->data, ":no such file or directory", 127);
 	}
+	// printf("tree:\n");
+	// print_inorder(tree->root);
 	env->exit_code = execution(tree->root, env, grbg_collector);
 }
