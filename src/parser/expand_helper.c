@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/07/31 21:11:06 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/01 13:18:12 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,17 @@ bool	check_if_dollar_to_print(char *str)
 	in_double_quote = 0;
 	while (str[i] && str[i] != '$')
 	{
-		if (str[i] == '"' )
+		if (str[i] == '"')
 			in_double_quote = !in_double_quote;
 		i++;
 	}
 	if (str[i] == '\0')
 		return (true);
 	i++;
-	if(str[i] == '?' || str[i] == '$')
+	if (str[i] == '?' || str[i] == '$')
 		return (false);
-	if (str[i] == '\0'
-		|| ((ft_isalnum(str[i]) == 0 || str[i] == '0' || str[i] == '$')
-			&& in_double_quote == 0))
+	if (str[i] == '\0' || ((ft_isalnum(str[i]) == 0 || str[i] == '0'
+				|| str[i] == '$') && in_double_quote == 0))
 		return (true);
 	return (false);
 }

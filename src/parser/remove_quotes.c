@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:16:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/31 22:01:58 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/01 13:21:49 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	skip_quotes_in_string(int *count_quotes,
-	char *string, int *i, int quotes_ascii)
+void	skip_quotes_in_string(int *count_quotes, char *string, int *i,
+		int quotes_ascii)
 {
 	(*count_quotes)++;
 	(*i)++;
@@ -63,8 +63,8 @@ int	check_if_contains_quotes(char *string)
 	return (0);
 }
 
-void	remove_quotes_from_substring(char *string,
-	char **copy_string, int *i, int quotes_ascii)
+void	remove_quotes_from_substring(char *string, char **copy_string, int *i,
+		int quotes_ascii)
 {
 	(*i)++;
 	while (string[*i] && string[*i] != quotes_ascii)
@@ -100,7 +100,6 @@ void	remove_quotes_from_string(char *string)
 	ft_strlcpy(string, copy_string, ft_strlen(copy_string) + 1);
 	free(copy_string);
 }
-
 
 int	check_and_remove_quotes(t_list *list)
 {

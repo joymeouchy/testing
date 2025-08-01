@@ -6,80 +6,11 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:51:39 by root              #+#    #+#             */
-/*   Updated: 2025/07/31 22:50:20 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/01 12:46:36 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	is_numeric(const char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str || !*str)
-		return (0);
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	if (str[i] == '\0')
-		return (0);
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	safe_atoll(const char *str, long long *out)
-{
-	int			sign;
-	int			i;
-	long long	result;
-
-	sign = 1;
-	i = 0;
-	result = 0;
-	if (str[i] == '-')
-	{
-		sign = -1;
-		i++;
-	}
-	else if (str[i] == '+')
-		i++;
-	if (ft_strcmp(str, "-9223372036854775808") == 0)
-		*out = LLONG_MIN;
-	else
-	{
-		while (str[i])
-		{
-			if (!ft_isdigit(str[i]))
-				return (0);
-			if (result > (9223372036854775807LL - (str[i] - '0')) / 10)
-				return (0);
-			result = result * 10 + (str[i] - '0');
-			i++;
-		}
-		*out = result * sign;
-	}
-	return (1);
-}
-
-int	count_args(t_tree_node *node)
-{
-	int			count;
-	t_tree_node	*arg;
-
-	count = 0;
-	arg = node->right;
-	while (arg)
-	{
-		count++;
-		arg = arg->right;
-	}
-	return (count);
-}
 
 static int	handle_exit_args(t_tree_node *arg, t_envp *env,
 		t_gc_list *grbg_collector)
@@ -100,6 +31,17 @@ static int	handle_exit_args(t_tree_node *arg, t_envp *env,
 	exit((unsigned char)value);
 }
 
+static void	handle_non_numeric_exit(t_tree_node *arg, t_envp *env,
+		t_gc_list *grbg_collector)
+{
+	ft_putstr_fd("exit: ", 2);
+	ft_putstr_fd(arg->data, 2);
+	ft_putendl_fd(": numeric argument required", 2);
+	env->exit_code = 2;
+	ft_free_gc(grbg_collector);
+	exit(2);
+}
+
 int	exit_builtin(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 {
 	t_tree_node	*arg;
@@ -111,14 +53,7 @@ int	exit_builtin(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 	arg = node->right;
 	argc = count_args(node);
 	if (argc >= 1 && (!is_numeric(arg->data) || !safe_atoll(arg->data, &value)))
-	{
-		ft_putstr_fd("exit: ", 2);
-		ft_putstr_fd(arg->data, 2);
-		ft_putendl_fd(": numeric argument required", 2);
-		env->exit_code = 2;
-		ft_free_gc(grbg_collector);
-		exit(2);
-	}
+		handle_non_numeric_exit(arg, env, grbg_collector);
 	if (argc > 1)
 	{
 		ft_putendl_fd("exit: too many arguments", 2);

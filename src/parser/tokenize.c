@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 13:23:04 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/31 22:04:06 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/01 13:23:22 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	tokenize_redirections(t_list_node *temp)
 		temp->token = RIGHT_REDIRECTION;
 }
 
-static void	assign_token_type(t_list_node *node,
-	t_envp *envp, int *flag_command)
+static void	assign_token_type(t_list_node *node, t_envp *envp,
+		int *flag_command)
 {
-	if (!node || node->data == NULL )
+	if (!node || node->data == NULL)
 		return ;
 	if (node->data[0] == '|')
 	{
@@ -43,7 +43,8 @@ static void	assign_token_type(t_list_node *node,
 		node->token = BUILT_IN;
 		*flag_command = true;
 	}
-	else if (!(*flag_command) && ft_strcmp(node->data, "") && is_command(node->data, envp))
+	else if (!(*flag_command) && ft_strcmp(node->data, "")
+		&& is_command(node->data, envp))
 	{
 		node->token = COMMAND;
 		*flag_command = true;
@@ -66,24 +67,24 @@ void	tokenize(t_list *list, t_envp *envp)
 	}
 }
 
-
 void	tokenize_after_quotes(t_list *list, t_envp *envp)
 {
-	t_list_node	*temp;
-	int			flag_command;
+	t_list_node *temp;
+	int flag_command;
 
 	flag_command = false;
 	temp = list->head;
 	while (temp)
 	{
-		if (!temp || temp->data == NULL )
+		if (!temp || temp->data == NULL)
 			return ;
 		if (!flag_command && check_builtin(temp->data))
 		{
 			temp->token = BUILT_IN;
 			flag_command = true;
 		}
-		else if (!flag_command && ft_strcmp(temp->data, "") && is_command(temp->data, envp))
+		else if (!flag_command && ft_strcmp(temp->data, "")
+			&& is_command(temp->data, envp))
 		{
 			temp->token = COMMAND;
 			flag_command = true;

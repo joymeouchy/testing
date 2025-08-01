@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 06:42:48 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/16 21:37:30 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/01 13:30:07 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	init_stack(t_list *list, t_stack *stack, t_gc_list *grgb_collector)
 	if (list == NULL || stack == NULL || list->list_size <= 0)
 		return ;
 	stack->top = -1;
-	stack->stack = ft_malloc(sizeof(t_stack_element) * list->list_size , grgb_collector);
+	stack->stack = ft_malloc(sizeof(t_stack_element) * list->list_size,
+			grgb_collector);
 	if (!stack->stack)
 		return ;
 }
@@ -52,4 +53,3 @@ void	print_stack(t_stack *stack)
 		i++;
 	}
 }
-	

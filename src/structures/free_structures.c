@@ -3,21 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   free_structures.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 08:38:44 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/05 22:33:50 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/01 13:28:49 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/structures.h"
 
-void free_list_node(t_list_node *node)
+void	free_list_node(t_list_node *node)
 {
 	if (!node)
 		return ;
-	// if (node->data)
-	// 	free(node->data);
 	if (node->redir_arg)
 		free(node->redir_arg);
 	free(node);
@@ -41,17 +39,6 @@ void	free_list(t_list *list)
 	free(list);
 }
 
-// void	free_stack(t_stack *stack, int stack_top)
-// {
-// 	if (!stack)
-// 		return ;
-// 	stack->top = stack_top;
-// 	while (stack->top > 0)
-// 		pop(stack);
-// 	free(stack->stack);
-// 	// free(stack);
-// }
-
 void	free_stack(t_stack *stack)
 {
 	if (!stack)
@@ -59,7 +46,6 @@ void	free_stack(t_stack *stack)
 	while (stack->top > 0)
 		pop(stack);
 	free(stack->stack);
-	// free(stack);
 }
 
 void	free_2darray(char **array)
@@ -80,7 +66,7 @@ void	free_2darray(char **array)
 void	free_tree_node(t_tree_node *node)
 {
 	if (!node)
-		return;
+		return ;
 	free_tree_node(node->left);
 	free_tree_node(node->right);
 	if (node->redir_arg)
@@ -102,7 +88,7 @@ void	free_tree_node(t_tree_node *node)
 void	free_tree(t_tree_node *root)
 {
 	if (!root)
-		return;
+		return ;
 	free_tree_node(root);
 }
 

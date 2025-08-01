@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/31 21:42:05 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/01 12:54:02 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *open_heredoc_file(int *temp_fd, t_gc_list *grbg_collector, int heredoc_counter)
+char	*open_heredoc_file(int *temp_fd, t_gc_list *grbg_collector,
+		int heredoc_counter)
 {
-	char *filename;
+	char	*filename;
 
 	filename = ft_strdup("heredoc_temp", grbg_collector);
-	filename = ft_strjoin(filename, ft_itoa(heredoc_counter, grbg_collector), grbg_collector);
+	filename = ft_strjoin(filename, ft_itoa(heredoc_counter, grbg_collector),
+			grbg_collector);
 	filename = ft_strjoin(filename, ".txt", grbg_collector);
 	*temp_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (*temp_fd == -1)
@@ -25,14 +27,15 @@ char *open_heredoc_file(int *temp_fd, t_gc_list *grbg_collector, int heredoc_cou
 	return (filename);
 }
 
-void replace_heredoc_node(t_tree_node *node, char *filename)
+void	replace_heredoc_node(t_tree_node *node, char *filename)
 {
 	node->data = "<";
 	node->token = LEFT_REDIRECTION;
 	node->redir_arg = filename;
 }
 
-static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env, t_gc_list *grbg_collector)
+static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env,
+		t_gc_list *grbg_collector)
 {
 	char	*line;
 	int		quotes_in_delimiter;
@@ -52,7 +55,7 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env, t_g
 		if (!line)
 		{
 			ft_putendl_fd("expand returned NULL", 2);
-			break;
+			break ;
 		}
 		write(temp_fd, line, ft_strlen(line));
 		write(temp_fd, "\n", 1);
@@ -60,7 +63,8 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env, t_g
 	}
 }
 
-void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector, int heredoc_counter)
+void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector,
+		int heredoc_counter)
 {
 	int		temp_fd;
 	char	*filename;
@@ -75,4 +79,3 @@ void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector, int here
 	close(temp_fd);
 	replace_heredoc_node(node, filename);
 }
-

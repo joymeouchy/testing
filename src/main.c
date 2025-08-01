@@ -6,13 +6,13 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:56:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/22 21:53:50 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/01 13:33:00 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-char	**dup_env(char **envp, 	t_gc_list *grgb_collector)
+char	**dup_env(char **envp, t_gc_list *grgb_collector)
 {
 	int		count;
 	char	**copy;
@@ -47,22 +47,20 @@ void	update_shlvl(t_envp *env, t_gc_list *grgb_collector)
 	shlvl = ft_atoi(value) + 1;
 	new_value = ft_itoa(shlvl, grgb_collector);
 	new_entry = ft_strjoin("SHLVL=", new_value, grgb_collector);
-	// free(new_value);
 	remove_var_by_key("SHLVL", &env->environment, grgb_collector);
 	add_new_var(new_entry, &env->environment, grgb_collector);
-	// free(new_entry);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
+	t_envp		*env;
+	t_gc_list	*grgb_collector;
+
 	(void)argc;
 	(void)argv;
 	(void)envp;
-	t_envp	*env;
-	t_gc_list *grgb_collector;
-
 	main_signal();
-    grgb_collector = init_grbg_collector();
+	grgb_collector = init_grbg_collector();
 	env = ft_malloc(sizeof(t_envp), grgb_collector);
 	if (!env)
 		return (1);
@@ -71,20 +69,11 @@ int	main(int argc, char **argv, char **envp)
 	env->home = get_env_value("HOME", env->environment, grgb_collector);
 	env->export_only = NULL;
 	env->exit_code = 0;
-	// printf("env->home %s\n", env->home);
 	update_shlvl(env, grgb_collector);
-	// printf("env->home hii%s\n", env->home);
 	while (1)
 	{
-		// if (g_sigint)
-		// {
-		// 	g_sigint = 0;
-		// 	continue;
-		// }
-
 		parsing_main(env, command_line_input(), grgb_collector);
 	}
 	ft_free_gc(grgb_collector);
 	return (0);
 }
-	

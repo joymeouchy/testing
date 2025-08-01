@@ -6,16 +6,17 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:51:42 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/29 21:14:10 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/01 13:15:41 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	read_from_pipe(t_tree_node *node,
-	pid_t *read_pid, int pipefd[2], t_envp *env, t_gc_list *grbg_collector)
+void	read_from_pipe(t_tree_node *node, pid_t *read_pid, int pipefd[2],
+		t_envp *env, t_gc_list *grbg_collector)
 {
 	long long int	exit_code;
+
 	*read_pid = fork();
 	if (*read_pid == -1)
 	{
@@ -33,10 +34,11 @@ void	read_from_pipe(t_tree_node *node,
 	}
 }
 
-void	write_to_pipe(t_tree_node *node,
-	pid_t *write_pid, int pipefd[2], t_envp *env, t_gc_list *grbg_collector)
+void	write_to_pipe(t_tree_node *node, pid_t *write_pid, int pipefd[2],
+		t_envp *env, t_gc_list *grbg_collector)
 {
 	long long int	exit_code;
+
 	*write_pid = fork();
 	if (*write_pid == -1)
 	{
@@ -72,7 +74,25 @@ int	count_pipes(t_tree_node *node)
 	return (total);
 }
 
-int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env, t_gc_list *grbg_collector)
+static int	handle_pipe_logic(t_tree_node *node, int pipe_count,
+		pid_t *read_pid, pid_t *write_pid, int *pipefd, t_envp *env,
+		t_gc_list *grbg_collector)
+{
+	if (pipe_count == 1)
+	{
+		write_to_pipe(node->right, write_pid, pipefd, env, grbg_collector);
+		read_from_pipe(node->left, read_pid, pipefd, env, grbg_collector);
+	}
+	else
+	{
+		write_to_pipe(node->left, write_pid, pipefd, env, grbg_collector);
+		read_from_pipe(node->right, read_pid, pipefd, env, grbg_collector);
+	}
+	return (0);
+}
+
+int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env,
+		t_gc_list *grbg_collector)
 {
 	int		pipefd[2];
 	pid_t	read_pid;
@@ -82,25 +102,16 @@ int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env, t_gc_list *grbg_co
 	if (pipe(pipefd) == -1)
 		return (1);
 	if (!node->right && !node->left)
-		return (env->exit_code = print_message_and_exit(
-				"minishell: syntax error near unexpected token `newline'",
+		return (env->exit_code = print_message_and_exit
+			("minishell: syntax error near unexpected token `newline'",
 				"", 2));
-	if (pipe_count == 1)
-	{
-		write_to_pipe(node->right, &write_pid, pipefd, env, grbg_collector);
-		read_from_pipe(node->left, &read_pid, pipefd, env, grbg_collector);
-	}
-	else if (pipe_count > 1)
-	{
-		write_to_pipe(node->left, &write_pid, pipefd, env, grbg_collector);
-		read_from_pipe(node->right, &read_pid, pipefd, env, grbg_collector);
-	}
+	handle_pipe_logic(node, pipe_count, &read_pid, &write_pid, pipefd, env,
+		grbg_collector);
 	close(pipefd[0]);
 	close(pipefd[1]);
 	waitpid(write_pid, &status, 0);
 	waitpid(read_pid, &status, 0);
 	if (WIFEXITED(status))
-			env->exit_code = WEXITSTATUS(status);
+		env->exit_code = WEXITSTATUS(status);
 	return (env->exit_code);
 }
-

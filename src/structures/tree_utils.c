@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 12:05:32 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/31 21:56:01 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/01 13:31:37 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	swap_redir_to_bottom(t_tree_node **node_ptr)
 	}
 }
 
-void	swap_redir_in_tree(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector, int *heredoc_counter)
+void	swap_redir_in_tree(t_tree_node *node, t_envp *env,
+		t_gc_list *grbg_collector, int *heredoc_counter)
 {
 	if (node == NULL)
 		return ;
@@ -57,18 +58,18 @@ void	swap_redir_in_tree(t_tree_node *node, t_envp *env, t_gc_list *grbg_collecto
 	swap_redir_to_bottom(&node);
 }
 
-t_tree	*stack_to_tree(t_stack *stack, t_envp *environment, t_gc_list *grbg_collector)
+t_tree	*stack_to_tree(t_stack *stack, t_envp *environment,
+		t_gc_list *grbg_collector)
 {
 	t_tree	*tree;
-	int heredoc_counter;
+	int		heredoc_counter;
 
 	heredoc_counter = 0;
 	if (!stack || stack->top < 0)
 		return (NULL);
 	tree = init_tree(grbg_collector);
 	tree->root = build_tree(stack, environment, grbg_collector);
-	// printf("tree bf redir swap:\n");
-	// print_inorder(tree->root);
-	swap_redir_in_tree(tree->root, environment, grbg_collector, &heredoc_counter);
+	swap_redir_in_tree(tree->root, environment, grbg_collector,
+		&heredoc_counter);
 	return (tree);
 }

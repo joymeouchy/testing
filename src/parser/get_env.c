@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 13:23:04 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/16 20:24:49 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/01 13:19:47 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ char	**get_split_path(char **envp, t_gc_list *grbg_collector)
 
 	if (envp == NULL)
 		return (NULL);
-	split_path = ft_split(find_the_word_path_in_envp(envp), ':', grbg_collector);
+	split_path = ft_split(find_the_word_path_in_envp(envp), ':',
+			grbg_collector);
 	if (!split_path)
 		return (NULL);
 	i = 0;

@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/31 21:41:42 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/01 13:16:15 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env, t_gc_list *grbg_collector)
+void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env,
+		t_gc_list *grbg_collector)
 {
-	int	fd;
+	int			fd;
 	long long	exit_code;
 
 	fd = open(file_name, O_RDONLY);
@@ -45,10 +46,10 @@ void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env, t_
 	exit(exit_code);
 }
 
-static void	redirect_stdout_and_exec(t_tree_node *node,
-	char *file_name, int open_flag, t_envp *env, t_gc_list *grbg_collector)
+static void	redirect_stdout_and_exec(t_tree_node *node, char *file_name,
+		int open_flag, t_envp *env, t_gc_list *grbg_collector)
 {
-	int	fd;
+	int			fd;
 	long long	exit_code;
 
 	fd = open(file_name, O_WRONLY | O_CREAT | open_flag, 0644);
@@ -86,7 +87,6 @@ int	redir_input(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 	pid = fork();
 	if (pid == -1)
 		return (1);
-
 	if (pid == 0)
 		redirect_stdin_and_exec(node, node->redir_arg, env, grbg_collector);
 	else
@@ -106,9 +106,9 @@ int	redir_output(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 	pid = fork();
 	if (pid == -1)
 		return (1);
-
 	if (pid == 0)
-		redirect_stdout_and_exec(node, node->redir_arg, O_TRUNC, env, grbg_collector);
+		redirect_stdout_and_exec(node, node->redir_arg, O_TRUNC, env,
+			grbg_collector);
 	else
 	{
 		waitpid(pid, &status, 0);
@@ -118,7 +118,8 @@ int	redir_output(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 	return (env->exit_code);
 }
 
-int	redir_output_append(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
+int	redir_output_append(t_tree_node *node, t_envp *env,
+		t_gc_list *grbg_collector)
 {
 	pid_t	pid;
 	int		status;
@@ -126,9 +127,9 @@ int	redir_output_append(t_tree_node *node, t_envp *env, t_gc_list *grbg_collecto
 	pid = fork();
 	if (pid == -1)
 		return (1);
-
 	if (pid == 0)
-		redirect_stdout_and_exec(node, node->redir_arg, O_APPEND, env, grbg_collector);
+		redirect_stdout_and_exec(node, node->redir_arg, O_APPEND, env,
+			grbg_collector);
 	else
 	{
 		waitpid(pid, &status, 0);
@@ -138,17 +139,16 @@ int	redir_output_append(t_tree_node *node, t_envp *env, t_gc_list *grbg_collecto
 	return (env->exit_code);
 }
 
-int	handle_recirections(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
+int	handle_recirections(t_tree_node *node, t_envp *env,
+		t_gc_list *grbg_collector)
 {
-	if (node->right && !(node->right->token >= 1 || node->right->token <=6))
+	if (node->right && !(node->right->token >= 1 || node->right->token <= 6))
 	{
-		return (env->exit_code = print_message_and_exit(
-				"minishell: syntax error near unexpected token `newline'",
+		return (env->exit_code = print_message_and_exit("minishell: syntax error near unexpected token `newline'",
 				"", 2));
 	}
 	else if (node->redir_arg == NULL)
-		return (env->exit_code = print_message_and_exit(
-				"minishell: syntax error near unexpected token `newline'",
+		return (env->exit_code = print_message_and_exit("minishell: syntax error near unexpected token `newline'",
 				"", 2));
 	// if (node->token == LEFT_D_REDIRECTION)
 	// 	heredoc(node, env, grbg_collector);

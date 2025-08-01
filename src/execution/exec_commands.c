@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 21:04:58 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/31 21:41:20 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/01 12:50:16 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ char	*get_path_with_command(t_tree_node *node, t_gc_list *grbg_collector)
 	i = 0;
 	while (node->path->split_path[i])
 	{
-		path_command = ft_strjoin(node->path->split_path[i], node->data, grbg_collector);
+		path_command = ft_strjoin(node->path->split_path[i], node->data,
+				grbg_collector);
 		if (access(path_command, X_OK | F_OK) == 0)
 		{
 			return (path_command);
 		}
-		// free(path_command);
 		i++;
 	}
 	return (NULL);
@@ -78,6 +78,15 @@ char	**fill_arguments(t_tree_node *node, t_gc_list *grgb_collector)
 	return (args);
 }
 
+static void	exec_child(char *path, char **args, t_tree_node *node, t_envp *env)
+{
+	restore_signals();
+	execve(path, args, node->path->environment);
+	perror("execve failed");
+	env->exit_code = 1;
+	exit(1);
+}
+
 int	exec_cmd(t_tree_node *node, t_envp *env, t_gc_list *grgb_collector)
 {
 	char	**args;
@@ -89,31 +98,17 @@ int	exec_cmd(t_tree_node *node, t_envp *env, t_gc_list *grgb_collector)
 	args = fill_arguments(node, grgb_collector);
 	pid = fork();
 	if (pid == 0)
-	{
-		restore_signals();
-		execve(path, args, node->path->environment);
-		perror("execve failed");
-		return (env->exit_code = 1);
-	}
+		exec_child(path, args, node, env);
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
-        if (WIFEXITED(status))
-            env->exit_code = WEXITSTATUS(status);	
+		if (WIFEXITED(status))
+			env->exit_code = WEXITSTATUS(status);
 	}
 	else
 	{
-        perror("fork failed");
-        env->exit_code = 1;
-    }
+		perror("fork failed");
+		env->exit_code = 1;
+	}
 	return (env->exit_code);
-}
-
-int	exec_commands(t_tree_node *node, t_envp *env, t_gc_list *grgb_collector)
-{
-	if (node->token == BUILT_IN)
-		return (exec_builtin(node, env, grgb_collector));
-	if (node->token == COMMAND)
-		return (exec_cmd(node, env, grgb_collector));
-	return (print_message_and_exit(node->data, " : command not found", 127));
 }

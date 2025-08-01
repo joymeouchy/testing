@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 06:42:48 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/15 20:24:35 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/01 13:29:54 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	print_list(t_list *list)
 	while (temp)
 	{
 		if (temp->data)
-			printf("index %d node:'%s' token:%d redirection: %s\n",
-				temp->index, temp->data, temp->token, temp->redir_arg);
+			printf("index %d node:'%s' token:%d redirection: %s\n", temp->index,
+				temp->data, temp->token, temp->redir_arg);
 		else if (temp->data == NULL)
 			printf("index %d node:NULL\n", temp->index);
 		temp = temp->next;
@@ -92,7 +92,6 @@ void	delete_node(t_list *list, t_list_node *node)
 	if (current->next == NULL)
 		return ;
 	current->next = node->next;
-	// free(node);
 }
 
 void	check_and_remove_empty(t_list *list)

@@ -26,6 +26,7 @@ SRC =   src/parser/parser.c \
         src/builtins/cd.c \
         src/builtins/cd_helper.c \
         src/builtins/exit.c \
+        src/builtins/exit_helper.c \
         src/parser/parsing_main.c \
         src/structures/free_structures.c \
         src/structures/linked_list_utils.c \

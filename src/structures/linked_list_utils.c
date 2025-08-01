@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 06:42:48 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/16 20:55:57 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/01 13:29:37 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ t_list_node	*create_list_node(char *data, t_gc_list *grgb_collector)
 	return (new_node);
 }
 
-void	insert_at_end_list(t_list *list, char *new_node_data, t_gc_list *grgb_collector)
+void	insert_at_end_list(t_list *list, char *new_node_data,
+		t_gc_list *grgb_collector)
 {
 	t_list_node	*new_node;
 	t_list_node	*temp;
 
 	if (*new_node_data == '\0')
 	{
-		// free(new_node_data);
 		return ;
 	}
 	new_node = create_list_node(new_node_data, grgb_collector);
@@ -60,7 +60,8 @@ void	insert_at_end_list(t_list *list, char *new_node_data, t_gc_list *grgb_colle
 	list->list_size++;
 }
 
-void	insert_at_beginning_list(t_list *list, char *new_node_data, t_gc_list *grgb_collector)
+void	insert_at_beginning_list(t_list *list, char *new_node_data,
+		t_gc_list *grgb_collector)
 {
 	t_list_node	*new_node;
 	t_list_node	*temp;
@@ -79,7 +80,8 @@ void	insert_at_beginning_list(t_list *list, char *new_node_data, t_gc_list *grgb
 	list->list_size++;
 }
 
-void	insert_at_middle_list(t_list *list, char *new_node_data, int index, t_gc_list *grgb_collector)
+void	insert_at_middle_list(t_list *list, char *new_node_data, int index,
+		t_gc_list *grgb_collector)
 {
 	t_list_node	*new_node;
 	t_list_node	*temp;

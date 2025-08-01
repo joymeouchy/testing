@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:50:44 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/31 22:53:36 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/01 12:41:09 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,13 @@ static int	export_print_mode(t_envp *env, t_gc_list *grbg_collector)
 	return (0);
 }
 
+void	handle_invalid_key(char *key)
+{
+	ft_putstr_fd("minishell: export: ", 2);
+	ft_putstr_fd(key, 2);
+	ft_putendl_fd(": not a valid identifier", 2);
+}
+
 int	export(t_tree_node *root, t_envp *env, t_gc_list *grbg_collector)
 {
 	t_tree_node	*arg;
@@ -50,9 +57,7 @@ int	export(t_tree_node *root, t_envp *env, t_gc_list *grbg_collector)
 		}
 		else
 		{
-			ft_putstr_fd("minishell: export: ", 2);
-			ft_putstr_fd(arg->data, 2);
-			ft_putendl_fd(": not a valid identifier", 2);
+			handle_invalid_key(arg->data);
 			ret = 1;
 		}
 		arg = arg->right;

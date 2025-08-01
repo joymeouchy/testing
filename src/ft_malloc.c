@@ -3,24 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 09:00:37 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/21 19:35:18 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/01 13:31:56 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void *ft_malloc(int size, t_gc_list *grbg_collector)
+void	*ft_malloc(int size, t_gc_list *grbg_collector)
 {
 	t_gc_node	*new_node;
 	void		*ptr;
+
 	ptr = malloc(size);
 	if (!ptr)
 		return (NULL);
 	new_node = malloc(sizeof(t_gc_node));
-	if(!new_node)
+	if (!new_node)
 	{
 		free(ptr);
 		return (NULL);
@@ -31,9 +32,10 @@ void *ft_malloc(int size, t_gc_list *grbg_collector)
 	return (ptr);
 }
 
-t_gc_list *init_grbg_collector(void)
+t_gc_list	*init_grbg_collector(void)
 {
-	t_gc_list *grbg_collector;
+	t_gc_list	*grbg_collector;
+
 	grbg_collector = malloc(sizeof(t_gc_list));
 	if (!grbg_collector)
 		return (NULL);
@@ -41,12 +43,12 @@ t_gc_list *init_grbg_collector(void)
 	return (grbg_collector);
 }
 
-void ft_free_gc(t_gc_list *grbg_collector)
+void	ft_free_gc(t_gc_list *grbg_collector)
 {
-	t_gc_node   *current;
-	t_gc_node   *next;
+	t_gc_node	*current;
+	t_gc_node	*next;
 
-	if(!grbg_collector || !grbg_collector->head)
+	if (!grbg_collector || !grbg_collector->head)
 		return ;
 	current = grbg_collector->head;
 	while (current)
