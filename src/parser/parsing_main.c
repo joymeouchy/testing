@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/07/31 22:04:35 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/04 17:18:38 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,28 @@ char	*command_line_input(void)
 	return (input);
 }
 
+int	is_valid_director1y(const char *path)
+{
+	DIR	*dir;
+
+	dir = opendir(path);
+	if (!dir)
+	{
+		return (0);
+	}
+	closedir(dir);
+	if (access(path, X_OK) != 0)
+	{
+		return (0);
+	}
+	return (1);
+}
+
 static void	exec_script_or_binary(char *file, char **envp, int exit_code)
 {
 	char	*argv[] = { file, NULL };
 	char	*sh_argv[] = { "/bin/sh", file, NULL };
-	if(is_valid_directory(file)) //fix
+	if(is_valid_director1y(file)) //fix
 	{
 		ft_putstr_fd(file, 2);
 		ft_putstr_fd(": Is a directory\n", 2);
