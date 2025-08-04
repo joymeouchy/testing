@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:16:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/01 13:21:49 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/04 18:17:40 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,10 @@ int	check_if_quotes_balanced(char *string)
 
 int	check_if_contains_quotes(char *string)
 {
-	int	i;
-
-	i = 0;
-	while (string[i])
-	{
-		if (string[i] == 34 || string[i] == 39)
+	if (ft_strchr(string, 34) || ft_strchr(string, 39))
 			return (1);
-		i++;
-	}
-	return (0);
+	else
+		return (0);
 }
 
 void	remove_quotes_from_substring(char *string, char **copy_string, int *i,
@@ -112,14 +106,16 @@ int	check_and_remove_quotes(t_list *list)
 		return (1);
 	while (temp)
 	{
-		if (check_if_contains_quotes(temp->data) == 0)
+		if (check_if_contains_quotes(temp->data) == 1)
 			flag_balanced_quotes = check_if_quotes_balanced(temp->data);
 		if (flag_balanced_quotes == 1)
 		{
 			ft_putendl_fd("syntax error: missing quote", 2);
-			return (1); // TO-DO ADD ERROR MESSAGE AND STOP PROCESS
+			return (2); // TO-DO ADD ERROR MESSAGE AND STOP PROCESS
 		}
 		remove_quotes_from_string(temp->data);
+		if(temp->token != LEFT_D_REDIRECTION && temp->redir_arg)
+			remove_quotes_from_string(temp->redir_arg);
 		temp = temp->next;
 	}
 	return (0);

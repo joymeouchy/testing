@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/01 13:16:15 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/04 17:31:55 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,6 @@ int	handle_recirections(t_tree_node *node, t_envp *env,
 	else if (node->redir_arg == NULL)
 		return (env->exit_code = print_message_and_exit("minishell: syntax error near unexpected token `newline'",
 				"", 2));
-	// if (node->token == LEFT_D_REDIRECTION)
-	// 	heredoc(node, env, grbg_collector);
 	if (node->token == LEFT_REDIRECTION)
 		return (redir_input(node, env, grbg_collector));
 	else if (node->token == RIGHT_REDIRECTION)

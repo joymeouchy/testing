@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/04 17:18:38 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/04 19:52:11 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,12 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 	expand_list(list, env, grbg_collector);
 	tokenize(list, env);
 	// print_list(list);
-	check_and_remove_quotes(list);
 	add_arg_to_redir(list);
+	env->exit_code = check_and_remove_quotes(list);
+	if (env->exit_code != 0)
+		return ;
 	check_and_remove_empty(list);
 	tokenize_after_quotes(list, env);
-	// tokenize(list, env); // this is because when we remove quotes we need to retokenize
-	// print_list(list);
 	stack = shunting_yard(list, grbg_collector);
 	if(!stack)
 		return ;

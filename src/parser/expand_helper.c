@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/08/01 13:18:12 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/04 20:20:10 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ bool	check_if_dollar_to_print(char *str)
 	if (str[i] == '\0')
 		return (true);
 	i++;
-	if (str[i] == '?' || str[i] == '$')
+	if (str[i] == '?' || str[i] == '$' || str[i] == 39 || str[i] == 34)
 		return (false);
 	if (str[i] == '\0' || ((ft_isalnum(str[i]) == 0 || str[i] == '0'
 				|| str[i] == '$') && in_double_quote == 0))

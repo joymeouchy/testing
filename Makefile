@@ -11,6 +11,7 @@ SRC =   src/parser/parser.c \
         src/parser/remove_quotes.c \
         src/parser/expand_helper.c \
         src/parser/expand.c \
+        src/parser/expand2.c \
         src/parser/utils.c \
         src/parser/tokenize.c \
         src/parser/tokenize_helper.c \
