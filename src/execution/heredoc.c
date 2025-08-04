@@ -3,27 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/04 18:19:25 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/04 22:32:36 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*open_heredoc_file(int *temp_fd, t_gc_list *grbg_collector,
-		int heredoc_counter)
+char	*open_heredoc_file(int *temp_fd, t_gc_list *grbg_collector, int heredoc_counter)
 {
 	char	*filename;
+	char	*base;
+	char	*number;
+	int		fd;
+	int		i;
 
-	filename = ft_strdup("heredoc_temp", grbg_collector);
-	filename = ft_strjoin(filename, ft_itoa(heredoc_counter, grbg_collector),
-			grbg_collector);
-	filename = ft_strjoin(filename, ".txt", grbg_collector);
-	*temp_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (*temp_fd == -1)
-		perror("Error creating temporary file for heredoc");
+	i = heredoc_counter;
+	while (1)
+	{
+		number = ft_itoa(i, grbg_collector);
+		base = ft_strjoin(ft_strdup("heredoc_temp", grbg_collector), number, grbg_collector);
+		filename = ft_strjoin(base, ".txt", grbg_collector);
+
+		fd = open(filename, O_WRONLY | O_CREAT | O_EXCL, 0644);
+		if (fd != -1)
+			break ;
+		if (errno != EEXIST)
+		{
+			perror("Error creating temporary file for heredoc");
+			return (NULL);
+		}
+		i++;
+	}
+	*temp_fd = fd;
 	return (filename);
 }
 

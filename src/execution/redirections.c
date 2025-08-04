@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/04 17:31:55 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/04 22:32:52 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	redirect_stdin_and_exec(t_tree_node *node, char *file_name, t_envp *env,
 		exit(1);
 	}
 	close(fd);
-	// unlink(node->redir_arg);
+	unlink(file_name);
 	execution(node->right, env, grbg_collector);
 	exit_code = env->exit_code;
 	ft_free_gc(grbg_collector);
