@@ -1,1 +1,12 @@
-$HOME
+echo $USER$? 
+echo "$USER"$?
+echo $'$'
+echo "$'$'"
+echo $
+echo $"hello"
+echo $'hi there'
+echo 'this $SHOULD not expand'
+echo '$'$'$'$'$'
+echo '$'$'$'$'$'$'$'
+echo "$"$'$'$"$"$"$"$'$'
+echo hoo

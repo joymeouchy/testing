@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/04 20:50:43 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/05 21:25:58 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	split_redirections(char *input, t_list *list, int start, int *i, t_gc_list *
 int	split_symbols(char *input, t_list *list, int start, int *i, t_gc_list *grbg_collector);
 int	double_quotes_to_node(char *input, t_list *list, int start, int *i);
 int	single_quotes_to_node(char *input, t_list *list, int start, int *i);
-int	check_file_executable(t_envp *env, char *file);
+// int	check_file_executable(t_envp *env, char *file);
 int	check_if_quotes_balanced(char *string);
 int	check_if_contains_quotes(char *string);
 int	check_and_remove_quotes(t_list *list);

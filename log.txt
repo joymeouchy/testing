@@ -1,0 +1,107 @@
+Minishell$ ./42_minishell_tester/cmds/mand/1_pipelines.sh
+1                    hi        libft     log.txt   lol       minishell         src
+42_minishell_tester  includes  log1.txt  log.txt1  Makefile  minishell_tester
+1                    hi        libft     log.txt   lol       minishell         src
+42_minishell_tester  includes  log1.txt  log.txt1  Makefile  minishell_tester
+CHROME_DESKTOP=code.desktop
+COLORTERM=truecolor
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/101144/bus
+DESKTOP_SESSION=ubuntu
+DISPLAY=:0
+DOCKER_HOST=unix:///run/user/101144/docker.sock
+FT_HOOK_NAME=login-user
+FT_HOOK_PATHNAME=login-user.d
+GDK_BACKEND=x11
+GDM_LANG=en
+GDMSESSION=ubuntu
+GIT_ASKPASS=/usr/share/code/resources/app/extensions/git/dist/askpass.sh
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/b4eb1d4f_4a5f_4feb_9023_a7373cabd4c9
+GNOME_TERMINAL_SERVICE=:1.78
+GPG_AGENT_INFO=/run/user/101144/gnupg/S.gpg-agent:0:1
+GTK_IM_MODULE=ibus
+GTK_MODULES=gail:atk-bridge
+HOME=/home/jmeouchy
+KRB5CCNAME=FILE:/tmp/krb5cc_101144_PLasqC
+LANG=en_US.UTF-8
+LANGUAGE=en
+LIBVIRT_DEFAULT_URI=qemu:///system
+LOGNAME=jmeouchy
+OLDPWD=/home/jmeouchy/42 cursus/temp
+ORIGINAL_XDG_CURRENT_DESKTOP=ubuntu:GNOME
+PATH=/home/jmeouchy/bin:/home/jmeouchy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PWD=/home/jmeouchy/42 cursus/temp
+QT_ACCESSIBILITY=1
+QT_IM_MODULE=ibus
+SESSION_MANAGER=local/c2r6s2.42beirut.com:@/tmp/.ICE-unix/358350,unix/c2r6s2.42beirut.com:/tmp/.ICE-unix/358350
+SHELL=/bin/zsh
+SSH_AGENT_LAUNCHER=gnome-keyring
+SSH_AUTH_SOCK=/run/user/101144/keyring/ssh
+SYSTEMD_EXEC_PID=358373
+TERM_PROGRAM_VERSION=1.100.2
+TERM_PROGRAM=vscode
+TERM=xterm-256color
+USER=jmeouchy
+USER_ZDOTDIR=/home/jmeouchy
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+VSCODE_GIT_ASKPASS_MAIN=/usr/share/code/resources/app/extensions/git/dist/askpass-main.js
+VSCODE_GIT_ASKPASS_NODE=/usr/share/code/code
+VSCODE_GIT_IPC_HANDLE=/run/user/101144/vscode-git-88d687dc13.sock
+VSCODE_INJECTION=1
+VTE_VERSION=6800
+XAUTHORITY=/home/jmeouchy/.Xauthority
+XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+XDG_CURRENT_DESKTOP=Unity
+XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/home/jmeouchy/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/jmeouchy
+XDG_MENU_PREFIX=gnome-
+XDG_RUNTIME_DIR=/run/user/101144
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+XDG_SESSION_CLASS=user
+XDG_SESSION_DESKTOP=ubuntu
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session11
+XDG_SESSION_TYPE=x11
+XMODIFIERS=@im=ibus
+ZDOTDIR=/home/jmeouchy
+cat: ./test_files/infile_big: No such file or directory
+1
+docker0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        ether fe:53:d6:7a:8b:55  txqueuelen 0  (Ethernet)
+enp0s31f6: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::2288:10ff:fe74:cceb  prefixlen 64  scopeid 0x20<link>
+        ether 20:88:10:74:cc:eb  txqueuelen 1000  (Ethernet)
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        ether 52:54:00:31:35:95  txqueuelen 1000  (Ethernet)
+42
+42$
+smth
+_=./minishell
+SHLVL=4
+./42_minishell_tester/cmds/mand/1_pipelines.sh: 36: kaka: not found
+test$$$$$$$$$$$$$$$$$$$$
+test$$$$$$$$$$$$$$$$$$$$
+total 36
+drwxr-xr-x 12 jmeouchy 2024_42campus 4096 May 31 10:44 .
+drwx------ 24 jmeouchy 2024_42campus 4096 Aug  5 21:41 ..
+-rw-r--r--  1 jmeouchy 2024_42campus  646 Dec 30  2024 exam.c
+drwxr-xr-x  3 jmeouchy 2024_42campus   96 Aug 19  2024 get_next_line
+drwxr-xr-x  3 jmeouchy 2024_42campus 4096 Dec 17  2024 libft
+drwxr-xr-x  3 jmeouchy 2024_42campus  187 Dec 17  2024 libftprintf
+drwxr-xr-x  5 jmeouchy 2024_42campus   79 Jan 10  2025 minishell
+drwxr-xr-x  8 jmeouchy 2024_42campus 4096 Aug  5 20:12 minishellgit
+drwxr-xr-x  4 jmeouchy 2024_42campus  181 Jan 10  2025 philo
+drwxr-xr-x  3 jmeouchy 2024_42campus  142 Feb  6 18:00 pipex
+drwxrwxr-x  4 jmeouchy 2024_42campus 4096 Jan  2  2025 push_swap
+-rw-r--r--  1 jmeouchy 2024_42campus   58 Jul 11  2024 signature.txt
+drwxr-xr-x  7 jmeouchy 2024_42campus 4096 Jan 24  2025 so_long
+drwxr-xr-x 10 jmeouchy 2024_42campus 4096 Aug  5 21:51 temp
+cat: asd: No such file or directory
+awdaw
+daswd
+dsq
+wd
+wf
+as $HOME
+./42_minishell_tester/cmds/mand/1_pipelines.sh: 96: Syntax error: redirection unexpected
