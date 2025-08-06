@@ -6,111 +6,69 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:51:42 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/01 13:15:41 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/06 22:52:48 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	read_from_pipe(t_tree_node *node, pid_t *read_pid, int pipefd[2],
-		t_envp *env, t_gc_list *grbg_collector)
+static void	child_process(t_tree_node *node, int std_fd, t_pipe_info *info)
 {
-	long long int	exit_code;
+	long long	code;
 
-	*read_pid = fork();
-	if (*read_pid == -1)
-	{
+	dup2(info->pipefd[std_fd], std_fd);
+	close(info->pipefd[0]);
+	close(info->pipefd[1]);
+	info->env->exit_code = execution(node, info->env, info->grbg);
+	code = info->env->exit_code;
+	ft_free_gc(info->grbg);
+	exit(code);
+}
+
+static void	create_pipe_child(t_tree_node *node, pid_t *pid,
+		int std_fd, t_pipe_info *info)
+{
+	*pid = fork();
+	if (*pid == -1)
 		return ;
-	}
-	if (*read_pid == 0)
-	{
-		dup2(pipefd[0], 0);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		env->exit_code = execution(node, env, grbg_collector);
-		exit_code = env->exit_code;
-		ft_free_gc(grbg_collector);
-		exit(exit_code);
-	}
+	if (*pid == 0)
+		child_process(node, std_fd, info);
 }
 
-void	write_to_pipe(t_tree_node *node, pid_t *write_pid, int pipefd[2],
-		t_envp *env, t_gc_list *grbg_collector)
-{
-	long long int	exit_code;
-
-	*write_pid = fork();
-	if (*write_pid == -1)
-	{
-		return ;
-	}
-	if (*write_pid == 0)
-	{
-		dup2(pipefd[1], 1);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		env->exit_code = execution(node, env, grbg_collector);
-		exit_code = env->exit_code;
-		ft_free_gc(grbg_collector);
-		exit(exit_code);
-	}
-}
-
-int	count_pipes(t_tree_node *node)
-{
-	int	count;
-	int	left_count;
-	int	right_count;
-	int	total;
-
-	if (!node)
-		return (0);
-	count = 0;
-	if (node->token == PIPE)
-		count = 1;
-	left_count = count_pipes(node->left);
-	right_count = count_pipes(node->right);
-	total = count + left_count + right_count;
-	return (total);
-}
-
-static int	handle_pipe_logic(t_tree_node *node, int pipe_count,
-		pid_t *read_pid, pid_t *write_pid, int *pipefd, t_envp *env,
-		t_gc_list *grbg_collector)
+static void	handle_pipe_logic(t_tree_node *node, int pipe_count,
+		t_pipe_info *info)
 {
 	if (pipe_count == 1)
 	{
-		write_to_pipe(node->right, write_pid, pipefd, env, grbg_collector);
-		read_from_pipe(node->left, read_pid, pipefd, env, grbg_collector);
+		create_pipe_child(node->right, &info->write_pid, STDOUT_FILENO, info);
+		create_pipe_child(node->left, &info->read_pid, STDIN_FILENO, info);
 	}
 	else
 	{
-		write_to_pipe(node->left, write_pid, pipefd, env, grbg_collector);
-		read_from_pipe(node->right, read_pid, pipefd, env, grbg_collector);
+		create_pipe_child(node->left, &info->write_pid, STDOUT_FILENO, info);
+		create_pipe_child(node->right, &info->read_pid, STDIN_FILENO, info);
 	}
-	return (0);
 }
 
-int	pipe_exec(t_tree_node *node, int pipe_count, t_envp *env,
-		t_gc_list *grbg_collector)
+int	pipe_exec(t_tree_node *node, int pipe_count,
+		t_envp *env, t_gc_list *grbg)
 {
-	int		pipefd[2];
-	pid_t	read_pid;
-	pid_t	write_pid;
-	int		status;
+	t_pipe_info	info;
+	int			status;
 
-	if (pipe(pipefd) == -1)
+	if (pipe(info.pipefd) == -1)
 		return (1);
 	if (!node->right && !node->left)
-		return (env->exit_code = print_message_and_exit
-			("minishell: syntax error near unexpected token `newline'",
+		return (env->exit_code = print_message_and_exit(
+				"minishell: syntax error near unexpected token `newline'",
 				"", 2));
-	handle_pipe_logic(node, pipe_count, &read_pid, &write_pid, pipefd, env,
-		grbg_collector);
-	close(pipefd[0]);
-	close(pipefd[1]);
-	waitpid(write_pid, &status, 0);
-	waitpid(read_pid, &status, 0);
+	info.env = env;
+	info.grbg = grbg;
+	handle_pipe_logic(node, pipe_count, &info);
+	close(info.pipefd[0]);
+	close(info.pipefd[1]);
+	waitpid(info.write_pid, &status, 0);
+	waitpid(info.read_pid, &status, 0);
 	if (WIFEXITED(status))
 		env->exit_code = WEXITSTATUS(status);
 	return (env->exit_code);

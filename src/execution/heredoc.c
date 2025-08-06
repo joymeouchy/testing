@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/06 16:12:11 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:20:14 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,14 @@ char	*open_heredoc_file(int *temp_fd, t_gc_list *grbg_collector,
 {
 	char	*filename;
 	char	*base;
-	char	*number;
 	int		fd;
 	int		i;
 
 	i = heredoc_counter;
 	while (1)
 	{
-		number = ft_itoa(i, grbg_collector);
 		base = ft_strjoin(ft_strdup("heredoc_temp", grbg_collector),
-				number, grbg_collector);
+				ft_itoa(i, grbg_collector), grbg_collector);
 		filename = ft_strjoin(base, ".txt", grbg_collector);
 		fd = open(filename, O_WRONLY | O_CREAT | O_EXCL, 0644);
 		if (fd != -1)

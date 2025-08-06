@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/08/04 20:20:10 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/06 21:28:50 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,14 @@ char	*extract_variable_name(char *str, t_gc_list *grbg_collector)
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
 	return (ft_substr(str, start, i - start, grbg_collector));
+}
+
+char	*join_parts(char *before, char *quoted, char *after, t_gc_list *gc)
+{
+	char	*temp;
+	char	*new_str;
+
+	temp = ft_strjoin(before, quoted, gc);
+	new_str = ft_strjoin(temp, after, gc);
+	return (new_str);
 }

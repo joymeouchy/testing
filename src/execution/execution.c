@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 20:41:59 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/01 12:51:38 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/06 22:52:57 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,24 @@ int	exec_commands(t_tree_node *node, t_envp *env, t_gc_list *grgb_collector)
 	if (node->token == COMMAND)
 		return (exec_cmd(node, env, grgb_collector));
 	return (print_message_and_exit(node->data, " : command not found", 127));
+}
+
+int	count_pipes(t_tree_node *node)
+{
+	int	count;
+	int	left_count;
+	int	right_count;
+	int	total;
+
+	if (!node)
+		return (0);
+	count = 0;
+	if (node->token == PIPE)
+		count = 1;
+	left_count = count_pipes(node->left);
+	right_count = count_pipes(node->right);
+	total = count + left_count + right_count;
+	return (total);
 }
 
 int	execution(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)

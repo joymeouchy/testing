@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:56:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/01 13:33:00 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/06 22:45:59 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int argc, char **argv, char **envp)
 	env->environment = dup_env(envp, grgb_collector);
 	env->home = get_env_value("HOME", env->environment, grgb_collector);
 	env->export_only = NULL;
-	env->exit_code = 0;
+	env->exit_code = 0; //remove env from gc and ree it seperately
 	update_shlvl(env, grgb_collector);
 	while (1)
 	{

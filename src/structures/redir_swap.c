@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_swap.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 12:05:32 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/06 17:55:27 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/06 21:08:44 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,3 @@ void	swap_redir_in_tree(t_tree_node *node, t_envp *env,
 	swap_redir_in_tree(node->right, env, grbg_collector, heredoc_counter);
 	swap_redir_to_bottom(&node);
 }
-

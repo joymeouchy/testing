@@ -8,9 +8,13 @@ LFLAGS = -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/incl
 
 SRC =   src/parser/parser.c \
         src/parser/parser_helper.c \
+        src/parser/parser_helper_split.c \
         src/parser/remove_quotes.c \
+        src/parser/remove_quotes_helper.c \
         src/parser/expand_helper.c \
+        src/parser/expand_helper2.c \
         src/parser/expand.c \
+        src/parser/expand_quotes.c\
         src/parser/utils.c \
         src/parser/tokenize.c \
         src/parser/tokenize_helper.c \
@@ -28,6 +32,7 @@ SRC =   src/parser/parser.c \
         src/builtins/exit.c \
         src/builtins/exit_helper.c \
         src/parser/parsing_main.c \
+        src/parser/parsing_main_helper.c \
         src/structures/linked_list_utils.c \
         src/structures/stack_utils.c \
         src/structures/linked_list_utils2.c \
@@ -35,6 +40,7 @@ SRC =   src/parser/parser.c \
         src/structures/tree_helper.c \
         src/structures/tree_utils.c \
         src/execution/redirections.c \
+        src/execution/redirections_helper.c \
         src/execution/signals.c \
         src/execution/exec_commands.c \
         src/execution/execution.c \
@@ -44,7 +50,8 @@ SRC =   src/parser/parser.c \
         src/structures/redir_swap.c \
         src/execution/heredoc.c \
         src/syntax_error.c \
-	src/ft_malloc.c
+	src/ft_malloc.c \
+        src/structures/tree_builder.c
 
 
 OBJ = $(SRC:.c=.o)
