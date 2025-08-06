@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:16:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/04 18:17:40 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/06 16:51:31 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	check_if_quotes_balanced(char *string)
 int	check_if_contains_quotes(char *string)
 {
 	if (ft_strchr(string, 34) || ft_strchr(string, 39))
-			return (1);
+		return (1);
 	else
 		return (0);
 }
@@ -114,7 +114,7 @@ int	check_and_remove_quotes(t_list *list)
 			return (2); // TO-DO ADD ERROR MESSAGE AND STOP PROCESS
 		}
 		remove_quotes_from_string(temp->data);
-		if(temp->token != LEFT_D_REDIRECTION && temp->redir_arg)
+		if (temp->token != LEFT_D_REDIRECTION && temp->redir_arg)
 			remove_quotes_from_string(temp->redir_arg);
 		temp = temp->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 06:42:48 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/01 13:30:07 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/06 17:21:55 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_stack(t_list *list, t_stack *stack, t_gc_list *grgb_collector)
 		return ;
 }
 
-void	push(char *data, e_tokens token, char *redir_args, t_stack *stack)
+void	push(char *data, t_tokens token, char *redir_args, t_stack *stack)
 {
 	stack->top += 1;
 	stack->stack[stack->top].data = data;

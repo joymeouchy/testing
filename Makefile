@@ -28,7 +28,6 @@ SRC =   src/parser/parser.c \
         src/builtins/exit.c \
         src/builtins/exit_helper.c \
         src/parser/parsing_main.c \
-        src/structures/free_structures.c \
         src/structures/linked_list_utils.c \
         src/structures/stack_utils.c \
         src/structures/linked_list_utils2.c \
@@ -42,6 +41,7 @@ SRC =   src/parser/parser.c \
         src/main.c \
         src/execution/pipe.c \
         src/parser/add_redir_argument.c \
+        src/structures/redir_swap.c \
         src/execution/heredoc.c \
         src/syntax_error.c \
 	src/ft_malloc.c

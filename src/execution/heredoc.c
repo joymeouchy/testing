@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/04 22:32:36 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/06 16:12:11 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*open_heredoc_file(int *temp_fd, t_gc_list *grbg_collector, int heredoc_counter)
+char	*open_heredoc_file(int *temp_fd, t_gc_list *grbg_collector,
+	int heredoc_counter)
 {
 	char	*filename;
 	char	*base;
@@ -24,9 +25,9 @@ char	*open_heredoc_file(int *temp_fd, t_gc_list *grbg_collector, int heredoc_cou
 	while (1)
 	{
 		number = ft_itoa(i, grbg_collector);
-		base = ft_strjoin(ft_strdup("heredoc_temp", grbg_collector), number, grbg_collector);
+		base = ft_strjoin(ft_strdup("heredoc_temp", grbg_collector),
+				number, grbg_collector);
 		filename = ft_strjoin(base, ".txt", grbg_collector);
-
 		fd = open(filename, O_WRONLY | O_CREAT | O_EXCL, 0644);
 		if (fd != -1)
 			break ;
@@ -73,8 +74,7 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env,
 			free(line);
 			break ;
 		}
-		write(temp_fd, line, ft_strlen(line));
-		write(temp_fd, "\n", 1);
+		ft_putendl_fd(line, temp_fd);
 		free(line);
 	}
 }

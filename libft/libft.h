@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 10:59:48 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/07/16 20:28:04 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/06 17:19:22 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ char	*ft_strrchr(const char *s, int c);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 char	*ft_strdup(const char *s, t_gc_list *grbg_collector);
 char	*ft_strjoin(char const *s1, char const *s2, t_gc_list *grbg_collector);
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char), t_gc_list *grbg_collector);
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char),
+			t_gc_list *grbg_collector);
 char	*ft_strtrim(char const *s1, char const *set, t_gc_list *grbg_collector);
-char	*ft_substr(char const *s, unsigned int start, size_t len, t_gc_list *grbg_collector);
+char	*ft_substr(char const *s, unsigned int start, size_t len,
+			t_gc_list *grbg_collector);
 char	*ft_itoa(int n, t_gc_list *grbg_collector);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 21:17:46 by root              #+#    #+#             */
-/*   Updated: 2025/08/01 13:31:10 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/06 17:53:13 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,38 @@ t_tree_node	*create_tree_node(t_stack *stack, t_envp *environment,
 	return (new_node);
 }
 
+bool	stack_is_valid(t_stack *stack)
+{
+	if (stack && stack->stack && stack->top > -1)
+		return (true);
+	return (false);
+}
+
+bool	not_cmd_pipe(t_stack *stack)
+{
+	if(stack->stack[stack->top].token != PIPE
+	&& stack->stack[stack->top].token != BUILT_IN
+	&& stack->stack[stack->top].token != COMMAND)
+		return (true);
+	return (false);
+}
+
+bool	is_redirection(t_tree_node *node)
+{
+	if (node->token >= LEFT_REDIRECTION
+		&& node->token <= RIGHT_D_REDIRECTION)
+		return (true);
+	return (false);
+}
+
+bool	is_cmd(t_tree_node *node)
+{
+	if (node->token == COMMAND || node->token == BUILT_IN)
+		return (true);
+	return (false);
+}
+
+
 t_tree_node	*build_tree(t_stack *stack, t_envp *environment,
 		t_gc_list *grgb_collector)
 {
@@ -65,26 +97,16 @@ t_tree_node	*build_tree(t_stack *stack, t_envp *environment,
 	new_node = create_tree_node(stack, environment, grgb_collector);
 	if (!new_node)
 		return (NULL);
-	if (stack && stack->stack && stack->top > -1 && (new_node->token == COMMAND
-			|| new_node->token == BUILT_IN)
-		&& stack->stack[stack->top].token != PIPE
-		&& stack->stack[stack->top].token != BUILT_IN
-		&& stack->stack[stack->top].token != COMMAND)
+	if (stack_is_valid(stack) && new_node && is_cmd(new_node) && not_cmd_pipe(stack))
 		new_node->right = build_tree(stack, environment, grgb_collector);
-	if (new_node->token == PIPE)
+	if (new_node && new_node->token == PIPE)
 	{
 		new_node->right = build_tree(stack, environment, grgb_collector);
 		new_node->left = build_tree(stack, environment, grgb_collector);
 	}
-	if (stack && stack->stack && stack->top > -1
-		&& (new_node->token >= LEFT_REDIRECTION
-			&& new_node->token <= RIGHT_D_REDIRECTION)
-		&& stack->stack[stack->top].token != PIPE
-		&& stack->stack[stack->top].token != BUILT_IN
-		&& stack->stack[stack->top].token != COMMAND)
+	if (stack_is_valid(stack) && new_node && is_redirection(new_node) && not_cmd_pipe(stack))
 		new_node->right = build_tree(stack, environment, grgb_collector);
-	if (new_node && stack && stack->stack && stack->top > -1
-		&& new_node->token == WORD && stack->stack[stack->top].token >= 3)
+	if (new_node && stack_is_valid(stack) && new_node->token == WORD && stack->stack[stack->top].token >= 3)
 		new_node->right = build_tree(stack, environment, grgb_collector);
 	return (new_node);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 13:23:04 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/01 13:23:22 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/06 16:59:41 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	tokenize(t_list *list, t_envp *envp)
 
 void	tokenize_after_quotes(t_list *list, t_envp *envp)
 {
-	t_list_node *temp;
-	int flag_command;
+	t_list_node	*temp;
+	int			flag_command;
 
 	flag_command = false;
 	temp = list->head;
