@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 13:23:04 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/06 16:59:41 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 14:20:22 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,17 @@ void	tokenize(t_list *list, t_envp *envp)
 	}
 }
 
+void	flag_after_pipe(t_list_node *node, int *flag_command)
+{
+	if (node->token == PIPE)
+	{
+		if (node->redir_arg)
+			*flag_command = true;
+		else
+			*flag_command = false;
+	}
+}
+
 void	tokenize_after_quotes(t_list *list, t_envp *envp)
 {
 	t_list_node	*temp;
@@ -78,6 +89,7 @@ void	tokenize_after_quotes(t_list *list, t_envp *envp)
 	{
 		if (!temp || temp->data == NULL)
 			return ;
+		flag_after_pipe(temp, &flag_command);
 		if (!flag_command && check_builtin(temp->data))
 		{
 			temp->token = BUILT_IN;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_builder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 22:26:35 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/06 22:27:22 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/09 13:55:53 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ bool	not_cmd_pipe(t_stack *stack)
 	return (false);
 }
 
-bool	is_redirection(t_tree_node *node)
+bool	is_redirection(t_tokens token)
 {
-	if (node->token >= LEFT_REDIRECTION && node->token <= RIGHT_D_REDIRECTION)
+	if (token >= LEFT_REDIRECTION && token <= RIGHT_D_REDIRECTION)
 		return (true);
 	return (false);
 }
@@ -60,7 +60,7 @@ t_tree_node	*build_tree(t_stack *stack, t_envp *environment,
 		new_node->right = build_tree(stack, environment, grgb_collector);
 		new_node->left = build_tree(stack, environment, grgb_collector);
 	}
-	if (stack_is_valid(stack) && new_node && is_redirection(new_node)
+	if (stack_is_valid(stack) && new_node && is_redirection(new_node->token)
 		&& not_cmd_pipe(stack))
 		new_node->right = build_tree(stack, environment, grgb_collector);
 	if (new_node && stack_is_valid(stack) && new_node->token == WORD

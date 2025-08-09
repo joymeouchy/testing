@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/06 22:35:57 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/09 15:08:47 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@ void	redirect_stdin_and_exec(t_tree_node *node, char *file, t_envp *env,
 
 	fd = open_file_for_redirect(file, O_RDONLY, env, grbg_collector);
 	dup_and_close(fd, STDIN_FILENO, env, grbg_collector);
-	if (ft_strncmp(file, "heredoc_temp", 13))
+	if (ft_strncmp(file, "heredoc_temp", 12) == 0)
 		unlink(file);
 	execution(node->right, env, grbg_collector);
 	exit_code = env->exit_code;
-	ft_free_gc(grbg_collector);
 	exit(exit_code);
 }
 
@@ -39,7 +38,6 @@ void	redirect_stdout_and_exec(t_tree_node *node, int flag, t_envp *env,
 	dup_and_close(fd, STDOUT_FILENO, env, grbg_collector);
 	execution(node->right, env, grbg_collector);
 	exit_code = env->exit_code;
-	ft_free_gc(grbg_collector);
 	exit(exit_code);
 }
 

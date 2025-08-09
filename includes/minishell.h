@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/06 22:54:39 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/09 13:56:18 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,4 +165,5 @@ void		dup_and_close(int fd, int std_fd, t_envp *env,
 				t_gc_list *grbg_collector);
 int			check_file_executable(t_envp *env, t_tree_node *node,
 				t_gc_list *grbg_collector);
+bool		is_redirection(t_tokens token);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/06 22:50:06 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/09 15:28:47 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	handle_execution_check(t_tree_node *root, t_envp *env,
 		if (check_file_executable(env, root, grbg_collector) == -1)
 		{
 			env->exit_code = print_message_and_exit(root->data,
-					":no such file or directory", 127);
+					": No such file or directory", 127);
 			return (-1);
 		}
 	}
@@ -85,5 +85,6 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 		return ;
 	if (handle_execution_check(tree->root, env, grbg_collector) == -1)
 		return ;
+	// print_inorder(tree->root);
 	env->exit_code = execution(tree->root, env, grbg_collector);
 }

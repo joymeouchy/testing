@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   add_redir_argument.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:26:02 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/06/19 09:33:42 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 14:15:02 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	add_word_to_pipe(t_list_node *node, t_list *list)
+{
+	if (node && node->next && node->token == PIPE
+		&& node->next->token == WORD)
+	{
+		node->redir_arg = node->next->data;
+		delete_node(list, node->next);
+	}
+}
 
 void	add_arg_to_redir(t_list *list)
 {
@@ -19,9 +29,8 @@ void	add_arg_to_redir(t_list *list)
 	index = list->head;
 	while (index)
 	{
-		if (index->next
-			&& (index->token >= LEFT_REDIRECTION
-				&& index->token <= RIGHT_D_REDIRECTION))
+		add_word_to_pipe(index, list);
+		if (index->next && is_redirection(index->token))
 		{
 			if (index && index->next && index->next->next
 				&& index->next->token == PIPE

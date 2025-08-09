@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   tree_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 21:17:46 by root              #+#    #+#             */
-/*   Updated: 2025/08/06 22:27:24 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/09 14:01:16 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// void	print_inorder(t_tree_node *node)
-// {
-// 	if (node == NULL)
-// 		return ;
-// 	printf("Data: %s, Token: %d, redurection%s\n", node->data, node->token,
-// 		node->redir_arg);
-// 	if (node->right)
-// 		printf("right:%s\n", node->right->data);
-// 	if (node->left)
-// 		printf("left:%s\n", node->left->data);
-// 	print_inorder(node->left);
-// 	print_inorder(node->right);
-// }
+void	print_inorder(t_tree_node *node)
+{
+	if (node == NULL)
+		return ;
+	printf("Data: %s, Token: %d, redurection%s\n", node->data, node->token,
+		node->redir_arg);
+	if (node->right)
+		printf("right:%s\n", node->right->data);
+	if (node->left)
+		printf("left:%s\n", node->left->data);
+	print_inorder(node->left);
+	print_inorder(node->right);
+}
 
 t_tree	*init_tree(t_gc_list *grgb_collector)
 {

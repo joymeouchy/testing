@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/06 20:20:14 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/09 14:35:56 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ char	*open_heredoc_file(int *temp_fd, t_gc_list *grbg_collector,
 		filename = ft_strjoin(base, ".txt", grbg_collector);
 		fd = open(filename, O_WRONLY | O_CREAT | O_EXCL, 0644);
 		if (fd != -1)
+		{
+			*temp_fd = -1;
 			break ;
+		}
 		if (errno != EEXIST)
 		{
 			perror("Error creating temporary file for heredoc");
@@ -83,10 +86,12 @@ void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector,
 	int		temp_fd;
 	char	*filename;
 
+	if (!node->redir_arg)
+		return;
 	filename = open_heredoc_file(&temp_fd, grbg_collector, heredoc_counter);
 	if (temp_fd == -1)
 	{
-		ft_free_gc(grbg_collector);
+		// ft_free_gc(grbg_collector);
 		exit(1);
 	}
 	write_heredoc_to_file(temp_fd, node->redir_arg, env, grbg_collector);

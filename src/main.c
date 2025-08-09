@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:56:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/06 22:45:59 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/09 14:20:43 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int argc, char **argv, char **envp)
 	env->environment = dup_env(envp, grgb_collector);
 	env->home = get_env_value("HOME", env->environment, grgb_collector);
 	env->export_only = NULL;
-	env->exit_code = 0; //remove env from gc and ree it seperately
+	env->exit_code = 0;
 	update_shlvl(env, grgb_collector);
 	while (1)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 20:41:59 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/06 22:52:57 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/09 15:39:04 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ int	execution(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 	if (!node)
 		return (-1);
 	pipe_count = count_pipes(node);
+	if (node->token >= 3 && node->token <= 6)
+		return (handle_recirections(node, env, grbg_collector));
 	if (node->token == PIPE)
 		return (pipe_exec(node, pipe_count, env, grbg_collector));
 	if (node->token == COMMAND || node->token == BUILT_IN)
 		return (exec_commands(node, env, grbg_collector));
-	if (node->token >= 3 && node->token <= 6)
-		return (handle_recirections(node, env, grbg_collector));
 	return (env->exit_code);
 }

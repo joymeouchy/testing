@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:30:37 by root              #+#    #+#             */
-/*   Updated: 2025/07/31 22:41:45 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/09 15:34:59 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	cd(t_tree_node *root, t_envp *env, t_gc_list *grbg_collector)
 		arg = root->right->data;
 	if (root->right && root->right->right)
 		return (env->exit_code = print_message_and_exit("cd:",
-				"too many arguments", 1));
+				" too many arguments", 1));
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 		return (1);
