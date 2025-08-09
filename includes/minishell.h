@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/09 13:56:18 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 17:12:25 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int			execution(t_tree_node *node, t_envp *env,
 int			count_pipes(t_tree_node *node);
 int			pipe_exec(t_tree_node *node, int pipe_count, t_envp *env,
 				t_gc_list *grbg_collector);
-int			handle_recirections(t_tree_node *node, t_envp *env,
+int			handle_redirections(t_tree_node *node, t_envp *env,
 				t_gc_list *grbg_collector);
 void		heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector,
 				int heredoc_counter);
@@ -152,6 +152,9 @@ char		**dup_env(char **envp, t_gc_list *grgb_collector);
 void		update_shlvl(t_envp *env, t_gc_list *grgb_collector);
 // syntax error
 int			print_message_and_exit(char *message, char *word, int exit_code);
+int			print_syntax_error(char *message, char *word,
+			int exit_code, t_envp *env);
+int			check_syntax_errors(t_tree_node *node, t_envp *env);
 void		signal_in_child(void);
 bool		is_space(char c);
 void		main_signal(void);

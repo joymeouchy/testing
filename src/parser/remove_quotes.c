@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:16:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/06 22:28:25 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/09 16:03:24 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_and_remove_quotes(t_list *list)
 		if (flag_balanced_quotes == 1)
 		{
 			ft_putendl_fd("syntax error: unclosed quote", 2);
-			exit (2);
+			return (2);
 		}
 		remove_quotes_from_string(temp->data);
 		if (temp->token != LEFT_D_REDIRECTION && temp->redir_arg)

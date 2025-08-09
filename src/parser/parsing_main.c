@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/09 15:28:47 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 17:15:28 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 	t_list	*list;
 	t_tree	*tree;
 
+	env->syntax_error = false;
 	if (handle_initial_state(env))
 		return ;
 	list = prepare_token_list(input, env, grbg_collector);
@@ -86,5 +87,8 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 	if (handle_execution_check(tree->root, env, grbg_collector) == -1)
 		return ;
 	// print_inorder(tree->root);
+	check_syntax_errors(tree->root, env);
+	if (env->syntax_error)
+		return ;
 	env->exit_code = execution(tree->root, env, grbg_collector);
 }

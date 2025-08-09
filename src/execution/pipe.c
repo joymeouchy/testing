@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:51:42 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/09 15:25:57 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 17:18:30 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,10 @@ int	pipe_exec(t_tree_node *node, int pipe_count,
 	t_pipe_info	info;
 	int			status;
 
-	if (!node->right || (!node->left && !node->redir_arg))
-		return (env->exit_code = print_message_and_exit(
-				"minishell: syntax error near unexpected token `|'",
-				"", 2));
 	if (node->redir_arg)
-		return (env->exit_code = print_message_and_exit(
+		return (env->exit_code = print_syntax_error(
 				node->redir_arg,
-				": command not found", 127));
+				": command not found", 127, env));
 	if (pipe(info.pipefd) == -1)
 		return (1);
 	info.env = env;

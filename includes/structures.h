@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:16:36 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/06 22:41:50 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/09 16:42:37 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_envp
 	char				**export_only;
 	long long			exit_code;
 	char				*home;
+	bool				syntax_error;
 }						t_envp;
 
 typedef struct s_expansion_state
@@ -82,6 +83,22 @@ typedef struct s_list
 	int					list_size;
 }						t_list;
 
+
+// stack//
+
+typedef struct s_stack_element
+{
+	char				*data;
+	char				*redir_arg;
+	t_tokens			token;
+}						t_stack_element;
+
+typedef struct s_stack
+{
+	int					top;
+	t_stack_element		*stack;
+}						t_stack;
+
 // tree//
 
 typedef struct s_tree_node
@@ -100,20 +117,6 @@ typedef struct s_tree
 	t_tree_node			*root;
 }						t_tree;
 
-// stack//
-
-typedef struct s_stack_element
-{
-	char				*data;
-	char				*redir_arg;
-	t_tokens			token;
-}						t_stack_element;
-
-typedef struct s_stack
-{
-	int					top;
-	t_stack_element		*stack;
-}						t_stack;
 
 typedef struct s_pipe_info
 {

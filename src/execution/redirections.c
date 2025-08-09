@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/09 15:08:47 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 17:16:03 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,9 @@ int	redir_output(t_tree_node *node, t_envp *env, int open_fd_flag,
 	return (env->exit_code);
 }
 
-int	handle_recirections(t_tree_node *node, t_envp *env,
+int	handle_redirections(t_tree_node *node, t_envp *env,
 		t_gc_list *grbg_collector)
 {
-	if (node->right && !(node->right->token >= 1 || node->right->token <= 6))
-	{
-		return (env->exit_code = print_message_and_exit("minishell: ",
-				"syntax error near unexpected token `newline'", 2));
-	}
-	else if (node->redir_arg == NULL)
-		return (env->exit_code = print_message_and_exit("minishell: ",
-				"syntax error near unexpected token `newline'", 2));
 	if (node->token == LEFT_REDIRECTION)
 		return (redir_input(node, env, grbg_collector));
 	else if (node->token == RIGHT_REDIRECTION)

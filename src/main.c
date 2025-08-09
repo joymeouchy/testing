@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:56:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/09 14:20:43 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 16:33:31 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	main(int argc, char **argv, char **envp)
 	env->home = get_env_value("HOME", env->environment, grgb_collector);
 	env->export_only = NULL;
 	env->exit_code = 0;
+	env->syntax_error = false;
 	update_shlvl(env, grgb_collector);
 	while (1)
 	{
