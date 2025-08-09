@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/09 14:35:56 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:14:42 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	replace_heredoc_node(t_tree_node *node, char *filename)
 	node->data = "<";
 	node->token = LEFT_REDIRECTION;
 	node->redir_arg = filename;
+	node->heredoc_created = 1;
 }
 
 static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env,
@@ -90,10 +91,7 @@ void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector,
 		return;
 	filename = open_heredoc_file(&temp_fd, grbg_collector, heredoc_counter);
 	if (temp_fd == -1)
-	{
-		// ft_free_gc(grbg_collector);
 		exit(1);
-	}
 	write_heredoc_to_file(temp_fd, node->redir_arg, env, grbg_collector);
 	close(temp_fd);
 	replace_heredoc_node(node, filename);

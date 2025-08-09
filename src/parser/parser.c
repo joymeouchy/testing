@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:42:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/06 22:25:23 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/09 19:33:22 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_list	*input_to_list(char *input, t_gc_list *grbg_collector)
 	state.input = input;
 	state.i = 0;
 	state.start = 0;
-	while (state.input[state.i])
+	while (state.input && state.input[state.i])
 	{
 		split_symbols(&state, list, grbg_collector);
 		split_redirections(&state, list, grbg_collector);

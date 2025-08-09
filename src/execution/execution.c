@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 20:41:59 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/09 17:02:23 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 18:59:12 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ int	execution(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 {
 	int	pipe_count;
 
-	if (!node || env->syntax_error)
+	if (!node)
 		return (-1);
 	pipe_count = count_pipes(node);
-	if (!env->syntax_error && (node->token >= 3 && node->token <= 6))
+	if (is_redirection(node->token))
 		return (handle_redirections(node, env, grbg_collector));
-	if (!env->syntax_error && node->token == PIPE)
+	if (node->token == PIPE)
 		return (pipe_exec(node, pipe_count, env, grbg_collector));
-	if (!env->syntax_error && (node->token == COMMAND || node->token == BUILT_IN))
+	if (node->token == COMMAND || node->token == BUILT_IN)
 		return (exec_commands(node, env, grbg_collector));
 	return (env->exit_code);
 }

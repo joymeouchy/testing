@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:18:30 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/09 17:18:14 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:03:38 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	check_syntax_errors(t_tree_node *node, t_envp *env)
 	if (node->token == PIPE)
 		env->exit_code = check_pipe(node, env);
 	if (is_redirection(node->token))
-		env->exit_code = check_pipe(node, env);
+		env->exit_code = check_redir_err(node, env);
 	check_syntax_errors(node->left, env);
 	check_syntax_errors(node->right, env);
 	return (env->exit_code);

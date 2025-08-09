@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:30:37 by root              #+#    #+#             */
-/*   Updated: 2025/08/09 15:34:59 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:31:10 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	is_valid_directory(const char *path)
 	return (1);
 }
 
-static void	update_pwd_vars(t_envp *env, const char *oldpwd,
+static void	update_pwd_vars(t_envp *env, char *oldpwd,
 		t_gc_list *grbg_collector)
 {
 	char	*cwd;
@@ -44,9 +44,11 @@ static void	update_pwd_vars(t_envp *env, const char *oldpwd,
 	if (!cwd)
 		return ;
 	old_entry = ft_strjoin("OLDPWD=", oldpwd, grbg_collector);
+	free(oldpwd);
 	if (!old_entry)
 		return ((void)0);
 	pwd_entry = ft_strjoin("PWD=", cwd, grbg_collector);
+	free(cwd);
 	if (!pwd_entry)
 		return ((void)0);
 	update_env(old_entry, env, grbg_collector);
@@ -69,9 +71,13 @@ int	cd(t_tree_node *root, t_envp *env, t_gc_list *grbg_collector)
 		return (1);
 	target = resolve_cd_target(arg, env, grbg_collector);
 	if (!target)
+	{
+		free(oldpwd);
 		return (1);
+	}
 	if (!is_valid_directory(target) || chdir(target) != 0)
 	{
+		free(oldpwd);
 		env->exit_code = 1;
 		return (1);
 	}

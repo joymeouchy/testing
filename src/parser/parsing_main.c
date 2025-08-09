@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/09 17:15:28 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:00:39 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 		return ;
 	if (handle_execution_check(tree->root, env, grbg_collector) == -1)
 		return ;
-	// print_inorder(tree->root);
 	check_syntax_errors(tree->root, env);
 	if (env->syntax_error)
 		return ;

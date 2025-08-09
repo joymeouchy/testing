@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/09 17:16:03 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:24:32 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	redirect_stdin_and_exec(t_tree_node *node, char *file, t_envp *env,
 
 	fd = open_file_for_redirect(file, O_RDONLY, env, grbg_collector);
 	dup_and_close(fd, STDIN_FILENO, env, grbg_collector);
-	if (ft_strncmp(file, "heredoc_temp", 12) == 0)
+	if (node->heredoc_created == 1 && (ft_strncmp(file, "heredoc_temp", 12) == 0))
 		unlink(file);
 	execution(node->right, env, grbg_collector);
 	exit_code = env->exit_code;

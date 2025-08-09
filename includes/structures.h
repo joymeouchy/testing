@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:16:36 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/09 16:42:37 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:11:27 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct s_tree_node
 	t_envp				*path;
 	char				*data;
 	enum s_tokens		token;
+	int					heredoc_created;
 }						t_tree_node;
 
 typedef struct s_tree

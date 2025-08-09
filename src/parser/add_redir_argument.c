@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:26:02 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/09 14:15:02 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:23:03 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,26 +49,41 @@ void	add_arg_to_redir(t_list *list)
 	}
 }
 
-static void	swap_node_content(t_tree_node *a, t_tree_node *b)
+static void	swap_node_strings(t_tree_node *a, t_tree_node *b)
 {
-	char	*tmp_data;
-	t_envp	*tmp_path;
-	char	*tmp_redir_arg;
-	int		tmp_token;
+	char	*tmp_data = a->data;
+	t_envp	*tmp_path = a->path;
+	char	*tmp_redir_arg = a->redir_arg;
 
-	tmp_data = a->data;
-	tmp_path = a->path;
-	tmp_redir_arg = a->redir_arg;
-	tmp_token = a->token;
 	a->data = b->data;
 	a->path = b->path;
 	a->redir_arg = b->redir_arg;
-	a->token = b->token;
+
 	b->data = tmp_data;
 	b->path = tmp_path;
 	b->redir_arg = tmp_redir_arg;
-	b->token = tmp_token;
 }
+
+static void	swap_node_flags(t_tree_node *a, t_tree_node *b)
+{
+	enum s_tokens	tmp_token = a->token;
+	int				tmp_heredoc_created = a->heredoc_created;
+
+	a->token = b->token;
+	a->heredoc_created = b->heredoc_created;
+
+	b->token = tmp_token;
+	b->heredoc_created = tmp_heredoc_created;
+}
+
+
+static void	swap_node_content(t_tree_node *a, t_tree_node *b)
+{
+	swap_node_strings(a, b);
+	swap_node_flags(a, b);
+}
+
+
 
 void	swap_red(t_tree_node *node1, t_tree_node *node2)
 {

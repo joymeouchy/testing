@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 21:17:46 by root              #+#    #+#             */
-/*   Updated: 2025/08/09 16:33:17 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:11:44 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_tree_node	*create_tree_node(t_stack *stack, t_envp *environment,
 	new_node->data = stack->stack[stack->top].data;
 	new_node->token = stack->stack[stack->top].token;
 	new_node->redir_arg = stack->stack[stack->top].redir_arg;
+	new_node->heredoc_created = 0;
 	stack->top--;
 	new_node->left = NULL;
 	new_node->right = NULL;
