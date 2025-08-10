@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/09 17:12:25 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/10 16:30:58 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int			replace_existing_key(char *arg, char ***env,
 int			is_valid_key(const char *str);
 int			export(t_tree_node *root, t_envp *env, t_gc_list *grbg_collector);
 int			pwd(void);
-int			is_valid_var_name(const char *name);
 int			match_key(const char *env_entry, const char *key);
 int			unset(t_tree_node *root, t_envp *env);
 void		free_env(char **env);

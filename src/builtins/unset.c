@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:06:11 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/09 19:26:57 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/10 17:51:36 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	is_valid_var_name(const char *name)
-{
-	int	i;
-
-	i = 0;
-	if (!name || (!ft_isalpha(name[0]) && name[0] != '_'))
-		return (0);
-	while (name[i])
-	{
-		if (!ft_isalnum(name[i]) && name[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 int	match_key(const char *env_entry, const char *key)
 {
@@ -74,14 +58,16 @@ int	unset(t_tree_node *root, t_envp *env)
 	arg = root->right;
 	while (arg)
 	{
-		if (is_valid_key(arg->data))
-			remove_var_from_env(arg->data, env);
-		else
+		if (arg->data[0] == '-')
 		{
-			ft_putstr_fd("minishell: unset:'", 2);
-			return (print_message_and_exit(arg->data
-					, "': not a valid identifier", 1));
+			ft_putstr_fd("minishell: unset: `", 2);
+			ft_putstr_fd(arg->data, 2);
+			ft_putstr_fd("': invalid option\n", 2);
+			return (2);
 		}
+		remove_var_from_env(arg->data, env);
+		if (ft_strcmp(arg->data, "PATH") == 0)
+			env->split_path = NULL;
 		arg = arg->right;
 	}
 	return (0);
