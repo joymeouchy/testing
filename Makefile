@@ -52,7 +52,7 @@ SRC =   src/parser/parser.c \
         src/syntax_error.c \
 	src/ft_malloc.c \
         src/structures/tree_builder.c
-
+        # src/execution/heredoc_helper.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/09 19:14:42 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/10 23:00:55 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env,
 	while (1)
 	{
 		line = readline("> ");
+		if(g_sigint)
+		{
+			printf("%i",g_sigint);
+			break ;
+		}
 		if (quotes_in_delimiter == 0)
 		{
 			line = expand(line, env, grbg_collector);
@@ -80,7 +85,11 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env,
 		free(line);
 	}
 }
-
+void set_heredoc_signals(void)
+{
+    signal(SIGINT, ctrl_c);
+    signal(SIGQUIT, SIG_IGN);
+}
 void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector,
 		int heredoc_counter)
 {
@@ -89,10 +98,12 @@ void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector,
 
 	if (!node->redir_arg)
 		return;
+	set_heredoc_signals();
 	filename = open_heredoc_file(&temp_fd, grbg_collector, heredoc_counter);
 	if (temp_fd == -1)
 		exit(1);
 	write_heredoc_to_file(temp_fd, node->redir_arg, env, grbg_collector);
 	close(temp_fd);
 	replace_heredoc_node(node, filename);
+	
 }

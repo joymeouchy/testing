@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/10 16:30:58 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/10 22:53:46 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,4 +168,8 @@ void		dup_and_close(int fd, int std_fd, t_envp *env,
 int			check_file_executable(t_envp *env, t_tree_node *node,
 				t_gc_list *grbg_collector);
 bool		is_redirection(t_tokens token);
+void handle_initial_state(t_envp *env);
+void	ctrl_c(int sig);
+// void	write_heredoc_to_file(int temp_fd, char *delimiter,
+// 				t_envp *env, t_gc_list *gc);
 #endif

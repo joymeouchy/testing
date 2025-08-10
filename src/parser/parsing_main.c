@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/09 19:00:39 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/10 22:35:39 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	handle_initial_state(t_envp *env)
+void handle_initial_state(t_envp *env)
 {
 	if (g_sigint == 130)
 	{
 		env->exit_code = 130;
 		g_sigint = 0;
-		return (1);
+		// return (1);
 	}
-	return (0);
+	// return (0);
 }
 
 static t_list	*prepare_token_list(char *input, t_envp *env,
@@ -76,8 +76,10 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 	t_tree	*tree;
 
 	env->syntax_error = false;
-	if (handle_initial_state(env))
-		return ;
+	handle_initial_state(env);
+
+	// if (handle_initial_state(env))
+	// 	return ;
 	list = prepare_token_list(input, env, grbg_collector);
 	if (!list)
 		return ;
