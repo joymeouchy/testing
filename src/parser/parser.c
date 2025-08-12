@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:42:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/09 19:33:22 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/12 19:56:07 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ t_list	*input_to_list(char *input, t_gc_list *grbg_collector)
 {
 	t_list			*list;
 	t_parse_state	state;
+	int				input_len;
 
 	if (!input)
 		return (NULL);
@@ -90,7 +91,8 @@ t_list	*input_to_list(char *input, t_gc_list *grbg_collector)
 	state.input = input;
 	state.i = 0;
 	state.start = 0;
-	while (state.input && state.input[state.i])
+	input_len = ft_strlen(input);
+	while (state.input && state.i < input_len && state.input[state.i])
 	{
 		split_symbols(&state, list, grbg_collector);
 		split_redirections(&state, list, grbg_collector);

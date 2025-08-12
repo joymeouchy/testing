@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/10 22:35:39 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/12 19:57:35 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 	// 	return ;
 	list = prepare_token_list(input, env, grbg_collector);
 	if (!list)
+	{
+		free(list);//recheck if this is necessary
 		return ;
+	}
 	tree = build_tree_from_list(list, env, grbg_collector);
 	if (!tree)
 		return ;
