@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/12 19:57:35 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/12 22:07:03 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_list	*prepare_token_list(char *input, t_envp *env,
 	env->exit_code = check_and_remove_quotes(list);
 	if (env->exit_code != 0)
 		return (NULL);
-	check_and_remove_empty(list);
+	// check_and_remove_empty(list); //hay lezim nshila kermel l echo totba3 space za masaln jken l input echo "" hi
 	tokenize_after_quotes(list, env);
 	return (list);
 }

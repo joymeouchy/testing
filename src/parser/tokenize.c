@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 13:23:04 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/09 14:20:22 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/12 21:55:14 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	assign_token_type(t_list_node *node, t_envp *envp,
 		node->token = BUILT_IN;
 		*flag_command = true;
 	}
-	else if (!(*flag_command) && ft_strcmp(node->data, "")
+	else if (!(*flag_command) 
 		&& is_command(node->data, envp))
 	{
 		node->token = COMMAND;
@@ -95,8 +95,7 @@ void	tokenize_after_quotes(t_list *list, t_envp *envp)
 			temp->token = BUILT_IN;
 			flag_command = true;
 		}
-		else if (!flag_command && ft_strcmp(temp->data, "")
-			&& is_command(temp->data, envp))
+		else if (!flag_command && is_command(temp->data, envp))
 		{
 			temp->token = COMMAND;
 			flag_command = true;
