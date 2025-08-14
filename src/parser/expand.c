@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 19:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/08/06 21:30:01 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/14 17:05:30 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,12 @@ void	expand_list(t_list *list, t_envp *env, t_gc_list *grbg_collector)
 			current->data = expand(current->data, env, grbg_collector);
 			if (!current->data)
 				return ;
+			if (current->data[0] == '\0')
+			{
+				delete_node(list, current);
+				update_list_index(current);
+				current = current->prev;
+			}
 		}
 		current = current->next;
 	}

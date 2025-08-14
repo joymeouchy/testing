@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/12 22:07:03 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/14 17:33:52 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static t_list	*prepare_token_list(char *input, t_envp *env,
 	env->exit_code = check_and_remove_quotes(list);
 	if (env->exit_code != 0)
 		return (NULL);
-	// check_and_remove_empty(list); //hay lezim nshila kermel l echo totba3 space za masaln jken l input echo "" hi
 	tokenize_after_quotes(list, env);
 	return (list);
 }
@@ -86,6 +85,7 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 		free(list);//recheck if this is necessary
 		return ;
 	}
+	// print_list(list);
 	tree = build_tree_from_list(list, env, grbg_collector);
 	if (!tree)
 		return ;

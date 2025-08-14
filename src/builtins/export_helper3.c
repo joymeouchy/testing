@@ -3,14 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:04:06 by root              #+#    #+#             */
-/*   Updated: 2025/07/31 22:53:11 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/14 17:47:02 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <ctype.h> // for isspace
+
+void trim_after_equal(char *arg)
+{
+    char *equal;
+	char *start;
+	char *dst;
+	
+	equal = ft_strchr(arg, '=');
+    if (!equal)
+        return;
+    start = equal + 1;
+    while (*start && is_space((unsigned char)*start))
+        start++;
+    dst = equal + 1;
+    while (*start)
+        *dst++ = *start++;
+    dst--;
+    while (dst >= equal + 1 && is_space((unsigned char)*dst))
+        dst--;
+    dst[1] = '\0';
+}
 
 void	update_env(char *arg, t_envp *env, t_gc_list *grgb_collector)
 {
@@ -20,6 +42,7 @@ void	update_env(char *arg, t_envp *env, t_gc_list *grgb_collector)
 	if (!env)
 		return ;
 	equal = ft_strchr(arg, '=');
+	trim_after_equal(arg);
 	if (!equal)
 	{
 		key = ft_strdup(arg, grgb_collector);

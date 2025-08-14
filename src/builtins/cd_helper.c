@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_helper.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:12:30 by root              #+#    #+#             */
-/*   Updated: 2025/08/10 23:10:50 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/14 17:24:14 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,7 @@ char	*handle_cd_tilde(const char *arg, t_envp *env
 		ft_putendl_fd("minishell: cd: cannot determine home directory", 2);
 		return (NULL);
 	}
-	printf("home%s\n", home);
 	path = ft_strjoin(home, arg + 1, grbg_collector);
-	printf("path:%s\n", path);
 	if (!path)
 		return (NULL);
 	return (path);
