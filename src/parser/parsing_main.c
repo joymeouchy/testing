@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/14 17:33:52 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/15 12:05:29 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,20 @@ static t_list	*prepare_token_list(char *input, t_envp *env,
 		t_gc_list *grbg_collector)
 {
 	t_list	*list;
-
+	int		quote_check;
+	
 	list = input_to_list(input, grbg_collector);
 	if (!list || !list->head)
 		return (NULL);
 	expand_list(list, env, grbg_collector);
 	tokenize(list, env);
 	add_arg_to_redir(list);
-	env->exit_code = check_and_remove_quotes(list);
-	if (env->exit_code != 0)
+	quote_check = check_and_remove_quotes(list);
+	if (quote_check != 0)
+	{
+		env->exit_code = quote_check;
 		return (NULL);
+	}
 	tokenize_after_quotes(list, env);
 	return (list);
 }
