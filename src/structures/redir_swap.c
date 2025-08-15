@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_swap.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 12:05:32 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/06 21:08:44 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/15 13:21:22 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,11 @@ void	swap_redir_to_bottom(t_tree_node **node_ptr)
 }
 
 void	swap_redir_in_tree(t_tree_node *node, t_envp *env,
-		t_gc_list *grbg_collector, int *heredoc_counter)
+		t_gc_list *grbg_collector)
 {
 	if (node == NULL)
 		return ;
-	if (node->token == LEFT_D_REDIRECTION)
-	{
-		heredoc(node, env, grbg_collector, *heredoc_counter);
-		(*heredoc_counter)++;
-	}
-	swap_redir_in_tree(node->left, env, grbg_collector, heredoc_counter);
-	swap_redir_in_tree(node->right, env, grbg_collector, heredoc_counter);
+	swap_redir_in_tree(node->left, env, grbg_collector);
+	swap_redir_in_tree(node->right, env, grbg_collector);
 	swap_redir_to_bottom(&node);
 }

@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 21:04:17 by root              #+#    #+#             */
-/*   Updated: 2025/08/13 18:53:37 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/15 13:42:30 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ static int	check_path_access(char *cmd, char **paths, int cmd_len)
 		full_path[path_len] = '/';
 		ft_strlcpy(full_path + path_len + 1, cmd, cmd_len + 1);
 		if (is_executable_file(full_path) == 1)
-		// if(access(full_path, X_OK))
 		{
 			free(full_path);
 			return (1);
@@ -93,8 +92,6 @@ int	is_command(char *cmd, t_envp *envp)
 
 	if (!cmd || !envp || !envp->split_path)
 		return (0);
-	// if (ft_strchr(cmd, '/'))
-	// 	return (is_executable_file(cmd));
 	cmd_len = ft_strlen(cmd);
 	return (check_path_access(cmd, envp->split_path, cmd_len));
 }

@@ -1,5 +1,0 @@
-jksd
-klj
-
-Minishell$ 
-Minishell$ 

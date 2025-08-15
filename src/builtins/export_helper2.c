@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:57:06 by root              #+#    #+#             */
-/*   Updated: 2025/08/13 20:39:17 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/15 13:44:26 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	replace_existing_key(char *arg, char ***env, t_gc_list *grbg_collector)
 	index = find_key_index(key, key_len, *env);
 	if (index >= 0)
 	{
-		free((*env)[index]);
+		// free((*env)[index]); 
 		(*env)[index] = ft_strdup(arg, grbg_collector);
 		return (1);
 	}

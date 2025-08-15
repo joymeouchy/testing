@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:26:02 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/09 19:23:03 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/15 13:16:11 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ static void	swap_node_content(t_tree_node *a, t_tree_node *b)
 	swap_node_strings(a, b);
 	swap_node_flags(a, b);
 }
-
-
 
 void	swap_red(t_tree_node *node1, t_tree_node *node2)
 {

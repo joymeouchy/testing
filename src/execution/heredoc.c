@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/15 12:33:01 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/15 13:26:56 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env,
 		free(line);
 	}
 }
-void set_heredoc_signals(void)
-{
-    signal(SIGINT, ctrl_c);
-    signal(SIGQUIT, SIG_IGN);
-}
+// void set_heredoc_signals(void)
+// {
+//     signal(SIGINT, ctrl_c);
+//     signal(SIGQUIT, SIG_IGN);
+// }
 void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector,
 		int heredoc_counter)
 {
@@ -104,7 +104,7 @@ void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector,
 
 	if (!node->redir_arg)
 		return;
-	set_heredoc_signals();
+	// set_heredoc_signals();
 	filename = open_heredoc_file(&temp_fd, grbg_collector, heredoc_counter);
 	if (temp_fd == -1)
 		exit(1);
@@ -112,4 +112,18 @@ void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector,
 	close(temp_fd);
 	replace_heredoc_node(node, filename);
 	
+}
+
+void	swap_heredoc_node(t_tree_node *node, t_envp *env,
+		t_gc_list *grbg_collector, int heredoc_counter)
+{
+	if (node == NULL)
+		return ;
+	if (node->token == LEFT_D_REDIRECTION)
+	{
+		heredoc(node, env, grbg_collector, heredoc_counter);
+		(heredoc_counter)++;
+	}
+	swap_heredoc_node(node->left, env, grbg_collector, heredoc_counter);
+	swap_heredoc_node(node->right, env, grbg_collector, heredoc_counter);
 }
