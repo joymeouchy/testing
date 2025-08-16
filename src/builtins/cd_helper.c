@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_helper.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:12:30 by root              #+#    #+#             */
-/*   Updated: 2025/08/14 17:24:14 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/16 12:00:07 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*handle_cd_home(t_envp *env, t_gc_list *grbg_collector)
 		ft_putendl_fd("minishell: cd: HOME not set", 2);
 		return (NULL);
 	}
-	return (ft_strdup(home, grbg_collector));
+	return (home);
 }
 
 char	*handle_cd_dash(t_envp *env, t_gc_list *grbg_collector)
@@ -58,7 +58,7 @@ char	*handle_cd_dash(t_envp *env, t_gc_list *grbg_collector)
 		return (NULL);
 	}
 	printf("%s\n", oldpwd);
-	return (ft_strdup(oldpwd, grbg_collector));
+	return (oldpwd);
 }
 
 char	*handle_cd_tilde(const char *arg, t_envp *env

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:57:06 by root              #+#    #+#             */
-/*   Updated: 2025/08/15 13:44:26 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/16 11:47:57 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	add_new_var(char *arg, char ***env, t_gc_list *grgb_collector)
 		new_env[i] = ft_strdup((*env)[i], grgb_collector);
 		i++;
 	}
-	new_env[i] = ft_strdup(arg, grgb_collector); // leak cause we're not filling it with anything
+	new_env[i] = arg; // leak cause we're not filling it with anything
 	new_env[i + 1] = NULL;
 	*env = new_env;
 }
