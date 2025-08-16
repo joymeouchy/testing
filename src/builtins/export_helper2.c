@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:57:06 by root              #+#    #+#             */
-/*   Updated: 2025/08/16 11:47:57 by root             ###   ########.fr       */
+/*   Updated: 2025/08/16 14:44:08 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	replace_existing_key(char *arg, char ***env, t_gc_list *grbg_collector)
 	index = find_key_index(key, key_len, *env);
 	if (index >= 0)
 	{
-		// free((*env)[index]); 
 		(*env)[index] = ft_strdup(arg, grbg_collector);
 		return (1);
 	}
