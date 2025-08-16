@@ -6,7 +6,7 @@
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 19:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/08/14 17:05:30 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/16 14:19:05 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,7 @@ void	expand_list(t_list *list, t_envp *env, t_gc_list *grbg_collector)
 			if (!current->data)
 				return ;
 			if (current->data[0] == '\0')
-			{
 				delete_node(list, current);
-				update_list_index(current);
-				current = current->prev;
-			}
 		}
 		current = current->next;
 	}

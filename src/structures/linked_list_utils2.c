@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 06:42:48 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/12 21:29:23 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/16 14:14:24 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,12 @@ void	update_list_index(t_list_node *temp)
 void	delete_node(t_list *list, t_list_node *node)
 {
 	t_list_node	*current;
-	t_list_node	*temp;
 
 	if (list->head == NULL || node == NULL)
 		return ;
 	if (list->head == node)
 	{
-		temp = list->head;
 		list->head = (list->head)->next;
-		free(temp);
 		return ;
 	}
 	current = list->head;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/15 13:52:44 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/16 14:23:28 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static t_list	*prepare_token_list(char *input, t_envp *env,
 	tokenize(list, env);
 	add_arg_to_redir(list);
 	quote_check = check_and_remove_quotes(list);
-	if (quote_check != 0)
+	if (quote_check == 2)
 	{
 		env->exit_code = quote_check;
 		return (NULL);
@@ -86,7 +86,7 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 	list = prepare_token_list(input, env, grbg_collector);
 	if (!list)
 	{
-		free(list);//recheck if this is necessary
+		// free(list);//recheck if this is necessary
 		return ;
 	}
 	tree = build_tree_from_list(list, env, grbg_collector);

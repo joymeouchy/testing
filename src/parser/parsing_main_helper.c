@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main_helper.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/15 13:47:19 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/16 14:02:32 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ int	check_file_executable(t_envp *env, t_tree_node *node,
 			|| ft_strncmp(node->data, "../", 3) == 0))
 		return (env->exit_code = print_message_and_exit(node->data,
 				": command not found", 127));
+	if (access(node->data, R_OK) == -1)
+		return (-1);
 	if (access(node->data, X_OK | R_OK) == -1)
 		return (env->exit_code = print_message_and_exit(node->data,
 				": Permission denied", 126));
-	if (access(node->data, R_OK) == -1)
-		return (-1);
 	pid = fork();
 	if (pid == 0)
 		exec_script_or_binary(node, env->environment,
