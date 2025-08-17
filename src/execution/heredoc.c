@@ -6,7 +6,7 @@
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/17 22:56:51 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/18 00:25:49 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,12 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env,
 	remove_quotes_from_string(delimiter);
 	while (1)
 	{
+		// if(g_sigint)
+		// {
+		// 	break ;
+		// }
+
 		line = readline("> ");
-		if(g_sigint)
-			break ;
 		if (quotes_in_delimiter == 0)
 			line = expand(line, env, grbg_collector);
 		if (!line)
@@ -82,8 +85,8 @@ void	ctrl_c_heredoc(int sig)
 {
 	(void)sig;
 	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
+	// rl_on_new_line();
+	// rl_replace_line("", 0);
 	g_sigint = 130;
 	exit(130);
 }

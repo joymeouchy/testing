@@ -6,22 +6,22 @@
 /*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 21:20:37 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/17 23:28:43 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/18 00:09:23 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	find_closing_quote(char *str, int start, char quote)
+static int find_closing_quote(char *str, int start, char quote)
 {
-	int	i;
-
-	i = start;
-	while (str[i] && str[i] != quote)
-		i++;
-	if (!str[i])
-		return (-1);
-	return (i);
+    int i = start;
+    while (str[i])
+    {
+        if (str[i] == quote)
+            return (i);
+        i++;
+    }
+    return (-1);
 }
 
 static char	*rebuild_str(char *str, int i, int end, t_gc_list *gc)
@@ -40,11 +40,15 @@ static bool	is_dollar_followed_by_quote(char *str, int i)
 {
 	return (str[i] == '$' && (str[i + 1] == '\'' || str[i + 1] == '"'));
 }
+static bool	is_special_var(char *str, int i)
+{
+	return (str[i] == '$' && (str[i + 1] == '?' || str[i + 1] == '$'));
+}
 
-// static bool	not_in_quotes(t_expansion_state state)
-// {
-// 	return (!state.in_single && !state.in_double);
-// }
+static bool	not_in_quotes(t_expansion_state state)
+{
+	return (!state.in_single && !state.in_double);
+}
 
 char	*remove_dollar_from_quoted_strings(char *str, t_gc_list *gc)
 {
@@ -60,14 +64,16 @@ char	*remove_dollar_from_quoted_strings(char *str, t_gc_list *gc)
 			state.in_single = !state.in_single;
 		else if (state.str[state.i] == '"' && !state.in_single)
 			state.in_double = !state.in_double;
-		if (is_dollar_followed_by_quote(state.str, state.i))
+		if (is_special_var(state.str, state.i))
+			state.i+=2;
+		if (not_in_quotes(state) && is_dollar_followed_by_quote(state.str, state.i))
 		{
 			state.end = find_closing_quote(state.str, state.i + 2,
 					state.str[state.i + 1]);
 			if (state.end == -1)
 				break ;
-			state.str = rebuild_str(state.str, state.i, state.i, gc);
-			state.i += state.end - state.i;
+			state.str = rebuild_str(state.str, state.i, state.end, gc);
+			state.i = state.end;
 			continue ;
 		}
 		state.i++;
