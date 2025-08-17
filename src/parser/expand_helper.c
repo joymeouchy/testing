@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/08/10 23:04:12 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/17 23:07:08 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,29 +57,29 @@ int	find_dollar(char *str)
 	return (-1);
 }
 
-bool	check_if_dollar_to_print(char *str)
-{
-	int	i;
-	int	in_double_quote;
+// bool	check_if_dollar_to_print(char *str)
+// {
+// 	int	i;
+// 	int	in_double_quote;
 
-	i = 0;
-	in_double_quote = 0;
-	while (str[i] && str[i] != '$')
-	{
-		if (str[i] == '"')
-			in_double_quote = !in_double_quote;
-		i++;
-	}
-	if (str[i] == '\0')
-		return (true);
-	i++;
-	if (str[i] == '?' || str[i] == '$' || str[i] == 39 || str[i] == 34)
-		return (false);
-	if (str[i] == '\0' || ((ft_isalnum(str[i]) == 0 || str[i] == '0'
-				|| str[i] == '$') && in_double_quote == 0))
-		return (true);
-	return (false);
-}
+// 	i = 0;
+// 	in_double_quote = 0;
+// 	while (str[i] && str[i] != '$')
+// 	{
+// 		if (str[i] == '"')
+// 			in_double_quote = !in_double_quote;
+// 		i++;
+// 	}
+// 	if (str[i] == '\0')
+// 		return (true);
+// 	i++;
+// 	if (str[i] == '?' || str[i] == '$' || str[i] == 39 || str[i] == 34)
+// 		return (false);
+// 	if (str[i] == '\0' || ((ft_isalnum(str[i]) == 0 || str[i] == '0'
+// 				|| str[i] == '$') && in_double_quote == 0))
+// 		return (true);
+// 	return (false);
+// }
 
 char	*extract_variable_name(char *str, t_gc_list *grbg_collector)
 {

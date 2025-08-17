@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 21:20:37 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/06 21:27:59 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/17 23:28:43 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ static bool	is_dollar_followed_by_quote(char *str, int i)
 	return (str[i] == '$' && (str[i + 1] == '\'' || str[i + 1] == '"'));
 }
 
-static bool	not_in_quotes(t_expansion_state state)
-{
-	return (!state.in_single && !state.in_double);
-}
+// static bool	not_in_quotes(t_expansion_state state)
+// {
+// 	return (!state.in_single && !state.in_double);
+// }
 
 char	*remove_dollar_from_quoted_strings(char *str, t_gc_list *gc)
 {
@@ -60,13 +60,13 @@ char	*remove_dollar_from_quoted_strings(char *str, t_gc_list *gc)
 			state.in_single = !state.in_single;
 		else if (state.str[state.i] == '"' && !state.in_single)
 			state.in_double = !state.in_double;
-		if (not_in_quotes(state) && is_dollar_followed_by_quote(str, state.i))
+		if (is_dollar_followed_by_quote(state.str, state.i))
 		{
 			state.end = find_closing_quote(state.str, state.i + 2,
 					state.str[state.i + 1]);
 			if (state.end == -1)
 				break ;
-			state.str = rebuild_str(state.str, state.i, state.end, gc);
+			state.str = rebuild_str(state.str, state.i, state.i, gc);
 			state.i += state.end - state.i;
 			continue ;
 		}

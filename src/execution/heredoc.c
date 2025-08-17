@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/15 13:26:56 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/17 22:56:51 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,55 +63,65 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env,
 	{
 		line = readline("> ");
 		if(g_sigint)
-		{
-			printf("hm4?\n");
-
-			printf("%i",g_sigint);
 			break ;
-		}
 		if (quotes_in_delimiter == 0)
-		{
-			printf("hm3?\n");
 			line = expand(line, env, grbg_collector);
-		}
 		if (!line)
-		{
-			printf("hm2?\n");
-			ft_putendl_fd("expand returned NULL", 2);
 			break ;
-		}
 		if (ft_strcmp(line, delimiter) == 0)
 		{
-			printf("hm1?\n");
 			free(line);
 			break ;
 		}
-		printf("hm?\n");
 		ft_putendl_fd(line, temp_fd);
 		free(line);
 	}
 }
-// void set_heredoc_signals(void)
-// {
-//     signal(SIGINT, ctrl_c);
-//     signal(SIGQUIT, SIG_IGN);
-// }
+
+void	ctrl_c_heredoc(int sig)
+{
+	(void)sig;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	g_sigint = 130;
+	exit(130);
+}
+void set_heredoc_signals(void)
+{
+    signal(SIGINT, ctrl_c_heredoc);
+    signal(SIGQUIT, SIG_IGN);
+}
 void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector,
 		int heredoc_counter)
 {
 	int		temp_fd;
 	char	*filename;
+	int		pid;
+	int status;
 
 	if (!node->redir_arg)
 		return;
-	// set_heredoc_signals();
-	filename = open_heredoc_file(&temp_fd, grbg_collector, heredoc_counter);
-	if (temp_fd == -1)
-		exit(1);
-	write_heredoc_to_file(temp_fd, node->redir_arg, env, grbg_collector);
-	close(temp_fd);
-	replace_heredoc_node(node, filename);
-	
+	pid = fork();
+	if (pid == 0)
+	{
+		set_heredoc_signals();
+		if(g_sigint)
+			exit(g_sigint);
+		filename = open_heredoc_file(&temp_fd, grbg_collector, heredoc_counter);
+		if (temp_fd == -1)
+			exit(1);
+		write_heredoc_to_file(temp_fd, node->redir_arg, env, grbg_collector);
+		close(temp_fd);
+		replace_heredoc_node(node, filename);
+		exit(g_sigint);
+	}
+	else if (pid > 0)
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			env->exit_code = WEXITSTATUS(status);
+	}
 }
 
 void	swap_heredoc_node(t_tree_node *node, t_envp *env,

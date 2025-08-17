@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 21:22:42 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/06 21:28:43 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/17 23:04:43 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	get_pid_from_proc(void)
 	if (i <= 0)
 		return (-1);
 	buf[i] = '\0';
+	i = 0;
 	while (buf[i] >= '0' && buf[i] <= '9')
 	{
 		pid = pid * 10 + (buf[i] - '0');
