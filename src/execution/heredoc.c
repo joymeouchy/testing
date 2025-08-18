@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:31:01 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/18 00:25:49 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/18 20:59:22 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 
 char	*open_heredoc_file(int *temp_fd, t_gc_list *grbg_collector,
 	int heredoc_counter)
@@ -61,11 +62,6 @@ static void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env,
 	remove_quotes_from_string(delimiter);
 	while (1)
 	{
-		// if(g_sigint)
-		// {
-		// 	break ;
-		// }
-
 		line = readline("> ");
 		if (quotes_in_delimiter == 0)
 			line = expand(line, env, grbg_collector);
@@ -85,8 +81,6 @@ void	ctrl_c_heredoc(int sig)
 {
 	(void)sig;
 	printf("\n");
-	// rl_on_new_line();
-	// rl_replace_line("", 0);
 	g_sigint = 130;
 	exit(130);
 }
@@ -95,47 +89,70 @@ void set_heredoc_signals(void)
     signal(SIGINT, ctrl_c_heredoc);
     signal(SIGQUIT, SIG_IGN);
 }
+
+static void	heredoc_child(int temp_fd, char *delimiter,
+			t_envp *env, t_gc_list *grbg_collector)
+{
+	set_heredoc_signals();
+	if (g_sigint)
+		exit(g_sigint);
+	write_heredoc_to_file(temp_fd, delimiter, env, grbg_collector);
+	close(temp_fd);
+	exit(0);
+}
+
+static void	heredoc_parent(t_tree_node *node, t_envp *env,
+			char *filename)
+{
+	int	status;
+
+	waitpid(-1, &status, 0);
+	if (WIFEXITED(status))
+		env->exit_code = WEXITSTATUS(status);
+	else
+		env->exit_code = 130;
+
+	if (env->exit_code == 0 && filename)
+		replace_heredoc_node(node, filename);
+	else if (filename)
+		unlink(filename);
+}
+
 void	heredoc(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector,
-		int heredoc_counter)
+			int heredoc_counter)
 {
 	int		temp_fd;
 	char	*filename;
-	int		pid;
-	int status;
+	pid_t	pid;
 
 	if (!node->redir_arg)
 		return;
+	filename = open_heredoc_file(&temp_fd, grbg_collector, heredoc_counter);
+	if (!filename || temp_fd == -1)
+		return;
+
 	pid = fork();
 	if (pid == 0)
-	{
-		set_heredoc_signals();
-		if(g_sigint)
-			exit(g_sigint);
-		filename = open_heredoc_file(&temp_fd, grbg_collector, heredoc_counter);
-		if (temp_fd == -1)
-			exit(1);
-		write_heredoc_to_file(temp_fd, node->redir_arg, env, grbg_collector);
-		close(temp_fd);
-		replace_heredoc_node(node, filename);
-		exit(g_sigint);
-	}
+		heredoc_child(temp_fd, node->redir_arg, env, grbg_collector);
 	else if (pid > 0)
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			env->exit_code = WEXITSTATUS(status);
-	}
+		heredoc_parent(node, env, filename);
 }
 
 void	swap_heredoc_node(t_tree_node *node, t_envp *env,
 		t_gc_list *grbg_collector, int heredoc_counter)
 {
-	if (node == NULL)
-		return ;
+	if (!node || env->exit_code == 130)
+		return;
 	if (node->token == LEFT_D_REDIRECTION)
 	{
 		heredoc(node, env, grbg_collector, heredoc_counter);
-		(heredoc_counter)++;
+		if (env->exit_code == 130)
+		{
+			if (node->redir_arg)
+				unlink(node->redir_arg);
+			return;
+		}
+		heredoc_counter++;
 	}
 	swap_heredoc_node(node->left, env, grbg_collector, heredoc_counter);
 	swap_heredoc_node(node->right, env, grbg_collector, heredoc_counter);

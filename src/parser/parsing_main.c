@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/18 19:15:25 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/18 21:35:31 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 		return ;
 	}
 	tree = build_tree_from_list(list, env, grbg_collector);
-	print_list(list);
 	if (!tree)
-	return ;
+		return ;
+	// print_inorder(tree->root);
 	check_syntax_errors(tree->root, env);
 	if (env->syntax_error)
 		return ;
