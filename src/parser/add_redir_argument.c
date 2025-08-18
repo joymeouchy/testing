@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:26:02 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/15 13:16:11 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/18 19:11:17 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	add_word_to_pipe(t_list_node *node, t_list *list)
 	}
 }
 
-void	add_arg_to_redir(t_list *list)
+void	add_arg_to_pipe(t_list *list)
 {
 	t_list_node	*index;
 
@@ -30,6 +30,17 @@ void	add_arg_to_redir(t_list *list)
 	while (index)
 	{
 		add_word_to_pipe(index, list);
+		index = index->next;
+	}
+}
+
+void	add_arg_to_redir(t_list *list)
+{
+	t_list_node	*index;
+
+	index = list->head;
+	while (index)
+	{
 		if (index->next && is_redirection(index->token))
 		{
 			if (index && index->next && index->next->next

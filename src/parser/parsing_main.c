@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/16 14:23:28 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/18 19:15:25 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static t_list	*prepare_token_list(char *input, t_envp *env,
 		return (NULL);
 	}
 	tokenize_after_quotes(list, env);
+	add_arg_to_pipe(list);
 	return (list);
 }
 
@@ -90,6 +91,7 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 		return ;
 	}
 	tree = build_tree_from_list(list, env, grbg_collector);
+	print_list(list);
 	if (!tree)
 	return ;
 	check_syntax_errors(tree->root, env);

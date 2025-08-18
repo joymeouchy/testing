@@ -6,7 +6,7 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/15 13:27:08 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/18 19:13:21 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,4 +174,6 @@ void	ctrl_c(int sig);
 // 				t_envp *env, t_gc_list *gc);
 void		swap_heredoc_node(t_tree_node *node, t_envp *env,
 			t_gc_list *grbg_collector, int heredoc_counter);
+void	add_arg_to_pipe(t_list *list);
+
 #endif
