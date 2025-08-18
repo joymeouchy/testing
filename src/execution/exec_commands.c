@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 21:04:58 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/17 22:45:27 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/18 23:18:04 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	exec_builtin(t_tree_node *node, t_envp *env, t_gc_list *grbg_collector)
 	else if (ft_strcmp(node->data, "export") == 0)
 		return (export(node, env, grbg_collector));
 	else if (ft_strcmp(node->data, "pwd") == 0)
-		return (pwd());
+		return (pwd(env, grbg_collector));
 	else if (ft_strcmp(node->data, "unset") == 0)
 		return (unset(node, env));
 	else if (ft_strcmp(node->data, "exit") == 0)
