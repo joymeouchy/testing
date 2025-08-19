@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   add_pipe_argument.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/06 19:33:17 by root              #+#    #+#             */
-/*   Updated: 2025/08/19 20:05:23 by lkhoury          ###   ########.fr       */
+/*   Created: 2025/05/22 08:26:02 by jmeouchy          #+#    #+#             */
+/*   Updated: 2025/08/19 19:25:31 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	pwd(t_envp *env, t_gc_list *grbg_collector)
+static void	add_word_to_pipe(t_list_node *node, t_list *list)
 {
-	char	*cwd;
-
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
+	if (node && node->next && node->token == PIPE && node->next->token == WORD)
 	{
-		cwd = get_env_value("PWD", env->environment, grbg_collector);
-		if (!cwd)
-		{
-			return (1);
-		}
-		printf("%s\n", cwd);
-		return (0);
+		node->redir_arg = node->next->data;
+		delete_node(list, node->next);
 	}
-	printf("%s\n", cwd);
-	free(cwd);
-	return (0);
+}
+
+void	add_arg_to_pipe(t_list *list)
+{
+	t_list_node	*index;
+
+	index = list->head;
+	while (index)
+	{
+		add_word_to_pipe(index, list);
+		index = index->next;
+	}
 }

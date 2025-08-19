@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_helper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 21:04:17 by root              #+#    #+#             */
-/*   Updated: 2025/08/15 13:42:30 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/19 20:07:27 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,18 @@ int	check_builtin(char *data)
 	return (0);
 }
 
-static int is_executable_file(const char *path)
+static int	is_executable_file(const char *path)
 {
-    struct stat sb;
+	struct stat	sb;
 
-    if (access(path, X_OK) != 0)
-        return 0;
-    if (stat(path, &sb) != 0)
-        return 0;
-    if (!S_ISREG(sb.st_mode))
-        return 0;
-    return 1;
+	if (access(path, X_OK) != 0)
+		return (0);
+	if (stat(path, &sb) != 0)
+		return (0);
+	if (!S_ISREG(sb.st_mode))
+		return (0);
+	return (1);
 }
-
 
 static int	check_path_access(char *cmd, char **paths, int cmd_len)
 {

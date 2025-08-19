@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:16:36 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/15 13:21:26 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/19 20:10:14 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define STRUCTURES_H
 
 # include "includes/garbage_collector.h"
+# include <ctype.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <signal.h>
@@ -83,7 +84,6 @@ typedef struct s_list
 	int					list_size;
 }						t_list;
 
-
 // stack//
 
 typedef struct s_stack_element
@@ -118,15 +118,14 @@ typedef struct s_tree
 	t_tree_node			*root;
 }						t_tree;
 
-
 typedef struct s_pipe_info
 {
-	int				pipefd[2];
-	pid_t			read_pid;
-	pid_t			write_pid;
-	t_envp			*env;
-	t_gc_list		*grbg;
-}	t_pipe_info;
+	int					pipefd[2];
+	pid_t				read_pid;
+	pid_t				write_pid;
+	t_envp				*env;
+	t_gc_list			*grbg;
+}						t_pipe_info;
 
 // free_structure
 void					free_list(t_list *list);

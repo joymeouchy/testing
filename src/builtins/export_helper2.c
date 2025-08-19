@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:57:06 by root              #+#    #+#             */
-/*   Updated: 2025/08/16 14:44:08 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:44:32 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	find_key_index(char *key, int key_len, char **env)
 	i = 0;
 	while (env && env[i])
 	{
-		if ((ft_strncmp(env[i], key, key_len) == 0)
-			&& (env[i][key_len] == '\0' || env[i][key_len] == '='))
+		if ((ft_strncmp(env[i], key, key_len) == 0) && (env[i][key_len] == '\0'
+			|| env[i][key_len] == '='))
 			return (i);
 		i++;
 	}
@@ -92,7 +92,7 @@ void	add_new_var(char *arg, char ***env, t_gc_list *grgb_collector)
 		new_env[i] = ft_strdup((*env)[i], grgb_collector);
 		i++;
 	}
-	new_env[i] = arg; // leak cause we're not filling it with anything
+	new_env[i] = ft_strdup(arg, grgb_collector);
 	new_env[i + 1] = NULL;
 	*env = new_env;
 }
@@ -102,7 +102,7 @@ int	is_valid_key(const char *str)
 	int	i;
 
 	i = 0;
-	if (!str || (!ft_isalpha(str[0]) && str[0] != '_' ))
+	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
 		return (0);
 	while (str[i] && str[i] != '=')
 	{

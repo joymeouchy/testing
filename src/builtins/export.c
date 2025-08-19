@@ -3,14 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:50:44 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/15 11:47:44 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:46:54 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	sort_env(char **env)
+{
+	int		i;
+	int		swapped;
+	char	*tmp;
+	int		size;
+
+	size = count_env_vars(env);
+	if (size < 2)
+		return ;
+	swapped = 1;
+	while (swapped)
+	{
+		swapped = 0;
+		i = 0;
+		while (i < size - 1)
+		{
+			if (ft_strcmp(env[i], env[i + 1]) > 0)
+			{
+				tmp = env[i];
+				env[i] = env[i + 1];
+				env[i + 1] = tmp;
+				swapped = 1;
+			}
+			i++;
+		}
+	}
+}
 
 static int	export_print_mode(t_envp *env, t_gc_list *grbg_collector)
 {

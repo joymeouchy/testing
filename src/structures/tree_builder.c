@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 22:26:35 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/18 21:42:01 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/19 20:09:08 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,13 @@ t_tree_node	*build_tree(t_stack *stack, t_envp *environment,
 	if (!new_node)
 		return (NULL);
 	if (stack_is_valid(stack) && new_node && is_redirection(new_node->token)
-	&& not_cmd_pipe(stack))
+		&& not_cmd_pipe(stack))
 	{
-		// fprintf(stdout, "node->data is:%s\n", new_node->data);
-	new_node->right = build_tree(stack, environment, grgb_collector);}
-	if (stack_is_valid(stack) && new_node && is_cmd(new_node)
-	&& not_cmd_pipe(stack))
-	{
-	new_node->right = build_tree(stack, environment, grgb_collector);
+		new_node->right = build_tree(stack, environment, grgb_collector);
 	}
+	if (stack_is_valid(stack) && new_node && is_cmd(new_node)
+		&& not_cmd_pipe(stack))
+		new_node->right = build_tree(stack, environment, grgb_collector);
 	if (new_node && new_node->token == PIPE)
 	{
 		new_node->right = build_tree(stack, environment, grgb_collector);

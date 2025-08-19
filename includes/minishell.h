@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/19 14:53:59 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/19 20:10:05 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int			replace_existing_key(char *arg, char ***env,
 				t_gc_list *grbg_collector);
 int			is_valid_key(const char *str);
 int			export(t_tree_node *root, t_envp *env, t_gc_list *grbg_collector);
-int 		pwd(t_envp *env, t_gc_list *grbg_collector);
+int			pwd(t_envp *env, t_gc_list *grbg_collector);
 int			match_key_env(const char *env_entry, const char *key);
 int			unset(t_tree_node *root, t_envp *env);
 void		free_env(char **env);
@@ -151,8 +151,8 @@ char		**dup_env(char **envp, t_gc_list *grgb_collector);
 void		update_shlvl(t_envp *env, t_gc_list *grgb_collector);
 // syntax error
 int			print_message_and_exit(char *message, char *word, int exit_code);
-int			print_syntax_error(char *message, char *word,
-			int exit_code, t_envp *env);
+int			print_syntax_error(char *message, char *word, int exit_code,
+				t_envp *env);
 int			check_syntax_errors(t_tree_node *node, t_envp *env);
 void		signal_in_child(void);
 bool		is_space(char c);
@@ -168,12 +168,16 @@ void		dup_and_close(int fd, int std_fd, t_envp *env,
 int			check_file_executable(t_envp *env, t_tree_node *node,
 				t_gc_list *grbg_collector);
 bool		is_redirection(t_tokens token);
-void handle_initial_state(t_envp *env);
-void	ctrl_c(int sig);
-// void	write_heredoc_to_file(int temp_fd, char *delimiter,
-// 				t_envp *env, t_gc_list *gc);
+void		handle_initial_state(t_envp *env);
+void		ctrl_c(int sig);
 void		swap_heredoc_node(t_tree_node *node, t_envp *env,
-			t_gc_list *grbg_collector, int heredoc_counter);
-void	add_arg_to_pipe(t_list *list);
-
+				t_gc_list *grbg_collector, int heredoc_counter);
+void		add_arg_to_pipe(t_list *list);
+char		*open_heredoc_file(int *temp_fd, t_gc_list *grbg_collector,
+				int heredoc_counter);
+void		replace_heredoc_node(t_tree_node *node, char *filename);
+void		write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env,
+				t_gc_list *grbg_collector);
+void		ctrl_c_heredoc(int sig);
+void		set_heredoc_signals(void);
 #endif

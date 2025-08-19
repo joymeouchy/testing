@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   add_redir_argument.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:26:02 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/18 19:11:17 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/19 19:25:40 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static void	add_word_to_pipe(t_list_node *node, t_list *list)
-{
-	if (node && node->next && node->token == PIPE
-		&& node->next->token == WORD)
-	{
-		node->redir_arg = node->next->data;
-		delete_node(list, node->next);
-	}
-}
-
-void	add_arg_to_pipe(t_list *list)
-{
-	t_list_node	*index;
-
-	index = list->head;
-	while (index)
-	{
-		add_word_to_pipe(index, list);
-		index = index->next;
-	}
-}
 
 void	add_arg_to_redir(t_list *list)
 {
@@ -62,14 +40,16 @@ void	add_arg_to_redir(t_list *list)
 
 static void	swap_node_strings(t_tree_node *a, t_tree_node *b)
 {
-	char	*tmp_data = a->data;
-	t_envp	*tmp_path = a->path;
-	char	*tmp_redir_arg = a->redir_arg;
+	char	*tmp_data;
+	t_envp	*tmp_path;
+	char	*tmp_redir_arg;
 
+	tmp_data = a->data;
+	tmp_path = a->path;
+	tmp_redir_arg = a->redir_arg;
 	a->data = b->data;
 	a->path = b->path;
 	a->redir_arg = b->redir_arg;
-
 	b->data = tmp_data;
 	b->path = tmp_path;
 	b->redir_arg = tmp_redir_arg;
@@ -77,16 +57,16 @@ static void	swap_node_strings(t_tree_node *a, t_tree_node *b)
 
 static void	swap_node_flags(t_tree_node *a, t_tree_node *b)
 {
-	enum s_tokens	tmp_token = a->token;
-	int				tmp_heredoc_created = a->heredoc_created;
+	enum s_tokens	tmp_token;
+	int				tmp_heredoc_created;
 
+	tmp_token = a->token;
+	tmp_heredoc_created = a->heredoc_created;
 	a->token = b->token;
 	a->heredoc_created = b->heredoc_created;
-
 	b->token = tmp_token;
 	b->heredoc_created = tmp_heredoc_created;
 }
-
 
 static void	swap_node_content(t_tree_node *a, t_tree_node *b)
 {

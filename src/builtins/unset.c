@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:06:11 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/16 14:43:04 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:51:59 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	match_key_env(const char *env_entry, const char *key)
 		i++;
 	return (key[i] == '\0' && env_entry[i] == '=');
 }
+
 int	match_key(const char *env_entry, const char *key)
 {
 	int	i;
@@ -41,10 +42,9 @@ void	remove_env_entry(char **env, int index)
 	env[index] = '\0';
 }
 
-
 void	remove_var_from_env(const char *var_name, t_envp *env)
 {
-	int j;
+	int	j;
 
 	if (!env || !env->environment)
 		return ;
@@ -54,24 +54,22 @@ void	remove_var_from_env(const char *var_name, t_envp *env)
 		if (match_key_env(env->environment[j], var_name))
 		{
 			remove_env_entry(env->environment, j);
-			break;
+			break ;
 		}
 		j++;
 	}
 	if (!env->export_only)
-		return;
-	j = 0;
-	while (env->export_only[j])
+		return ;
+	j = -1;
+	while (env->export_only[++j])
 	{
 		if (match_key(env->export_only[j], var_name))
 		{
 			remove_env_entry(env->export_only, j);
-			break;
+			break ;
 		}
-		j++;
 	}
 }
-
 
 int	unset(t_tree_node *root, t_envp *env)
 {

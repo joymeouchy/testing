@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:30:37 by root              #+#    #+#             */
-/*   Updated: 2025/08/19 15:56:09 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/19 19:58:40 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,18 @@ int	cd(t_tree_node *root, t_envp *env, t_gc_list *grbg_collector)
 				" too many arguments", 1));
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-		return (1);
+	{
+		oldpwd = get_env_value("PWD", env->environment, grbg_collector);
+		if (!oldpwd)
+			ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
+	}
 	target = resolve_cd_target(arg, env, grbg_collector);
 	if (!target)
-	{
-		free(oldpwd);
-		return (1);
-	}
+		return (free(oldpwd), 1);
 	if (!is_valid_directory(target) || chdir(target) != 0)
 	{
 		free(oldpwd);
-		env->exit_code = 1;
-		return (1);
+		return (env->exit_code = 1, 1);
 	}
-	update_pwd_vars(env, oldpwd, grbg_collector);
-	return (env->exit_code);
+	return (update_pwd_vars(env, oldpwd, grbg_collector), env->exit_code);
 }

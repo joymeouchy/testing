@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:31:09 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/18 19:05:05 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/19 19:14:15 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	redirect_stdin_and_exec(t_tree_node *node, char *file, t_envp *env,
 
 	fd = open_file_for_redirect(file, O_RDONLY, env, grbg_collector);
 	dup_and_close(fd, STDIN_FILENO, env, grbg_collector);
-	if (node->heredoc_created == 1 && (ft_strncmp(file, "heredoc_temp", 12) == 0))
+	if (node->heredoc_created == 1 && (ft_strncmp(file, "heredoc_temp",
+				12) == 0))
 		unlink(file);
 	execution(node->right, env, grbg_collector);
 	exit_code = env->exit_code;

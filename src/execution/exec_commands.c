@@ -6,7 +6,7 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 21:04:58 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/19 14:54:10 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/19 19:14:31 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	exec_cmd(t_tree_node *node, t_envp *env, t_gc_list *grgb_collector)
 		exec_child(path, args, node, env);
 	else if (pid > 0)
 	{
-		if(waitpid(pid, &status, 0) == -1)
+		if (waitpid(pid, &status, 0) == -1)
 			env->exit_code = 148;
 		else if (WIFEXITED(status))
 			env->exit_code = WEXITSTATUS(status);

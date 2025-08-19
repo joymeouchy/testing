@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:56:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/15 12:33:06 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/19 20:12:44 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,22 @@ char	**dup_env(char **envp, t_gc_list *grgb_collector)
 	return (copy);
 }
 
-void update_shlvl(t_envp *env, t_gc_list *grgb_collector)
+void	update_shlvl(t_envp *env, t_gc_list *grgb_collector)
 {
-    char    *value;
-    int     shlvl;
-    char    *new_value;
-    char    *new_entry;
+	char	*value;
+	int		shlvl;
+	char	*new_value;
+	char	*new_entry;
 
-    value = get_env_value("SHLVL", env->environment, grgb_collector);
-    if (!value)
-        value = "0";
-    shlvl = ft_atoi(value) + 1;
-    new_value = ft_itoa(shlvl, grgb_collector);
-    new_entry = ft_strjoin("SHLVL=", new_value, grgb_collector);
-    remove_var_by_key("SHLVL", &env->environment, grgb_collector);
-    add_new_var(new_entry, &env->environment, grgb_collector);
+	value = get_env_value("SHLVL", env->environment, grgb_collector);
+	if (!value)
+		value = "0";
+	shlvl = ft_atoi(value) + 1;
+	new_value = ft_itoa(shlvl, grgb_collector);
+	new_entry = ft_strjoin("SHLVL=", new_value, grgb_collector);
+	remove_var_by_key("SHLVL", &env->environment, grgb_collector);
+	add_new_var(new_entry, &env->environment, grgb_collector);
 }
-
 
 int	main(int argc, char **argv, char **envp)
 {

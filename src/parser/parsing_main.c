@@ -6,13 +6,13 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/18 21:35:31 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/19 20:07:48 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void handle_initial_state(t_envp *env)
+void	handle_initial_state(t_envp *env)
 {
 	if (g_sigint == 130)
 	{
@@ -28,7 +28,7 @@ static t_list	*prepare_token_list(char *input, t_envp *env,
 {
 	t_list	*list;
 	int		quote_check;
-	
+
 	list = input_to_list(input, grbg_collector);
 	if (!list || !list->head)
 		return (NULL);
@@ -81,7 +81,6 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 
 	env->syntax_error = false;
 	handle_initial_state(env);
-
 	// if (handle_initial_state(env))
 	// 	return ;
 	list = prepare_token_list(input, env, grbg_collector);

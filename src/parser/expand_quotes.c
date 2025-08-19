@@ -6,22 +6,24 @@
 /*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 21:20:37 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/19 14:44:26 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/19 19:27:24 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int find_closing_quote(char *str, int start, char quote)
+static int	find_closing_quote(char *str, int start, char quote)
 {
-    int i = start;
-    while (str[i])
-    {
-        if (str[i] == quote)
-            return (i);
-        i++;
-    }
-    return (-1);
+	int	i;
+
+	i = start;
+	while (str[i])
+	{
+		if (str[i] == quote)
+			return (i);
+		i++;
+	}
+	return (-1);
 }
 
 static char	*rebuild_str(char *str, int i, int end, t_gc_list *gc)
@@ -40,6 +42,7 @@ static bool	is_dollar_followed_by_quote(char *str, int i)
 {
 	return (str[i] == '$' && (str[i + 1] == '\'' || str[i + 1] == '"'));
 }
+
 static bool	is_special_var(char *str, int i)
 {
 	return (str[i] == '$' && (str[i + 1] == '?' || str[i + 1] == '$'));
@@ -53,12 +56,13 @@ static bool	not_in_quotes(t_expansion_state state)
 char	*remove_dollar_from_quoted_strings(char *str, t_gc_list *gc)
 {
 	t_expansion_state	state;
+	int					len;
 
 	state.str = str;
 	state.i = 0;
 	state.in_single = 0;
 	state.in_double = 0;
-	int len = ft_strlen(str);
+	len = ft_strlen(str);
 	while (state.i && state.i < len && state.str[state.i])
 	{
 		if (state.str[state.i] == '\'' && !state.in_double)
@@ -66,8 +70,9 @@ char	*remove_dollar_from_quoted_strings(char *str, t_gc_list *gc)
 		else if (state.str[state.i] == '"' && !state.in_single)
 			state.in_double = !state.in_double;
 		if (is_special_var(state.str, state.i))
-			state.i+=2;
-		if (not_in_quotes(state) && is_dollar_followed_by_quote(state.str, state.i))
+			state.i += 2;
+		if (not_in_quotes(state) && is_dollar_followed_by_quote(state.str,
+				state.i))
 		{
 			state.end = find_closing_quote(state.str, state.i + 2,
 					state.str[state.i + 1]);

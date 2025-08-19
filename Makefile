@@ -51,9 +51,9 @@ SRC =   src/parser/parser.c \
         src/execution/heredoc.c \
         src/syntax_error.c \
 	src/ft_malloc.c \
-        src/structures/tree_builder.c
-        # src/execution/heredoc_helper.c
-
+        src/structures/tree_builder.c \
+        src/execution/heredoc_helper.c \
+        src/parser/add_pipe_argument.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)

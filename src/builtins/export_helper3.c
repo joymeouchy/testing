@@ -3,35 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   export_helper3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 22:04:06 by root              #+#    #+#             */
-/*   Updated: 2025/08/14 17:47:02 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:46:47 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <ctype.h> // for isspace
 
-void trim_after_equal(char *arg)
+void	trim_after_equal(char *arg)
 {
-    char *equal;
-	char *start;
-	char *dst;
-	
+	char	*equal;
+	char	*start;
+	char	*dst;
+
 	equal = ft_strchr(arg, '=');
-    if (!equal)
-        return;
-    start = equal + 1;
-    while (*start && is_space((unsigned char)*start))
-        start++;
-    dst = equal + 1;
-    while (*start)
-        *dst++ = *start++;
-    dst--;
-    while (dst >= equal + 1 && is_space((unsigned char)*dst))
-        dst--;
-    dst[1] = '\0';
+	if (!equal)
+		return ;
+	start = equal + 1;
+	while (*start && is_space((unsigned char)*start))
+		start++;
+	dst = equal + 1;
+	while (*start)
+		*dst++ = *start++;
+	dst--;
+	while (dst >= equal + 1 && is_space((unsigned char)*dst))
+		dst--;
+	dst[1] = '\0';
 }
 
 void	update_env(char *arg, t_envp *env, t_gc_list *grgb_collector)
@@ -74,35 +73,6 @@ void	print_key_value(char *env_var, t_gc_list *grbg_collector)
 	value = ft_strdup(equal + 1, grbg_collector);
 	if (key && value)
 		printf("declare -x %s=\"%s\"\n", key, value);
-}
-
-void	sort_env(char **env)
-{
-	int		i;
-	int		swapped;
-	char	*tmp;
-	int		size;
-
-	size = count_env_vars(env);
-	if (size < 2)
-		return ;
-	swapped = 1;
-	while (swapped)
-	{
-		swapped = 0;
-		i = 0;
-		while (i < size - 1)
-		{
-			if (ft_strcmp(env[i], env[i + 1]) > 0)
-			{
-				tmp = env[i];
-				env[i] = env[i + 1];
-				env[i + 1] = tmp;
-				swapped = 1;
-			}
-			i++;
-		}
-	}
 }
 
 void	copy_env_vars(char **src, char **dst, int *dst_index,
