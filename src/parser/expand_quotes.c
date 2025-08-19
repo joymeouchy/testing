@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 21:20:37 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/18 00:09:23 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/19 14:44:26 by lkhoury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ char	*remove_dollar_from_quoted_strings(char *str, t_gc_list *gc)
 	state.i = 0;
 	state.in_single = 0;
 	state.in_double = 0;
-	while (state.str[state.i])
+	int len = ft_strlen(str);
+	while (state.i && state.i < len && state.str[state.i])
 	{
 		if (state.str[state.i] == '\'' && !state.in_double)
 			state.in_single = !state.in_single;
