@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmeouchy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 21:22:42 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/17 23:04:43 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/20 20:14:58 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,6 @@ char	*replace_segment(t_expansion_state *state, t_gc_list *gc)
 	return (ft_strjoin(temp, after, gc));
 }
 
-bool	is_valid_var_char(char c)
-{
-	return (ft_isalnum(c) || c == '_');
-}
-
 int	handle_special_vars(char c, t_envp *env, char **replacement,
 		t_gc_list *gc)
 {
@@ -82,4 +77,16 @@ int	handle_named_var(char *str, t_envp *env, char **replacement,
 	if (!*replacement)
 		*replacement = ft_calloc(1, 1, gc);
 	return (ft_strlen(var) + 1);
+}
+
+char	*rebuild_str(char *str, int i, int end, t_gc_list *gc)
+{
+	char	*before;
+	char	*quoted;
+	char	*after;
+
+	before = ft_substr(str, 0, i, gc);
+	quoted = ft_substr(str, i + 1, end - i, gc);
+	after = ft_substr(str, end + 1, ft_strlen(str) - (end + 1), gc);
+	return (join_parts(before, quoted, after, gc));
 }

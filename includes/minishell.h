@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 08:12:20 by jmeouchy          #+#    #+#             */
-/*   Updated: 2025/08/19 20:10:05 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/20 20:43:49 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ t_stack		*shunting_yard(t_list *list, t_gc_list *grgb_collector);
 char		*replace_segment(t_expansion_state *state, t_gc_list *gc);
 int			handle_named_var(char *str, t_envp *env, char **replacement,
 				t_gc_list *gc);
-bool		is_valid_var_char(char c);
 int			handle_special_vars(char c, t_envp *env, char **replacement,
 				t_gc_list *gc);
 char		*join_parts(char *before, char *quoted, char *after, t_gc_list *gc);
@@ -180,4 +179,11 @@ void		write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env,
 				t_gc_list *grbg_collector);
 void		ctrl_c_heredoc(int sig);
 void		set_heredoc_signals(void);
+int			find_closing_quote(char *str, int start, char quote);
+char		*rebuild_str(char *str, int i, int end, t_gc_list *gc);
+char		*ft_strjoin_free(char *s1, char *s2, t_gc_list *grbg_collector);
+char		*expand_heredoc(char *str, t_envp *env, t_gc_list *gc);
+char		*process_expansion(char *str, t_envp *env, t_gc_list *gc);
+char		*process_expansion_heredoc(char *str, t_envp *env, t_gc_list *gc);
+
 #endif

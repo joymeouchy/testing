@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 19:10:08 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/19 19:24:07 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/20 20:29:50 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	write_heredoc_to_file(int temp_fd, char *delimiter, t_envp *env,
 	{
 		line = readline("> ");
 		if (quotes_in_delimiter == 0)
-			line = expand(line, env, grbg_collector);
+			line = expand_heredoc(line, env, grbg_collector);
 		if (!line)
 			break ;
 		if (ft_strcmp(line, delimiter) == 0)

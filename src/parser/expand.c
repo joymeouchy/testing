@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/18 19:47:40 by root              #+#    #+#             */
-/*   Updated: 2025/08/18 19:02:51 by jmeouchy         ###   ########.fr       */
+/*   Created: 2025/01/18 19:47:40 by lkhoury           #+#    #+#             */
+/*   Updated: 2025/08/20 20:20:26 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	get_replacement_len_and_value(t_expansion_state *state, t_envp *env,
 
 	len = handle_special_vars(state->str[state->pos + 1], env,
 			&state->replacement, gc);
-	if (len == 0 && is_valid_var_char(state->str[state->pos + 1]))
+	if (len == 0 && (ft_isalnum(state->str[state->pos + 1])
+			|| state->str[state->pos + 1] == '_'))
 		len = handle_named_var(&state->str[state->pos], env,
 				&state->replacement, gc);
 	return (len);

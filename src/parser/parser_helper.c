@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 20:54:18 by root              #+#    #+#             */
-/*   Updated: 2025/08/13 19:26:49 by jmeouchy         ###   ########.fr       */
+/*   Created: 2025/06/16 20:54:18 by lkhoury           #+#    #+#             */
+/*   Updated: 2025/08/20 20:20:14 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,18 @@ void	two_element_input_to_list(t_parse_state *state, t_list *list,
 			grbg_collector), grbg_collector);
 	state->i++;
 	state->start = state->i + 1;
+}
+
+char	*ft_strjoin_free(char *s1, char *s2, t_gc_list *grbg_collector)
+{
+	char	*joined;
+
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		return (ft_strdup(s2, grbg_collector));
+	if (!s2)
+		return (ft_strdup(s1, grbg_collector));
+	joined = ft_strjoin(s1, s2, grbg_collector);
+	return (joined);
 }

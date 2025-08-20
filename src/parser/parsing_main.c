@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhoury <lkhoury@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:46:19 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/19 20:07:48 by lkhoury          ###   ########.fr       */
+/*   Updated: 2025/08/20 20:09:46 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ void	handle_initial_state(t_envp *env)
 	{
 		env->exit_code = 130;
 		g_sigint = 0;
-		// return (1);
 	}
-	// return (0);
 }
 
 static t_list	*prepare_token_list(char *input, t_envp *env,
@@ -81,18 +79,12 @@ void	parsing_main(t_envp *env, char *input, t_gc_list *grbg_collector)
 
 	env->syntax_error = false;
 	handle_initial_state(env);
-	// if (handle_initial_state(env))
-	// 	return ;
 	list = prepare_token_list(input, env, grbg_collector);
 	if (!list)
-	{
-		// free(list);//recheck if this is necessary
 		return ;
-	}
 	tree = build_tree_from_list(list, env, grbg_collector);
 	if (!tree)
 		return ;
-	// print_inorder(tree->root);
 	check_syntax_errors(tree->root, env);
 	if (env->syntax_error)
 		return ;

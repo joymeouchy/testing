@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_quotes.c                                    :+:      :+:    :+:   */
+/*   expand_for_heredoc.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/06 21:20:37 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/20 20:14:12 by jmeouchy         ###   ########.fr       */
+/*   Created: 2025/01/18 19:47:40 by lkhoury           #+#    #+#             */
+/*   Updated: 2025/08/20 20:47:54 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,10 @@ static bool	is_special_var(char *str, int i)
 	return (str[i] == '$' && (str[i + 1] == '?' || str[i + 1] == '$'));
 }
 
-static bool	not_in_quotes(t_expansion_state state)
+static int	handle_dollar_followed_by_quote_heredoc(t_expansion_state *state,
+		t_gc_list *gc)
 {
-	return (!state.in_single && !state.in_double);
-}
-
-int	handle_dollar_followed_by_quote(t_expansion_state *state, t_gc_list *gc)
-{
-	if (not_in_quotes(*state)
-		&& is_dollar_followed_by_quote(state->str, state->i))
+	if (is_dollar_followed_by_quote(state->str, state->i))
 	{
 		state->end = find_closing_quote(state->str, state->i + 2,
 				state->str[state->i + 1]);
@@ -43,28 +38,30 @@ int	handle_dollar_followed_by_quote(t_expansion_state *state, t_gc_list *gc)
 	return (0);
 }
 
-char	*remove_dollar_from_quoted_strings(char *str, t_gc_list *gc)
+static char	*remove_dollar_heredoc(char *str, t_gc_list *gc)
 {
 	t_expansion_state	state;
 	int					len;
 
 	state.str = str;
 	state.i = 0;
-	state.in_single = 0;
-	state.in_double = 0;
 	len = ft_strlen(str);
 	while (state.i && state.i < len && state.str[state.i])
 	{
-		if (state.str[state.i] == '\'' && !state.in_double)
-			state.in_single = !state.in_single;
-		else if (state.str[state.i] == '"' && !state.in_single)
-			state.in_double = !state.in_double;
 		if (is_special_var(state.str, state.i))
 			state.i += 2;
-		else if (handle_dollar_followed_by_quote(&state, gc))
+		else if (handle_dollar_followed_by_quote_heredoc(&state, gc))
 			continue ;
 		else
 			state.i++;
 	}
 	return (state.str);
+}
+
+char	*expand_heredoc(char *str, t_envp *env, t_gc_list *gc)
+{
+	if (!str || !env || !env->environment)
+		return (NULL);
+	str = remove_dollar_heredoc(str, gc);
+	return (process_expansion_heredoc(str, env, gc));
 }

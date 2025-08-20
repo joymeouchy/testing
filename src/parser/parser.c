@@ -6,25 +6,11 @@
 /*   By: jmeouchy <jmeouchy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 11:42:06 by lkhoury           #+#    #+#             */
-/*   Updated: 2025/08/12 19:56:07 by jmeouchy         ###   ########.fr       */
+/*   Updated: 2025/08/20 20:18:18 by jmeouchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static char	*ft_strjoin_free(char *s1, char *s2, t_gc_list *grbg_collector)
-{
-	char	*joined;
-
-	if (!s1 && !s2)
-		return (NULL);
-	if (!s1)
-		return (ft_strdup(s2, grbg_collector));
-	if (!s2)
-		return (ft_strdup(s1, grbg_collector));
-	joined = ft_strjoin(s1, s2, grbg_collector);
-	return (joined);
-}
 
 static char	*quoted_section(t_parse_state *state, char *quote,
 		t_gc_list *grbg_collector)
@@ -79,6 +65,16 @@ static void	quoted_word_to_node(t_parse_state *state, t_list *list,
 	state->start = state->i;
 }
 
+void	handle_word_condition(t_parse_state *state, t_list *list, t_gc_list *gc)
+{
+	if (state->input[state->i] && !is_space(state->input[state->i])
+		&& state->input[state->i] != '|' && state->input[state->i] != '<'
+		&& state->input[state->i] != '>')
+		quoted_word_to_node(state, list, gc);
+	else
+		state->i++;
+}
+
 t_list	*input_to_list(char *input, t_gc_list *grbg_collector)
 {
 	t_list			*list;
@@ -96,12 +92,7 @@ t_list	*input_to_list(char *input, t_gc_list *grbg_collector)
 	{
 		split_symbols(&state, list, grbg_collector);
 		split_redirections(&state, list, grbg_collector);
-		if (state.input[state.i] && !is_space(state.input[state.i])
-			&& state.input[state.i] != '|' && state.input[state.i] != '<'
-			&& state.input[state.i] != '>')
-			quoted_word_to_node(&state, list, grbg_collector);
-		else
-			state.i++;
+		handle_word_condition(&state, list, grbg_collector);
 	}
 	if (state.i != state.start)
 		insert_at_end_list(list, ft_substr(state.input, state.start,
